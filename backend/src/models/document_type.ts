@@ -1,0 +1,13 @@
+import mongoose from "mongoose";
+
+const kycSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  kycStatus: Number,
+  ipAddress: String,
+  expDate: Date,
+  comments: String,
+  approvedBy: String
+}, { timestamps: true });
+
+const DocumentType = mongoose.model("DocumentType", kycSchema);
+export default DocumentType;
