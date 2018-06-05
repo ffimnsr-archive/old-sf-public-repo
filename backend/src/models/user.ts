@@ -7,26 +7,28 @@ type comparePasswordFunction = (candidatePassword: string,
   cb: (err: mongoose.Error, isMatch: boolean) => {}) => void;
 
 const userSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
+  _id: mongoose.Schema.Types.ObjectId,
   firstName: String,
   lastName: String,
-  kycStatus: Number
+  kycStatus: Number,
+  password: String
 }, { timestamps: true });
 
 userSchema.pre("save", function(next: NextFunction) {
   const user = this;
+
   if (!user.isModified("password")) {
     return next();
   }
 
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) { return next(err); }
-    bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
-      if (err) { return next(err); }
+  // bcrypt.genSalt(10, (err, salt) => {
+  //   if (err) { return next(err); }
+  //   bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
+  //     if (err) { return next(err); }
 
-      next();
-    });
-  });
+  //     next();
+  //   });
+  // });
 });
 
 const comparePassword: comparePasswordFunction = function(candidatePassword, cb) {

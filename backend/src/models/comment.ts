@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const kycSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
+const commentSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
   kycStatus: Number,
   ipAddress: String,
   expDate: Date,
