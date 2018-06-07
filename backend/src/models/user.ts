@@ -1,41 +1,61 @@
-import bcrypt from "bcrypt-nodejs";
 import crypto from "crypto";
 import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+import jwt from "jsonwebtoken";
 import { NextFunction } from "express";
+import { secret } from "../config";
 
-type comparePasswordFunction = (candidatePassword: string,
-  cb: (err: mongoose.Error, isMatch: boolean) => {}) => void;
-
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  firstName: String,
-  lastName: String,
-  kycStatus: Number,
-  password: String
+  username: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], index: true },
+  email: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], index: true },
+  bio: String,
+  image: String,
+  hash: String,
+  salt: String
 }, { timestamps: true });
 
-userSchema.pre("save", function(next: NextFunction) {
-  const user = this;
+UserSchema.plugin(uniqueValidator, { message: "is already taken." });
 
-  if (!user.isModified("password")) {
-    return next();
-  }
-
-  // bcrypt.genSalt(10, (err, salt) => {
-  //   if (err) { return next(err); }
-  //   bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
-  //     if (err) { return next(err); }
-
-  //     next();
-  //   });
-  // });
-});
-
-const comparePassword: comparePasswordFunction = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
-    cb(err, isMatch);
-  });
+UserSchema.methods.validPassword = (password: string) => {
+  let hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString("hex");
+  return this.hash === hash;
 };
 
-const User = mongoose.model("User", userSchema);
+UserSchema.methods.setPassword = (password: string) => {
+  this.salt = crypto.randomBytes(16).toString("hex");
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString("hex");
+};
+
+UserSchema.methods.generateJWT = () => {
+  let today = new Date();
+  let exp = new Date(today);
+  exp.setDate(today.getDate() + 60);
+
+  return jwt.sign({
+    id: this._id,
+    username: this.username,
+    exp: exp.getTime() / 1000
+  }, secret);
+};
+
+UserSchema.methods.toAuthJSON = () => {
+  return {
+    username: this.username,
+    email: this.email,
+    token: this.generateJWT(),
+    bio: this.bio,
+    image: this.image
+  };
+};
+
+UserSchema.methods.toProfileJSONFor = () => {
+  return {
+    username: this.username,
+    bio: this.bio,
+    image: this.image || "https://static.productionready.io/images/smiley-cyrus.jpg"
+  };
+};
+
+const User = mongoose.model("User", UserSchema);
 export default User;

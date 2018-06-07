@@ -6,10 +6,10 @@ import cors from "cors";
 import passport from "passport";
 import helmet from "helmet";
 
-import * as chome from "./controllers/home";
-import * as capi from "./controllers/api";
-
 import * as passportConfig from "./config/passport";
+
+// Check if running in production environment
+const isProduction = process.env.NODE_ENV === "production";
 
 // Create express server
 const app = express();
@@ -37,7 +37,35 @@ morgan.token("id", function(req: any) {
 
 app.use(morgan(":id :method :url :response-time"));
 
-app.get("/", chome.index);
-app.get("/api", capi.getHello);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  let err = new Error("Not Found");
+  (<any>err).status = 404;
+  next(err);
+});
+
+if (!isProduction) {
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.log(err.stack);
+
+    res.status((<any>err).status || 500);
+
+    res.json({
+      errors: {
+        message: err.message,
+        error: err
+      }
+    });
+  });
+} else {
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    res.status((<any>err).status || 500);
+    res.json({
+      errors: {
+        message: err.message,
+        error: {}
+      }
+    });
+  });
+}
 
 export default app;
