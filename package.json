@@ -19,6 +19,9 @@
   "devDependencies": {
     "@dojo/cli": "^2.0.0",
     "@dojo/cli-build-app": "^2.0.0",
+    "@dojo/cli-create-app": "^2.0.0",
+    "@dojo/cli-create-theme": "^2.0.0",
+    "@dojo/cli-create-widget": "^2.0.0",
     "@dojo/cli-test-intern": "^2.0.0",
     "@dojo/test-extras": "^2.0.0",
     "@types/glob": "~5.0.0",
