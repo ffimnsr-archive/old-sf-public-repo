@@ -5,7 +5,7 @@ import { secret } from "../config";
 
 function getTokenFromHeader(req: Request) {
   if (req.headers.authorization) {
-    let signature: string = req.headers.authorization.split(" ")[0];
+    const signature: string = req.headers.authorization.split(" ")[0];
     switch (signature) {
       case "Token":
       case "Bearer":
@@ -15,10 +15,10 @@ function getTokenFromHeader(req: Request) {
     }
   }
 
-  return null;
+  return undefined;
 }
 
-let Auth = {
+const Auth = {
   required: jwt({
     secret: secret,
     userProperty: "payload",

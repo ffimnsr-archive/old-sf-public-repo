@@ -5,6 +5,8 @@ import uuid from "uuid";
 import cors from "cors";
 import passport from "passport";
 import helmet from "helmet";
+import compression from "compression";
+import mongoose from "mongoose";
 
 import * as passportConfig from "./config/passport";
 
@@ -21,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cors());
 app.use(helmet());
+app.use(compression());
 
 // Assign an identifier for every requests
 function assignId(req: Request, res: Response, next: NextFunction) {
@@ -38,7 +41,7 @@ morgan.token("id", function(req: any) {
 app.use(morgan(":id :method :url :response-time"));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  let err = new Error("Not Found");
+  const err = new Error("Not Found");
   (<any>err).status = 404;
   next(err);
 });

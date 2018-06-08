@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
-const companySchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  address: Number,
+const CompanySchema = new mongoose.Schema({
   registrationNo: String,
-  kycStatus: Number,
+  address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
+  kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" }
 }, { timestamps: true });
 
-const Company = mongoose.model("Company", companySchema);
+const Company = mongoose.model("Company", CompanySchema);
 export default Company;

@@ -1,13 +1,22 @@
 import mongoose from "mongoose";
 
-const commentSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  kycStatus: Number,
-  ipAddress: String,
-  expDate: Date,
-  comments: String,
-  approvedBy: String
+const CommentSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
+  message: String,
+  createdBy: String,
+  createdAt: Date
 }, { timestamps: true });
 
-const Comment = mongoose.model("Comment", commentSchema);
+CommentSchema.methods.toJSONFor = (user: any) => {
+  return {
+    id: this._id,
+    user: this.user.toProfileJSONFor(user),
+    message: this.message,
+    createdBy: this.createdBy,
+    createdAt: this.createdAt
+  };
+};
+
+const Comment = mongoose.model("Comment", CommentSchema);
 export default Comment;

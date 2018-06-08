@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const countrySchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+const CountrySchema = new mongoose.Schema({
+  name: String
 });
 
-const Country = mongoose.model("Country", countrySchema);
+const Country = mongoose.model("Country", CountrySchema);
 export default Country;

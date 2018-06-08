@@ -5,20 +5,43 @@ import jwt from "jsonwebtoken";
 import { NextFunction } from "express";
 import { secret } from "../config";
 
+export type UserModel = mongoose.Document & {
+  username: string,
+  email: string,
+  bio: string,
+  image: string,
+  hash: string,
+  salt: string,
+  forename: string,
+  surname: string,
+  kycStatus: any,
+  address: any
+  validPassword: (password: string) => string,
+  setPassword: (password: string) => void,
+  generateJWT: () => string,
+  toAuthJSON: () => Map<string, string>,
+  toProfileJSONFor: () => Map<string, string>
+};
+
 const UserSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   username: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], index: true },
   email: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], index: true },
   bio: String,
   image: String,
   hash: String,
-  salt: String
+  salt: String,
+  forename: String,
+  surname: String,
+  kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
+  address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
+  createdAt: Date,
+  updatedAt: Date
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: "is already taken." });
 
 UserSchema.methods.validPassword = (password: string) => {
-  let hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString("hex");
+  const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString("hex");
   return this.hash === hash;
 };
 
@@ -28,8 +51,8 @@ UserSchema.methods.setPassword = (password: string) => {
 };
 
 UserSchema.methods.generateJWT = () => {
-  let today = new Date();
-  let exp = new Date(today);
+  const today = new Date();
+  const exp = new Date(today);
   exp.setDate(today.getDate() + 60);
 
   return jwt.sign({
@@ -53,7 +76,7 @@ UserSchema.methods.toProfileJSONFor = () => {
   return {
     username: this.username,
     bio: this.bio,
-    image: this.image || "https://static.productionready.io/images/smiley-cyrus.jpg"
+    image: this.image || "/favicon.png"
   };
 };
 

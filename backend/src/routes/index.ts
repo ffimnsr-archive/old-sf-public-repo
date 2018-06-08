@@ -1,9 +1,9 @@
-import express from "express";
+import { Router } from "express";
 import * as api from "./api";
 
-let Router = express.Router();
-Router.use("/api", api);
+const router = Router();
+router.use("/api", api);
 
-export default Router;
+export default router;
 
 

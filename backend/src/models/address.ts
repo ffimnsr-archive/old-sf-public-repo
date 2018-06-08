@@ -1,17 +1,31 @@
 import mongoose from "mongoose";
 
-const addressSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+const AddressSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
   address1: String,
   address2: String,
   city: String,
   stateProvince: String,
   postalCode: String,
-  countryId: Number,
+  country: { type: mongoose.Schema.Types.ObjectId, ref: "Country" },
   active: String,
   ipAddress: String,
-  approvedBy: String
+  approvedBy: String,
+  updatedBy: String,
+  createdAt: Date,
+  updatedAt: Date
 }, { timestamps: true });
 
-const Address = mongoose.model("Address", addressSchema);
+AddressSchema.methods.toJSONFor = (user: any) => {
+  return {
+    id: this._id,
+    user: this.user.toProfileJSONFor(user),
+    address1: this.address1,
+    address2: this.address2,
+    createdAt: this.createdAt
+  };
+};
+
+const Address = mongoose.model("Address", AddressSchema);
 export default Address;

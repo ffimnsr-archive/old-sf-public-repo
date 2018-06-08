@@ -11,7 +11,8 @@
     "build:ts:watch": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "production": "forever start app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "concurrently -k -p '[{name}]' -n 'Typescript,Node' -c 'cyan.bold,green.bold' 'npm run build:ts:watch' 'npm run dev'",
+    "test": "echo 'Error: no test specified' && exit 1"
   },
   "resolutions": {
     "@types/tapable": "1.0.2"
@@ -19,7 +20,9 @@
   "dependencies": {
     "async": "^2.6.1",
     "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
+    "compression": "^1.7.2",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "errorhandler": "^1.5.0",
@@ -39,13 +42,16 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "request": "^2.87.0",
+    "request-promise": "^4.2.2",
     "uuid": "^3.2.1",
     "winston": "^2.4.2"
   },
   "devDependencies": {
     "@types/async": "^2.0.49",
     "@types/bcrypt-nodejs": "0.0.30",
+    "@types/bluebird": "^3.5.20",
     "@types/body-parser": "^1.17.0",
+    "@types/compression": "0.0.36",
     "@types/cors": "^2.8.4",
     "@types/dotenv": "^4.0.3",
     "@types/errorhandler": "0.0.32",
@@ -65,14 +71,18 @@
     "@types/passport": "^0.4.3",
     "@types/passport-local": "^1.0.33",
     "@types/request": "^2.47.0",
+    "@types/request-promise": "^4.1.41",
+    "@types/shelljs": "^0.8.0",
     "@types/tapable": "^1.0.2",
     "@types/uuid": "^3.4.3",
     "@types/webpack": "^4.4.0",
     "@types/winston": "^2.3.9",
+    "concurrently": "^3.5.1",
     "forever": "^0.15.3",
-    "mysql": "^2.15.0",
     "newman": "^3.9.4",
     "nodemon": "^1.17.5",
+    "shelljs": "^0.8.2",
+    "ts-node": "^6.1.0",
     "tslint": "^5.10.0",
     "typescript": "^2.7.2"
   }
