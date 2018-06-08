@@ -16,6 +16,15 @@ const isProduction = process.env.NODE_ENV === "production";
 // Create express server
 const app = express();
 
+// MongoDB configuration
+const mongoUrl = MONGODB_URI;
+(<any>mongoose).Promise = bluebird;
+mongoose.connect(mongoUrl, { useMongoClient: true })
+  .then(() => {})
+  .catch(err => {
+    console.log("MongoDB connection error. Please make sure MongoDB is running.", err);
+  });
+
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());

@@ -2,7 +2,6 @@ import crypto from "crypto";
 import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import jwt from "jsonwebtoken";
-import { NextFunction } from "express";
 import { secret } from "../config";
 
 export type UserModel = mongoose.Document & {
