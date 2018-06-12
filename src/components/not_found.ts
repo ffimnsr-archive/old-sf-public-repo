@@ -21,21 +21,15 @@ export default {
             m(".account-box",
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='index.html']",
-                    m("span",
-                      m("img[alt=''][height='26']", {
-                        src: logo
-                      })
-                    )
+                  m("a.text-success[href='/#!/']",
+                    m("span", m("img[alt=''][height='26']", { src: logo }))
                   )
                 ),
                 m(".text-center", [
                   m("h1.text-error", "404"),
                   m("h4.text-uppercase.text-danger.mt-3", "Page Not Found"),
                   m("p.text-muted.mt-3", "It's looking like you may have taken a wrong turn. Don't worry... it happens to the best of us. Here's a little tip that might help you get back on track."),
-                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3", {
-                    href: "/"
-                  }, "Return Home")
+                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Return Home")
                 ])
               ])
             )
