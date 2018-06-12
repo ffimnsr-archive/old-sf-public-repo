@@ -7,8 +7,11 @@ import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
 export default {
-  view(vnode) {
-    return m("sf-root", [
+  oninit () {
+    m.route.set("/login")
+  },
+  view (vnode) {
+    return m(".sf-root", [
       m("header[id='topnav']", [
           m(".topbar-main",
             m(".container-fluid", [

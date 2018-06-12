@@ -8,7 +8,7 @@ import logo from "images/sf-logo.png";
 
 export default {
   view(vnode) {
-    return m("sf-root", [
+    return m(".sf-root", [
       m(".accountbg", {
         style: {
           "background": `url(${bg})`,
@@ -22,9 +22,7 @@ export default {
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
                   m("a.text-success[href='/#!/']",
-                    m("span",
-                      m("img[alt=''][height='26']", { src: logo })
-                    )
+                    m("span", m("img[alt=''][height='26']", { src: logo }))
                   )
                 ),
                 m(".text-center", [
@@ -34,9 +32,7 @@ export default {
                     "Why not try refreshing your page? or you can contact",
                     m("a.text-dark[href='/#!/support']", m("b", "Support"))
                   ]),
-                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']",
-                    "Return Home"
-                  )
+                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Return Home")
                 ])
               ])
             )

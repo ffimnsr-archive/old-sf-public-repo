@@ -8,7 +8,7 @@ import logo from "images/sf-logo.png";
 
 export default {
   view(vnode) {
-    return m("sf-root", [
+    return m(".sf-root", [
       m(".accountbg", {
         style: {
           "background-image": `url(${bg})`,

@@ -8,7 +8,7 @@ import logo from "images/sf-logo.png";
 
 export default {
   view(vnode) {
-    return m("sf-root", [
+    return m(".sf-root", [
       m(".accountbg", {
         style: {
           "background": `url(${bg})`,
@@ -39,9 +39,7 @@ export default {
                   ),
                   m(".form-group.row.text-center.m-t-10",
                     m(".col-12",
-                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']",
-                        "Reset Password"
-                      )
+                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", "Reset Password")
                     )
                   )
                 ]),

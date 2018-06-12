@@ -111,7 +111,7 @@ const config: webpack.Configuration = {
       filename: "[name].[hash].bundle.css"
     }),
     new HtmlWebpackPlugin({
-      title: "Open Sesame",
+      title: "SmartFunding",
       favicon: "images/favicon.png",
       template: "templates/index.html",
       minify: {
