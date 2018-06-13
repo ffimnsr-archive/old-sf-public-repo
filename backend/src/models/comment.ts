@@ -15,7 +15,7 @@ const CommentSchema = new mongoose.Schema({
   createdAt: Date
 }, { timestamps: true });
 
-CommentSchema.methods.toJSONFor = (user: any) => {
+CommentSchema.methods.toJSONFor = function(user: any) {
   return {
     id: this._id,
     user: this.user.toProfileJSONFor(user),

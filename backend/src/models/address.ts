@@ -32,7 +32,7 @@ const AddressSchema = new mongoose.Schema({
   updatedAt: Date
 }, { timestamps: true });
 
-AddressSchema.methods.toJSONFor = (user: any) => {
+AddressSchema.methods.toJSONFor = function(user: any) {
   return {
     id: this._id,
     user: this.user.toProfileJSONFor(user),

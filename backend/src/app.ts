@@ -8,7 +8,6 @@ import helmet from "helmet";
 import compression from "compression";
 import mongoose from "mongoose";
 
-import * as passportConfig from "./config/passport";
 import { default as routes } from "./routes";
 
 // Check if running in production environment
@@ -25,22 +24,17 @@ if (isProduction) {
   mongoose.set("debug", true);
 }
 
-// const mongoUrl = MONGODB_URI;
-// (<any>mongoose).Promise = bluebird;
-// mongoose.connect(mongoUrl, { useMongoClient: true })
-//   .then(() => {})
-//   .catch(err => {
-//     console.log("MongoDB connection error. Please make sure MongoDB is running.", err);
-//   });
-
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(passport.initialize());
 app.use(cors());
 app.use(helmet());
 app.use(compression());
+
+// Passport configuration
+app.use(passport.initialize());
+require("./config/passport");
 
 // Load routes
 app.use(routes);

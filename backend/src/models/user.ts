@@ -18,8 +18,8 @@ export type UserModel = mongoose.Document & {
   validPassword: (password: string) => string,
   setPassword: (password: string) => void,
   generateJWT: () => string,
-  toAuthJSON: () => Map<string, string>,
-  toProfileJSONFor: () => Map<string, string>
+  toAuthJSON: () => Map<string, any>,
+  toProfileJSONFor: () => Map<string, any>
 };
 
 const UserSchema = new mongoose.Schema({
@@ -39,17 +39,17 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(uniqueValidator, { message: "is already taken." });
 
-UserSchema.methods.validPassword = (password: string) => {
+UserSchema.methods.validPassword = function(password: string) {
   const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString("hex");
   return this.hash === hash;
 };
 
-UserSchema.methods.setPassword = (password: string) => {
+UserSchema.methods.setPassword = function(password: string) {
   this.salt = crypto.randomBytes(16).toString("hex");
   this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString("hex");
 };
 
-UserSchema.methods.generateJWT = () => {
+UserSchema.methods.generateJWT = function() {
   const today = new Date();
   const exp = new Date(today);
   exp.setDate(today.getDate() + 60);
@@ -61,17 +61,18 @@ UserSchema.methods.generateJWT = () => {
   }, secret);
 };
 
-UserSchema.methods.toAuthJSON = () => {
+UserSchema.methods.toAuthJSON = function() {
+  const token = this.generateJWT();
   return {
     username: this.username,
     email: this.email,
-    token: this.generateJWT(),
+    token: token,
     bio: this.bio,
     image: this.image
   };
 };
 
-UserSchema.methods.toProfileJSONFor = () => {
+UserSchema.methods.toProfileJSONFor = function() {
   return {
     username: this.username,
     bio: this.bio,
@@ -79,7 +80,7 @@ UserSchema.methods.toProfileJSONFor = () => {
   };
 };
 
-UserSchema.methods.fullName = () => {
+UserSchema.methods.fullName = function() {
   return (this.forename.trim() + " " + this.surname.trim());
 };
 

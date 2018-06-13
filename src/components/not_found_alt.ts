@@ -286,27 +286,11 @@ export default {
                   m("ul.submenu.megamenu", [
                     m("li",
                       m("ul", [
-                        m("li",
-                          m("a[href='ui-typography.html']", "Typography")
-                        ),
-                        m("li",
-                          m("a[href='ui-cards.html']", "Cards")
-                        ),
-                        m("li",
-                          m("a[href='ui-buttons.html']",
-                            "Buttons"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='ui-modals.html']",
-                            "Modals"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='ui-spinners.html']",
-                            "Spinners"
-                          )
-                        )
+                        m("li", m("a[href='ui-typography.html']", "Typography")),
+                        m("li", m("a[href='ui-cards.html']", "Cards")),
+                        m("li", m("a[href='ui-buttons.html']", "Buttons")),
+                        m("li", m("a[href='ui-modals.html']", "Modals")),
+                        m("li", m("a[href='ui-spinners.html']", "Spinners"))
                       ])
                     ),
                     m("li",
@@ -320,31 +304,11 @@ export default {
                     ),
                     m("li",
                       m("ul", [
-                        m("li",
-                          m("a[href='ui-notifications.html']",
-                            "Notification"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='ui-grid.html']",
-                            "Grid"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='ui-sweet-alert.html']",
-                            "Sweet Alert"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='ui-bootstrap.html']",
-                            "Bootstrap UI"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='ui-range-slider.html']",
-                            "Range Slider"
-                          )
-                        )
+                        m("li", m("a[href='ui-notifications.html']", "Notification")),
+                        m("li", m("a[href='ui-grid.html']", "Grid")),
+                        m("li", m("a[href='ui-sweet-alert.html']", "Sweet Alert")),
+                        m("li", m("a[href='ui-bootstrap.html']", "Bootstrap UI")),
+                        m("li", m("a[href='ui-range-slider.html']", "Range Slider"))
                       ])
                     )
                   ])
@@ -358,15 +322,9 @@ export default {
                     m("li.has-submenu", [
                       m("a[href='#']", "Email"),
                       m("ul.submenu", [
-                        m("li",
-                          m("a[href='email-inbox.html']", "Inbox")
-                        ),
-                        m("li",
-                          m("a[href='email-read.html']", "Read Email")
-                        ),
-                        m("li",
-                          m("a[href='email-compose.html']", "Compose Email")
-                        )
+                        m("li", m("a[href='email-inbox.html']", "Inbox")),
+                        m("li", m("a[href='email-read.html']", "Read Email")),
+                        m("li", m("a[href='email-compose.html']", "Compose Email"))
                       ])
                     ]),
                     m("li",
@@ -375,31 +333,11 @@ export default {
                     m("li.has-submenu", [
                       m("a[href='#']", "Charts"),
                       m("ul.submenu", [
-                        m("li",
-                          m("a[href='chart-flot.html']",
-                            "Flot Chart"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='chart-morris.html']",
-                            "Morris Chart"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='chart-google.html']",
-                            "Google Chart"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='chart-chartist.html']",
-                            "Chartist Chart"
-                          )
-                        ),
-                        m("li",
-                          m("a[href='chart-chartjs.html']",
-                            "Chartjs Chart"
-                          )
-                        ),
+                        m("li", m("a[href='chart-flot.html']", "Flot Chart")),
+                        m("li", m("a[href='chart-morris.html']", "Morris Chart")),
+                        m("li", m("a[href='chart-google.html']", "Google Chart")),
+                        m("li", m("a[href='chart-chartist.html']", "Chartist Chart")),
+                        m("li", m("a[href='chart-chartjs.html']", "Chartjs Chart")),
                         m("li",
                           m("a[href='chart-sparkline.html']",
                             "Sparkline Chart"
