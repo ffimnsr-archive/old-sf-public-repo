@@ -6,7 +6,7 @@ import { default as User, UserModel } from "../../models/user";
 
 const router = Router();
 
-router.get("/user", auth.required, (req: Request, res: Response, next: NextFunction) => {
+router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
   User.findById((<any>req).payload.id).then((user: UserModel) => {
     if (!user) { return res.sendStatus(401); }
 
@@ -17,7 +17,7 @@ router.get("/user", auth.required, (req: Request, res: Response, next: NextFunct
   }).catch(next);
 });
 
-router.put("/user", auth.required, (req: Request, res: Response, next: NextFunction) => {
+router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
   User.findById((<any>req).payload.id).then((user: UserModel) => {
     if (!user) { return res.sendStatus(401); }
 
