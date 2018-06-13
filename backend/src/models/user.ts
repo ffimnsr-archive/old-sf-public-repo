@@ -79,5 +79,9 @@ UserSchema.methods.toProfileJSONFor = () => {
   };
 };
 
-const User = mongoose.model("User", UserSchema);
+UserSchema.methods.fullName = () => {
+  return (this.forename.trim() + " " + this.surname.trim());
+};
+
+const User: mongoose.Model<UserModel> = mongoose.model<UserModel>("User", UserSchema);
 export default User;

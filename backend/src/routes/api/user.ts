@@ -2,9 +2,8 @@ import mongoose from "mongoose";
 import passport from "passport";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { UserModel } from "../../models/user";
+import { default as User, UserModel } from "../../models/user";
 
-const User = mongoose.model("User");
 const router = Router();
 
 router.get("/user", auth.required, (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +18,7 @@ router.get("/user", auth.required, (req: Request, res: Response, next: NextFunct
 });
 
 router.put("/user", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById(req.payload.id).then((user: UserModel) => {
+  User.findById((<any>req).payload.id).then((user: UserModel) => {
     if (!user) { return res.sendStatus(401); }
 
     if (typeof req.body.user.username !== "undefined") {
@@ -70,7 +69,7 @@ router.post("/users/login", (req: Request, res: Response, next: NextFunction) =>
     if (err) { return next(err); }
 
     if (user) {
-      user.token = user.generateJWT();
+      (<any>user).token = user.generateJWT();
       return res.json({ user: user.toAuthJSON() });
     } else {
       return res.status(422).json(info);

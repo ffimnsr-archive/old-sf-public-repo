@@ -18,5 +18,5 @@ const PowerUserSchema = new mongoose.Schema({
   updatedAt: Date
 }, { timestamps: true });
 
-const PowerUser = mongoose.model("PowerUser", PowerUserSchema);
+const PowerUser: mongoose.Model<PowerUserModel> = mongoose.model<PowerUserModel>("PowerUser", PowerUserSchema);
 export default PowerUser;

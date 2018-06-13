@@ -1,5 +1,20 @@
 import mongoose from "mongoose";
 
+export type AddressModel = mongoose.Document & {
+  user: number,
+  company: number,
+  address1: string,
+  address2: string,
+  city: string,
+  stateProvince: string,
+  postalCode: string,
+  country: number,
+  active: boolean,
+  ipAddress: string,
+  approvedBy: string,
+  updatedBy: string
+};
+
 const AddressSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },

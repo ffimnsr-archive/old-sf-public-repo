@@ -9,6 +9,7 @@ import compression from "compression";
 import mongoose from "mongoose";
 
 import * as passportConfig from "./config/passport";
+import { default as routes } from "./routes";
 
 // Check if running in production environment
 const isProduction = process.env.NODE_ENV === "production";
@@ -17,6 +18,13 @@ const isProduction = process.env.NODE_ENV === "production";
 const app = express();
 
 // MongoDB configuration
+if (isProduction) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect("mongodb://localhost/connect");
+  mongoose.set("debug", true);
+}
+
 // const mongoUrl = MONGODB_URI;
 // (<any>mongoose).Promise = bluebird;
 // mongoose.connect(mongoUrl, { useMongoClient: true })
@@ -33,6 +41,9 @@ app.use(passport.initialize());
 app.use(cors());
 app.use(helmet());
 app.use(compression());
+
+// Load routes
+app.use(routes);
 
 // Assign an identifier for every requests
 function assignId(req: Request, res: Response, next: NextFunction) {

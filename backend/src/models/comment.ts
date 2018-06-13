@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+export type CommentModel = mongoose.Document & {
+  user: number,
+  company: number,
+  message: string,
+  createdBy: string
+};
+
 const CommentSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
@@ -18,5 +25,5 @@ CommentSchema.methods.toJSONFor = (user: any) => {
   };
 };
 
-const Comment = mongoose.model("Comment", CommentSchema);
+const Comment: mongoose.Model<CommentModel> = mongoose.model<CommentModel>("Comment", CommentSchema);
 export default Comment;

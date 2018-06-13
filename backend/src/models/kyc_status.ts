@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+export type KycStatusModel = mongoose.Document & {
+  registrationNo: string,
+  address: number,
+  kycStatus: number
+};
+
 const KycStatusSchema = new mongoose.Schema({
   status: Number,
   ipAddress: String,
@@ -9,5 +15,5 @@ const KycStatusSchema = new mongoose.Schema({
   updatedBy: String
 }, { timestamps: true });
 
-const KycStatus = mongoose.model("KycStatus", KycStatusSchema);
+const KycStatus: mongoose.Model<KycStatusModel> = mongoose.model<KycStatusModel>("KycStatus", KycStatusSchema);
 export default KycStatus;
