@@ -10,9 +10,6 @@ const config: webpack.Configuration = {
   devtool: "inline-source-map",
   entry: {
     sesame: [
-      // path.resolve(__dirname, "plugins/jquery.waves.js"),
-      // path.resolve(__dirname, "plugins/jquery.core.js"),
-      // path.resolve(__dirname, "plugins/jquery.app.js"),
       path.resolve(__dirname, "src/index.ts")
     ]
   },
@@ -100,7 +97,8 @@ const config: webpack.Configuration = {
       styles: path.resolve(__dirname, "styles"),
       images: path.resolve(__dirname, "images"),
       components: path.resolve(__dirname, "src/components"),
-      widgets: path.resolve(__dirname, "src/widgets")
+      widgets: path.resolve(__dirname, "src/widgets"),
+      configs: path.resolve(__dirname, "src/configs")
     }
   },
   output: {
@@ -132,7 +130,7 @@ const config: webpack.Configuration = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
     }),
-    new webpack.BannerPlugin("Open Sesame Sec")
+    new webpack.BannerPlugin("SmartFunding")
   ]
 };
 

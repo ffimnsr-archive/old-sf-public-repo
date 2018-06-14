@@ -4,6 +4,24 @@ import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-1.jpg";
 
 export default {
+  oninit() {
+    $('.navbar-toggle')
+      .on('click', function (e: Event) {
+      $(this).toggleClass('open');
+      $('#navigation').slideToggle(400);
+    });
+
+    $('.navigation-menu>li').slice(-2).addClass('last-elements');
+
+    $('.navigation-menu li.has-submenu a[href="javascript:;"]')
+      .on('click', function (e: Event) {
+      if ($(window).width()! < 992) {
+        e.preventDefault();
+        $(this).parent('li').toggleClass('open')
+          .find('.submenu:first').toggleClass('open');
+      }
+    });
+  },
   view(vnode) {
     return m("header[id='topnav']", [
       m(".topbar-main",
@@ -22,7 +40,7 @@ export default {
                   )
                 ),
                 m("li.dropdown.notification-list", [
-                  m("a.nav-link.dropdown-toggle.arrow-none.waves-effect[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='#'][role='button']", [
+                  m("a.nav-link.dropdown-toggle.arrow-none.waves-effect[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
                     m("i.fi-bell.noti-icon"),
                   ]),
                   m(".dropdown-menu.dropdown-menu-right.dropdown-lg", [
@@ -55,7 +73,7 @@ export default {
                 ]),
 
                 m("li.dropdown.notification-list", [
-                  m("a.nav-link.dropdown-toggle.waves-effect.nav-user[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='#'][role='button']", [
+                  m("a.nav-link.dropdown-toggle.waves-effect.nav-user[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
                     m("img.rounded-circle[alt='user']", { src: avatar }),
                     m("span.ml-1.pro-user-name", [
                       "User",

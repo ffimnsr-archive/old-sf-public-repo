@@ -1,4 +1,5 @@
 import m, { Vnode } from "mithril";
+import { AppSettings } from "configs";
 
 import "styles/app";
 import "styles/icons";
@@ -28,7 +29,7 @@ const RegisterAccountData = {
 
     return m.request({
       method: "post",
-      url: "http://localhost:3000/api/session/register",
+      url: AppSettings.API_BASE_URL + "/api/session/register",
       data: JSON.stringify(account),
       headers: {
         "Accept": "application/json",

@@ -1,4 +1,5 @@
 import m, { Vnode } from "mithril";
+import { AppSettings } from "configs";
 
 import "styles/app";
 import "styles/icons";
@@ -24,7 +25,7 @@ const LoginAccountData = {
 
     m.request({
       method: "POST",
-      url: "http://localhost:3000/api/session/login",
+      url: AppSettings.API_BASE_URL + "/api/session/login",
       data: account,
       headers: {
         "Accept": "application/json",
