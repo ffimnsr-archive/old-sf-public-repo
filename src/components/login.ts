@@ -1,4 +1,4 @@
-import m from "mithril";
+import m, { Vnode } from "mithril";
 
 import "styles/app";
 import "styles/icons";
@@ -6,8 +6,43 @@ import "styles/icons";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
+const LoginAccountData = {
+  email: "",
+  password: "",
+
+  canSave() {
+    return LoginAccountData.email !== "" &&
+      LoginAccountData.password !== "";
+  },
+  save() {
+    const account = {
+      user: {
+        email: LoginAccountData.email,
+        password: LoginAccountData.password
+      }
+    };
+
+    m.request({
+      method: "POST",
+      url: "http://localhost:3000/api/session/login",
+      data: account,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8"
+      }
+    }).then((data: any) => {
+      if (data.success) {
+        localStorage.setItem("access_token", data.token);
+        m.route.set("/");
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+  }
+};
+
 export default {
-  view(vnode) {
+  view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {
@@ -25,11 +60,19 @@ export default {
                     m("span", m("img[alt=''][height='26']", { src: logo }))
                   )
                 ),
-                m("form[action='javascript:;'][class='']", [
+                m("form[method='post']", {
+                  onsubmit: (e: Event) => {
+                    e.preventDefault();
+                    LoginAccountData.save();
+                  }
+                }, [
                   m(".form-group.m-b-20.row",
                     m(".col-12", [
                       m("label[for='emailaddress']", "Email address"),
-                      m("input.form-control[id='emailaddress'][placeholder='Enter your email'][required=''][type='email']")
+                      m("input.form-control[id='emailaddress'][placeholder='Enter your email'][required=''][type='email']", {
+                        oninput: m.withAttr("value", (v: string) => { LoginAccountData.email = v }),
+                        value: LoginAccountData.email
+                      })
                     ])
                   ),
                   m(".form-group.row.m-b-20",
@@ -38,7 +81,10 @@ export default {
                         m("small", "Forgot your password?")
                       ),
                       m("label[for='password']", "Password"),
-                      m("input.form-control[id='password'][placeholder='Enter your password'][required=''][type='password']")
+                      m("input.form-control[id='password'][placeholder='Enter your password'][required=''][type='password']", {
+                        oninput: m.withAttr("value", (v: string) => { LoginAccountData.password = v }),
+                        value: LoginAccountData.password
+                      })
                     ])
                   ),
                   m(".form-group.row.m-b-20",
@@ -51,9 +97,9 @@ export default {
                   ),
                   m(".form-group.row.text-center.m-t-10",
                     m(".col-12",
-                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']",
-                        "Sign In"
-                      )
+                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
+                        disabled: !LoginAccountData.canSave()
+                      }, "Sign In")
                     )
                   )
                 ]),
@@ -61,9 +107,7 @@ export default {
                   m(".col-sm-12.text-center",
                     m("p.text-muted", [
                       "Don't have an account? ",
-                      m("a.text-dark.m-l-5[href='/#!/register']",
-                        m("b", "Sign Up")
-                      )
+                      m("a.text-dark.m-l-5[href='/#!/register']", m("b", "Sign Up"))
                     ])
                   )
                 )

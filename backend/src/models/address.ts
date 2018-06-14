@@ -36,9 +36,17 @@ AddressSchema.methods.toJSONFor = function(user: any) {
   return {
     id: this._id,
     user: this.user.toProfileJSONFor(user),
+    company: this.company,
     address1: this.address1,
     address2: this.address2,
-    createdAt: this.createdAt
+    city: this.city,
+    stateProvince: this.stateProvince,
+    postalCode: this.postalCode,
+    country: this.country,
+    active: this.active,
+    ipAddress: this.ipAddress,
+    approvedBy: this.approvedBy,
+    updatedBy: this.updatedBy
   };
 };
 

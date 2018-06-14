@@ -7,6 +7,8 @@ import passport from "passport";
 import helmet from "helmet";
 import compression from "compression";
 import mongoose from "mongoose";
+import methodOverride from "method-override";
+import AWS from "aws-sdk";
 
 import { default as routes } from "./routes";
 
@@ -24,6 +26,9 @@ if (isProduction) {
   mongoose.set("debug", true);
 }
 
+// AWS configuration
+AWS.config.update({ region: "us-west-2" });
+
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());
@@ -31,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 app.use(compression());
+app.use(methodOverride());
 
 // Passport configuration
 app.use(passport.initialize());

@@ -1,4 +1,4 @@
-import m from "mithril";
+import m, { Vnode } from "mithril";
 
 import "styles/app";
 import "styles/icons";
@@ -7,7 +7,7 @@ import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
 export default {
-  view(vnode) {
+  view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {
@@ -31,9 +31,9 @@ export default {
                   m("svg[version='1.1'][viewBox='0 0 98 98'][x='0px'][xml:space='preserve'][xmlns='http://www.w3.org/2000/svg'][xmlns:graph='&ns_graphs;'][xmlns:i='&ns_ai;'][xmlns:x='&ns_extend;'][xmlns:xlink='http://www.w3.org/1999/xlink'][y='0px']", { style: { "height": "120px" } }, [
                     m("style[type='text/css']",
                       ".st0{fill:#FFFFFF;}\
-                                                      .st1{fill:#02a8b5;}\
-                                                      .st2{fill:#FFFFFF;stroke:#02a8b5;stroke-width:2;stroke-miterlimit:10;}\
-                                                      .st3{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}"
+                       .st1{fill:#02a8b5;}\
+                       .st2{fill:#FFFFFF;stroke:#02a8b5;stroke-width:2;stroke-miterlimit:10;}\
+                       .st3{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}"
                     ),
                     m("g[i:extraneous='self']", [
                       m("circle.st0[cx='49'][cy='49'][id='XMLID_50_'][r='49']"),
@@ -55,8 +55,8 @@ export default {
                     "A email has been send to",
                     m("b", "youremail@domain.com"),
                     ".\
-                                          Please check for an email from company and click on the included link to\
-                                          reset your password."
+                      Please check for an email from company and click on the included link to\
+                      reset your password."
                   ]),
                   m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Back to Home")
                 ])

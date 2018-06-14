@@ -1,4 +1,4 @@
-import m from "mithril";
+import m, { Vnode } from "mithril";
 
 import "styles/app";
 import "styles/icons";
@@ -7,7 +7,7 @@ import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
 export default {
-  view(vnode) {
+  view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {

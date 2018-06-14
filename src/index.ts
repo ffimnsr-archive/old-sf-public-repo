@@ -31,6 +31,7 @@ function AnonymousRouter() {
     "/confirm-mail": confirmMail,
     "/recover-password": recoverPassword,
     "/server-error": serverError,
+    "/not-found-alt": notFoundAlt,
     "/:any...": notFound
   });
 }

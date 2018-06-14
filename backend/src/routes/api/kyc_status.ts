@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
+import auth from "../auth";
 
 const router = Router();
 

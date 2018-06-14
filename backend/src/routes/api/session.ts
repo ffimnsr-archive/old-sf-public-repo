@@ -1,4 +1,5 @@
 import passport from "passport";
+import AWS from "aws-sdk";
 import { Router, Request, Response, NextFunction } from "express";
 import { default as User, UserModel } from "../../models/user";
 
@@ -24,9 +25,15 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) => {
 
     if (user) {
       (<any>user).token = user.generateJWT();
-      return res.json({ user: user.toAuthJSON() });
+      return res.json({
+        success: true,
+        user: user.toAuthJSON()
+      });
     } else {
-      return res.status(422).json(info);
+      return res.status(422).json({
+        success: false,
+        message: info.errors
+      });
     }
   })(req, res, next);
 });
@@ -38,9 +45,43 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   user.email = req.body.user.email;
   user.setPassword(req.body.user.password);
 
+  const params = {
+    Destination: {
+      CcAddresses: [ "support@smartfunding.io" ],
+      ToAddresses: [ user.email ]
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: "<h1>Hello</h1>"
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data: "Hello"
+        }
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "SmartFunding Registration"
+      }
+    },
+    Source: "noreply@ses.smartfunding.io",
+    ReplyToAddresses: [ "support@smartfunding.io" ]
+  };
+
   user.save().then((t: UserModel) => {
-    console.log(t);
-    return res.json({ user: user.toAuthJSON() });
+    const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+      .sendEmail(params)
+      .promise();
+
+    sendPromise.then(function(data) {
+      console.log(data);
+    }).catch(function(err) {
+      console.log(err);
+    });
+
+    return res.json({ user: t.toAuthJSON() });
   }).catch(next);
 });
 

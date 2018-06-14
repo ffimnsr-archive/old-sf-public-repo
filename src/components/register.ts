@@ -1,4 +1,4 @@
-import m from "mithril";
+import m, { Vnode } from "mithril";
 
 import "styles/app";
 import "styles/icons";
@@ -12,15 +12,38 @@ const RegisterAccountData = {
   password: "",
 
   canSave() {
-
+    return RegisterAccountData.username !== "" &&
+      RegisterAccountData.email !== "" &&
+      RegisterAccountData.password !== "";
   },
   save() {
+    console.log("save");
+    const account = {
+      user: {
+        username: RegisterAccountData.username,
+        email: RegisterAccountData.email,
+        password: RegisterAccountData.password
+      }
+    };
 
+    return m.request({
+      method: "post",
+      url: "http://localhost:3000/api/session/register",
+      data: JSON.stringify(account),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8"
+      }
+    }).then((data) => {
+      console.log(data);
+    }).catch((e) => {
+      console.log(e);
+    });
   },
 };
 
 export default {
-  view(vnode) {
+  view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {
@@ -48,7 +71,7 @@ export default {
                     m(".col-12", [
                       m("label[for='username']", "Username"),
                       m("input.form-control[id='username'][placeholder='e.g. jrizal'][required][type='text']", {
-                        onInput: m.withAttr("value", (v: string) => { RegisterAccountData.username = v }),
+                        oninput: m.withAttr("value", (v: string) => { RegisterAccountData.username = v }),
                         value: RegisterAccountData.username
                       })
                     ])
@@ -57,7 +80,7 @@ export default {
                     m(".col-12", [
                       m("label[for='email']", "Email address"),
                       m("input.form-control[id='email'][placeholder='e.g. jose@rizal.com'][required][type='email']", {
-                        onInput: m.withAttr("value", (v: string) => { RegisterAccountData.email = v }),
+                        oninput: m.withAttr("value", (v: string) => { RegisterAccountData.email = v }),
                         value: RegisterAccountData.email
                       })
                     ])
@@ -66,7 +89,7 @@ export default {
                     m(".col-12", [
                       m("label[for='password']", "Password"),
                       m("input.form-control[id='password'][placeholder='Enter your password'][required][type='password']", {
-                        onInput: m.withAttr("value", (v: string) => { RegisterAccountData.password = v }),
+                        oninput: m.withAttr("value", (v: string) => { RegisterAccountData.password = v }),
                         value: RegisterAccountData.password
                       })
                     ])

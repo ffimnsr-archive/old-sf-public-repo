@@ -10,6 +10,9 @@ const config: webpack.Configuration = {
   devtool: "inline-source-map",
   entry: {
     sesame: [
+      // path.resolve(__dirname, "plugins/jquery.waves.js"),
+      // path.resolve(__dirname, "plugins/jquery.core.js"),
+      // path.resolve(__dirname, "plugins/jquery.app.js"),
       path.resolve(__dirname, "src/index.ts")
     ]
   },
@@ -96,7 +99,8 @@ const config: webpack.Configuration = {
     alias: {
       styles: path.resolve(__dirname, "styles"),
       images: path.resolve(__dirname, "images"),
-      components: path.resolve(__dirname, "src/components")
+      components: path.resolve(__dirname, "src/components"),
+      widgets: path.resolve(__dirname, "src/widgets")
     }
   },
   output: {
