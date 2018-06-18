@@ -23,21 +23,24 @@ const LoginAccountData = {
       }
     };
 
-    m.request({
+    fetch(AppSettings.API_BASE_URL + "/api/session/login", {
       method: "POST",
-      url: AppSettings.API_BASE_URL + "/api/session/login",
-      data: account,
+      body: JSON.stringify(account),
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8"
       }
-    }).then((data: any) => {
-      if (data.success) {
-        localStorage.setItem("access_token", data.token);
+    })
+    .then(res => res.json())
+    .catch(err => console.error("error", err))
+    .then(res => {
+      if (res.success && res.user.token) {
+        localStorage.setItem("email", res.user.email);
+        localStorage.setItem("token", res.user.token);
         m.route.set("/");
+      } else {
+        console.error("error", res.message);
       }
-    }).catch((e) => {
-      console.log(e);
     });
   }
 };

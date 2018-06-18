@@ -1,10 +1,42 @@
 import m, { Vnode } from "mithril";
+import { AppSettings } from "configs";
 
 import "styles/app";
 import "styles/icons";
 
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
+
+const RecoverPasswordData = {
+  email: "",
+
+  canSave() {
+    return RecoverPasswordData.email !== "";
+  },
+  save() {
+    const account = {
+      user: {
+        email: RecoverPasswordData.email,
+      }
+    };
+
+    fetch(AppSettings.API_BASE_URL + "/api/session/recover", {
+      method: "POST",
+      body: JSON.stringify(account),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8"
+      }
+    })
+    .then(res => res.json())
+    .catch(err => console.error("error", err))
+    .then(res => {
+      if (res.success) {
+
+      }
+    });
+  },
+};
 
 export default {
   view(vnode: Vnode) {
@@ -30,16 +62,26 @@ export default {
                     "Enter your email address and we'll send you an email with instructions to reset your password."
                   )
                 ),
-                m("form.form-horizontal[action='javascript:;']", [
+                m("form.form-horizontal", {
+                  onsubmit: (e: Event) => {
+                    e.preventDefault();
+                    RecoverPasswordData.save();
+                  }
+                }, [
                   m(".form-group.row.m-b-20",
                     m(".col-12", [
                       m("label[for='emailaddress']", "Email address"),
-                      m("input.form-control[id='emailaddress'][placeholder='e.g. jose@rizal.com'][required][type='email']")
+                      m("input.form-control[id='emailaddress'][placeholder='e.g. jose@rizal.com'][required][type='email']", {
+                        oninput: m.withAttr("value", (v: string) => { RecoverPasswordData.email = v }),
+                        value: RecoverPasswordData.email
+                      })
                     ])
                   ),
                   m(".form-group.row.text-center.m-t-10",
                     m(".col-12",
-                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", "Reset Password")
+                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
+                        disabled: !RecoverPasswordData.canSave()
+                      }, "Reset Password")
                     )
                   )
                 ]),

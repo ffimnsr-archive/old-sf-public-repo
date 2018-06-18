@@ -7,6 +7,10 @@ import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
 export default {
+  oninit() {
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+  },
   view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
@@ -38,7 +42,7 @@ export default {
                   ),
                   m("h4", "See You Again !"),
                   m("p.text-muted.font-14.m-t-10", [
-                    "You are now successfully sign out. Back to",
+                    "You are now successfully sign out. Back to ",
                     m("a.text-dark.m-r-5[href='/#!/']", m("b", "Sign In"))
                   ])
                 ])

@@ -18,7 +18,6 @@ const RegisterAccountData = {
       RegisterAccountData.password !== "";
   },
   save() {
-    console.log("save");
     const account = {
       user: {
         username: RegisterAccountData.username,
@@ -27,18 +26,20 @@ const RegisterAccountData = {
       }
     };
 
-    return m.request({
-      method: "post",
-      url: AppSettings.API_BASE_URL + "/api/session/register",
-      data: JSON.stringify(account),
+    fetch(AppSettings.API_BASE_URL + "/api/session/register", {
+      method: "POST",
+      body: JSON.stringify(account),
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8"
       }
-    }).then((data) => {
-      console.log(data);
-    }).catch((e) => {
-      console.log(e);
+    })
+    .then(res => res.json())
+    .catch(err => console.error("error", err))
+    .then(res => {
+      if (res.success) {
+
+      }
     });
   },
 };

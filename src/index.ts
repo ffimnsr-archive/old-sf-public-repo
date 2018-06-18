@@ -1,4 +1,5 @@
 import m from "mithril";
+import Raven from "raven-js";
 
 import home from "components/home";
 import register from "components/register";
@@ -11,29 +12,61 @@ import notFound from "components/not_found";
 import notFoundAlt from "components/not_found_alt";
 import serverError from "components/server_error";
 
-function MemberRouter() {
-  document.body.id = "member";
-  m.route(document.body, "/", {
-    "/": home,
-    "/server-error": serverError,
-    "/:any...": notFoundAlt
-  });
-}
+import { Auth } from "./auth";
 
-function AnonymousRouter() {
-  document.body.id = "anonymous";
+function SmartFundingRouter() {
+  document.body.id = "sf";
   m.route(document.body, "/", {
-    "/": home,
-    "/register": register,
-    "/login": login,
+    "/": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return home;
+      }
+    },
+    "/register": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return register;
+        else m.route.set("/");
+      }
+    },
+    "/login": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return login;
+        else m.route.set("/");
+      }
+    },
     "/logout": logout,
-    "/lock-screen": lockScreen,
-    "/confirm-mail": confirmMail,
-    "/recover-password": recoverPassword,
+    "/lock-screen": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return lockScreen;
+        else m.route.set("/");
+      }
+    },
+    "/confirm-mail": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return confirmMail;
+        else m.route.set("/");
+      }
+    },
+    "/recover-password": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return recoverPassword;
+        else m.route.set("/");
+      }
+    },
+    "/admin/": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return notFound;
+        else m.route.set("/");
+      }
+    },
     "/server-error": serverError,
     "/not-found-alt": notFoundAlt,
     "/:any...": notFound
   });
 }
 
-AnonymousRouter();
+Raven.config("https://06889627b92a49189983e5dc8da83d4f@sentry.io/1227866").install()
+Raven.context(function() {
+  SmartFundingRouter();
+});

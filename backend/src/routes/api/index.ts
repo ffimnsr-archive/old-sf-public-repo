@@ -37,6 +37,7 @@ router.use("/wallet", wallet);
 router.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.name === "ValidationError") {
     return res.status(422).json({
+      success: false,
       errors: Object.keys(err.errors).reduce((errors: any, key: string) => {
         errors[key] = err.errors[key].message;
 

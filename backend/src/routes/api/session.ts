@@ -75,15 +75,55 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
       .sendEmail(params)
       .promise();
 
-    sendPromise.then(function(data) {
-      console.log(data);
-    }).catch(function(err) {
-      console.log(err);
-    });
+    sendPromise
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
 
-    return res.json({ user: t.toAuthJSON() });
+    return res.json({
+      success: true,
+      user: t.toAuthJSON(),
+    });
   }).catch(next);
 });
 
+router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
+  const user = new User();
+  user.email = req.body.user.email;
+
+  const params = {
+    Destination: {
+      ToAddresses: [ user.email ]
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: "<h1>Hello</h1>"
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data: "Hello"
+        }
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "SmartFunding Registration"
+      }
+    },
+    Source: "noreply@ses.smartfunding.io",
+  };
+
+  const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+    .sendEmail(params)
+    .promise();
+
+  sendPromise
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+
+  return res.json({
+    success: true,
+  });
+});
 
 export default router;
