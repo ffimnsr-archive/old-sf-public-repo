@@ -38,7 +38,9 @@ const RegisterAccountData = {
     .catch(err => console.error("error", err))
     .then(res => {
       if (res.success) {
-
+        m.route.set("/login");
+      } else {
+        console.error("error", res.message);
       }
     });
   },

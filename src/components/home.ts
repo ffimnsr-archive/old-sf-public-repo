@@ -3,18 +3,41 @@ import m, { Vnode } from "mithril";
 import header from "widgets/header";
 import footer from "widgets/footer";
 
+import "jquery-slimscroll";
+
 import "styles/app";
 import "styles/icons";
 
 export default {
   oninit() {
+    $(".navbar-toggle").on("click", function(e: Event) {
+      $(this).toggleClass("open");
+      $("#navigation").slideToggle(400);
+    });
 
+    $(".navigation-menu>li").slice(-2).addClass("last-elements");
+
+    $(".navigation-menu li.has-submenu a[href='#']").on("click", function(e: Event) {
+      if ($(window).width()! < 992) {
+        e.preventDefault();
+        $(this).parent("li").toggleClass("open").find(".submenu:first").toggleClass("open");
+      }
+    });
+
+
+    $(".slimscroll").slimScroll({
+      height: "auto",
+      position: "right",
+      size: "8px",
+      color: "#9ea5ab"
+    });
   },
   view(vnode: Vnode) {
     return m(".sf-root", [
       m(header),
       m(".wrapper",
         m(".container-fluid",
+
           m(".row",
             m(".col-sm-12",
               m(".page-title-box", [
@@ -31,26 +54,26 @@ export default {
             )
           ),
 
-          m(".row",
-            m(".col-12",
-              m(".card-box", [
-                m("h4.header-title.mb-4", "Account Overview"),
-                m(".row", [
-                  m(".col-sm-6.col-lg-6.col-xl-3",
-                    m(".card-box.mb-0.widget-chart-two", [
-                      m(".float-right",
-                        m("input[data-angleoffset='180'][data-fgcolor='#0acf97'][data-height='80'][data-linecap='round'][data-plugin='knob'][data-readonly='true'][data-skin='tron'][data-thickness='.1'][data-width='80'][value='37']")
-                      ),
-                      m(".widget-chart-two-content", [
-                        m("p.text-muted.mb-0.mt-2", "Daily Sales"),
-                        m("h3[class='']", "$35,715")
-                      ])
-                    ])
-                  ),
-                ])
-              ])
-            )
-          ),
+          // m(".row",
+          //   m(".col-12",
+          //     m(".card-box", [
+          //       m("h4.header-title.mb-4", "Account Overview"),
+          //       m(".row", [
+          //         m(".col-sm-6.col-lg-6.col-xl-3",
+          //           m(".card-box.mb-0.widget-chart-two", [
+          //             m(".float-right",
+          //               m("input[data-angleoffset='180'][data-fgcolor='#0acf97'][data-height='80'][data-linecap='round'][data-plugin='knob'][data-readonly='true'][data-skin='tron'][data-thickness='.1'][data-width='80'][value='37']")
+          //             ),
+          //             m(".widget-chart-two-content", [
+          //               m("p.text-muted.mb-0.mt-2", "Daily Sales"),
+          //               m("h3[class='']", "$35,715")
+          //             ])
+          //           ])
+          //         ),
+          //       ])
+          //     ])
+          //   )
+          // ),
 
           m(".row", [
             m(".col-lg-8",

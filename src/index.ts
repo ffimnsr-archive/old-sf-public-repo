@@ -8,6 +8,9 @@ import logout from "components/logout";
 import lockScreen from "components/lock_screen";
 import confirmMail from "components/confirm_mail";
 import recoverPassword from "components/recover_password";
+
+import adminDashboard from "components/admin/dashboard";
+
 import notFound from "components/not_found";
 import notFoundAlt from "components/not_found_alt";
 import serverError from "components/server_error";
@@ -21,6 +24,12 @@ function SmartFundingRouter() {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else return home;
+      }
+    },
+    "/admin/dashboard": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return adminDashboard;
       }
     },
     "/register": {
@@ -51,12 +60,6 @@ function SmartFundingRouter() {
     "/recover-password": {
       onmatch: function() {
         if (Auth.checkTokenNone()) return recoverPassword;
-        else m.route.set("/");
-      }
-    },
-    "/admin/": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) return notFound;
         else m.route.set("/");
       }
     },

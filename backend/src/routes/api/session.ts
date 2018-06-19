@@ -47,7 +47,6 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
 
   const params = {
     Destination: {
-      CcAddresses: [ "support@smartfunding.io" ],
       ToAddresses: [ user.email ]
     },
     Message: {
@@ -66,8 +65,7 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
         Data: "SmartFunding Registration"
       }
     },
-    Source: "noreply@ses.smartfunding.io",
-    ReplyToAddresses: [ "support@smartfunding.io" ]
+    Source: "noreply@ses.smartfunding.io"
   };
 
   user.save().then((t: UserModel) => {
@@ -107,7 +105,7 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
       },
       Subject: {
         Charset: "UTF-8",
-        Data: "SmartFunding Registration"
+        Data: "SmartFunding Recover Password"
       }
     },
     Source: "noreply@ses.smartfunding.io",
@@ -118,8 +116,12 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
     .promise();
 
   sendPromise
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+  .then(function(data) {
+    console.log(data);
+  })
+  .catch(function(err) {
+    console.error("error", err);
+  });
 
   return res.json({
     success: true,

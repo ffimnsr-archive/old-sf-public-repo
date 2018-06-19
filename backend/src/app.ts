@@ -27,7 +27,9 @@ if (isProduction) {
 }
 
 // AWS configuration
+AWS.config.loadFromPath("config.json");
 AWS.config.update({ region: "us-west-2" });
+
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
@@ -37,6 +39,7 @@ app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(methodOverride());
+app.use("/.well-known", express.static(".well-known"));
 
 // Passport configuration
 app.use(passport.initialize());

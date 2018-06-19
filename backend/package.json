@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "mongo:up": "docker run -d --rm --name smartfunding-mongo -p 27017:27017 mongo & sleep 5",
-    "mongo:down": "docker stop smartfunding-mongo && docker rm smartfunding-mongo",
+    "mongo:up": "docker run -d --rm --name smartfunding-mongo -p 127.0.0.1:27017:27017 mongo & sleep 5",
+    "mongo:down": "docker stop smartfunding-mongo",
     "dev": "nodemon dist/server.js",
     "dev:inspect": "nodemon --inspect dist/server.js",
     "build:ts": "tsc",

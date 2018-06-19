@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  backend:
+    build: .
+    image: smartfunding-backend:1.0.1
+    container_name: backend.server
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=backend"
+      - "traefik.frontend.rule=Host:api.smartfunding.io"
+      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.docker.network=server_proxy"
+      - "traefik.port=3000"
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - "$PWD/dist/.well-known:/app/.well-known:rw"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external:
+      name: server_proxy

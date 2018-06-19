@@ -88,6 +88,14 @@ const config: webpack.Configuration = {
             }
           }
         ]
+      },
+      {
+        test: require.resolve("jquery-slimscroll"),
+        use: [
+          {
+            loader: "imports-loader?this=>window,jQuery=jquery,$=jquery"
+          }
+        ]
       }
     ]
   },
