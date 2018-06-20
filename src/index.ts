@@ -1,14 +1,16 @@
 import m from "mithril";
 import Raven from "raven-js";
 
-import home from "components/home";
 import register from "components/register";
 import login from "components/login";
 import logout from "components/logout";
 import lockScreen from "components/lock_screen";
-import confirmMail from "components/confirm_mail";
+import confirmMailRegister from "components/confirm_mail_register";
+import confirmMailRecover from "components/confirm_mail_recover";
 import recoverPassword from "components/recover_password";
 
+import home from "components/home";
+import uploadDocument from "components/upload_document";
 import adminDashboard from "components/admin/dashboard";
 
 import notFound from "components/not_found";
@@ -24,6 +26,12 @@ function SmartFundingRouter() {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else return home;
+      }
+    },
+    "/upload-document": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return uploadDocument;
       }
     },
     "/admin/dashboard": {
@@ -51,9 +59,15 @@ function SmartFundingRouter() {
         else m.route.set("/");
       }
     },
-    "/confirm-mail": {
+    "/confirm-mail/register": {
       onmatch: function() {
-        if (Auth.checkTokenNone()) return confirmMail;
+        if (Auth.checkTokenNone()) return confirmMailRegister;
+        else m.route.set("/");
+      }
+    },
+    "/confirm-mail/recover": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return confirmMailRecover;
         else m.route.set("/");
       }
     },

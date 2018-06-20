@@ -1,7 +1,14 @@
-import m from "mithril";
+import m, { Vnode } from "mithril";
 
 import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-1.jpg";
+
+const HeaderData = {
+  getEmail() {
+    let email = localStorage.getItem("email");
+    return email;
+  }
+};
 
 export default {
   oninit() {
@@ -22,7 +29,7 @@ export default {
       }
     });
   },
-  view(vnode) {
+  view(vnode: Vnode) {
     return m("header[id='topnav']", [
       m(".topbar-main",
         m(".container-fluid", [
@@ -76,7 +83,7 @@ export default {
                   m("a.nav-link.dropdown-toggle.waves-effect.nav-user[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
                     m("img.rounded-circle[alt='user']", { src: avatar }),
                     m("span.ml-1.pro-user-name", [
-                      "User",
+                      HeaderData.getEmail(),
                       m("i.mdi.mdi-chevron-down")
                     ])
                   ]),

@@ -35,10 +35,10 @@ const RegisterAccountData = {
       }
     })
     .then(res => res.json())
-    .catch(err => console.error("error", err))
     .then(res => {
       if (res.success) {
-        m.route.set("/login");
+        sessionStorage.setItem("verify_email", RegisterAccountData.email);
+        m.route.set("/confirm-mail/register");
       } else {
         console.error("error", res.message);
       }

@@ -6,6 +6,13 @@ import "styles/icons";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
+const ConfirmMailData = {
+  getVerifyEmail() {
+    let email = sessionStorage.getItem("verify_email");
+    return email;
+  }
+};
+
 export default {
   view(vnode: Vnode) {
     return m(".sf-root", [
@@ -52,11 +59,9 @@ export default {
                     ])
                   ]),
                   m("p.text-muted.font-14.mt-2", [
-                    "A email has been send to",
-                    m("b", "youremail@domain.com"),
-                    ".\
-                      Please check for an email from company and click on the included link to\
-                      reset your password."
+                    "A email has been send to ",
+                    m("b", ConfirmMailData.getVerifyEmail()),
+                    ". Please check for an email from SmartFunding and click on the included link to reset your password."
                   ]),
                   m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Back to Home")
                 ])

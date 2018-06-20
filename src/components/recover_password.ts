@@ -29,10 +29,10 @@ const RecoverPasswordData = {
       }
     })
     .then(res => res.json())
-    .catch(err => console.error("error", err))
     .then(res => {
       if (res.success) {
-        m.route.set("/login");
+        sessionStorage.setItem("verify_email", RecoverPasswordData.email);
+        m.route.set("/confirm-mail/recover");
       } else {
         console.log("error")
       }

@@ -32,7 +32,6 @@ const LoginAccountData = {
       }
     })
     .then(res => res.json())
-    .catch(err => console.error("error", err))
     .then(res => {
       if (res.success && res.user.token) {
         localStorage.setItem("email", res.user.email);

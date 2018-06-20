@@ -22,7 +22,7 @@ const app = express();
 if (isProduction) {
   mongoose.connect(process.env.MONGODB_URI);
 } else {
-  mongoose.connect("mongodb://localhost/connect");
+  mongoose.connect("mongodb://localhost/admin");
   mongoose.set("debug", true);
 }
 
