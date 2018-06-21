@@ -5,6 +5,14 @@ import "styles/icons";
 
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
+import avatar from "images/users/avatar-5.jpg";
+
+const LockScreenData = {
+  getEmail() {
+    let email = localStorage.getItem("email");
+    return email;
+  }
+};
 
 export default {
   view(vnode: Vnode) {
@@ -29,11 +37,16 @@ export default {
                 ),
                 m(".text-center", [
                   m(".mb-3",
-                    m("img.rounded-circle.img-thumbnail.thumb-lg[alt='thumbnail'][src='assets/images/users/avatar-5.jpg']")
+                    m("img.rounded-circle.img-thumbnail.thumb-lg[alt='thumbnail']", {
+                      src: avatar
+                    })
                   ),
-                  m("p.text-muted.m-b-0.font-14", "Enter your password to access the admin.")
+                  m("p.text-muted.m-b-0.font-14", "Enter your password to access your account.")
                 ]),
                 m("form.form-horizontal[action='javascript:;']", [
+                  m("input[type='hidden']", {
+                    value: LockScreenData.getEmail()
+                  }),
                   m(".form-group.row",
                     m(".col-12", [
                       m("label[for='password']", "Password"),
@@ -50,9 +63,7 @@ export default {
                   m(".col-sm-12.text-center",
                     m("p.text-muted", [
                       "Not you? return",
-                      m("a.text-dark.ml-2[href='/#!/login']",
-                        m("b", "Sign In")
-                      )
+                      m("a.text-dark.ml-2[href='/#!/login']", m("b", "Sign In"))
                     ])
                   )
                 )
@@ -60,7 +71,12 @@ export default {
             )
           )
         ),
-        m(".m-t-40.text-center", m("p.account-copyright", "2018 © SmartFunding"))
+        m(".m-t-40.text-center",
+          m("p.account-copyright", [
+            "2018 © SmartFunding | ",
+            m("a[href='/#!/privacy']", "Privacy Policy")
+          ])
+        )
       ])
     ]);
   }

@@ -1,12 +1,20 @@
 import m, { Vnode } from "mithril";
 
+import bg from "images/bg-2.jpg";
+import logo from "images/sf-logo.png";
+
 export default {
   oninit() {
 
   },
   view(vnode: Vnode) {
     return m(".sf-root", [
-      m(".accountbg", { style: { "background": "url('assets/images/bg-1.jpg')", "background-size": "cover" } }),
+      m(".accountbg", {
+        style: {
+          "background": `url(${bg})`,
+          "background-size": "cover"
+        }
+      }),
       m(".wrapper-page.account-page-full", [
         m(".card",
           m(".card-block",
@@ -14,7 +22,9 @@ export default {
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
                   m("a.text-success[href='index.html']",
-                    m("span", m("img[alt=''][height='26'][src='assets/images/logo.png']"))
+                    m("span", m("img[alt=''][height='26']", {
+                      src: logo
+                    }))
                   )
                 ),
                 m(".text-center", [
@@ -36,7 +46,12 @@ export default {
             )
           )
         ),
-        m(".m-t-40.text-center", m("p.account-copyright", "2018 © SmartFunding"))
+        m(".m-t-40.text-center",
+          m("p.account-copyright", [
+            "2018 © SmartFunding | ",
+            m("a[href='/#!/privacy']", "Privacy Policy")
+          ])
+        )
       ])
     ]);
   }

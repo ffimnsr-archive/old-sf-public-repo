@@ -1,4 +1,5 @@
 import passport from "passport";
+import fs from "fs";
 import AWS from "aws-sdk";
 import { Router, Request, Response, NextFunction } from "express";
 import { default as User, UserModel } from "../../models/user";
@@ -45,6 +46,7 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   user.email = req.body.user.email;
   user.setPassword(req.body.user.password);
 
+  const content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
   const params = {
     Destination: {
       ToAddresses: [ user.email ]
@@ -53,12 +55,8 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
       Body: {
         Html: {
           Charset: "UTF-8",
-          Data: "<h1>Hello</h1>"
+          Data: content
         },
-        Text: {
-          Charset: "UTF-8",
-          Data: "Hello"
-        }
       },
       Subject: {
         Charset: "UTF-8",
@@ -88,6 +86,7 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
   const user = new User();
   user.email = req.body.user.email;
 
+  const content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
   const params = {
     Destination: {
       ToAddresses: [ user.email ]
@@ -96,12 +95,8 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
       Body: {
         Html: {
           Charset: "UTF-8",
-          Data: "<h1>Hello</h1>"
+          Data: content
         },
-        Text: {
-          Charset: "UTF-8",
-          Data: "Hello"
-        }
       },
       Subject: {
         Charset: "UTF-8",
@@ -111,21 +106,31 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
     Source: "noreply@ses.smartfunding.io",
   };
 
-  const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+  User.findOne({ "email": user.email }).then((user: UserModel) => {
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "email not found"
+      });
+    }
+
+    const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
     .sendEmail(params)
     .promise();
 
-  sendPromise
-  .then(function(data) {
-    console.log(data);
-  })
-  .catch(function(err) {
-    console.error("error", err);
-  });
+    sendPromise
+    .then(function(data) {
+      console.log(data);
+    })
+    .catch(function(err) {
+      console.error("error", err);
+    });
 
-  return res.json({
-    success: true,
-  });
+    return res.json({
+      success: true,
+      user: user.toAuthJSON()
+    });
+  }).catch(next);
 });
 
 export default router;

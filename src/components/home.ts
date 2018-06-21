@@ -3,11 +3,6 @@ import m, { Vnode } from "mithril";
 import header from "widgets/header";
 import footer from "widgets/footer";
 
-import "jquery-slimscroll";
-
-import "styles/app";
-import "styles/icons";
-
 import avatar from "images/users/avatar-2.jpg";
 
 export default {
@@ -73,29 +68,7 @@ export default {
                     ),
                     m("tbody", [
                       m("tr", [
-                        m("td",
-                          m("img.rounded-circle.thumb-sm[alt='img'][title='contact-img']", {
-                            src: avatar
-                          })
-                        ),
-                        m("td", [
-                          m("h5.m-0.font-weight-normal", "#000000"),
-                          m("p.mb-0.text-muted", m("small", "January 01, 1970"))
-                        ]),
-                        m("td", [
-                          m("i.mdi.mdi-currency-btc.text-primary"),
-                          "BTC"
-                        ]),
-                        m("td", "0.00000000 BTC"),
-                        m("td", "0.00000000 BTC"),
-                        m("td", [
-                          m("a.btn.btn-sm.btn-custom[href='#']",
-                            m("i.mdi.mdi-plus")
-                          ),
-                          m("a.btn.btn-sm.btn-danger[href='#']",
-                            m("i.mdi.mdi-minus")
-                          )
-                        ])
+
                       ]),
                     ])
                   ])

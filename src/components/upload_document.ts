@@ -1,14 +1,24 @@
 import m, { Vnode } from "mithril";
+import AWS from "aws-sdk";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
 
 import "jquery-slimscroll";
 
-import "styles/app";
-import "styles/icons";
-
 import avatar from "images/users/avatar-2.jpg";
+
+AWS.config.region = 'ap-southeast-1';
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+  IdentityPoolId: 'ap-southeast-1:4c1e349b-13b9-49ce-9b27-2d0b1fac48cd',
+});
+
+const bucketName = "bucket.smartfunding.io";
+const bucket = new AWS.S3({
+  params: {
+    Bucket: bucketName
+  }
+});
 
 export default {
   oninit() {

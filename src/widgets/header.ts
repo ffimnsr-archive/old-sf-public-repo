@@ -61,17 +61,6 @@ export default {
                         "Notification"
                       ])
                     ),
-                    m(".slimscroll", { style: { "max-height": "230px" } }, [
-                      m("a.dropdown-item.notify-item[href='javascript:;']", [
-                        m(".notify-icon.bg-success",
-                          m("i.mdi.mdi-comment-account-outline")
-                        ),
-                        m("p.notify-details", [
-                          "Caleb Flakelar commented on Admin",
-                          m("small.text-muted", "1 min ago")
-                        ])
-                      ])
-                    ]),
                     m("a.dropdown-item.text-center.text-primary.notify-item.notify-all[href='javascript:;']", [
                       "View all",
                       m("i.fi-arrow-right")
@@ -91,23 +80,23 @@ export default {
                     m(".dropdown-item.noti-title",
                       m("h6.text-overflow.m-0", "Welcome !")
                     ),
-                    m("a.dropdown-item.notify-item[href='javascript:void(0);']", [
+                    m("a.dropdown-item.notify-item[href='/#!/profile']", [
                       m("i.fi-head"),
                       m("span", "My Account")
                     ]),
-                    m("a.dropdown-item.notify-item[href='javascript:void(0);']", [
+                    m("a.dropdown-item.notify-item[href='/#!/settings']", [
                       m("i.fi-cog"),
                       m("span", "Settings")
                     ]),
-                    m("a.dropdown-item.notify-item[href='javascript:void(0);']", [
+                    m("a.dropdown-item.notify-item[href='/#!/frequently-ask']", [
                       m("i.fi-help"),
                       m("span", "Support")
                     ]),
-                    m("a.dropdown-item.notify-item[href='javascript:void(0);']", [
+                    m("a.dropdown-item.notify-item[href='/#!/lock-screen']", [
                       m("i.fi-lock"),
                       m("span", "Lock Screen")
                     ]),
-                    m("a.dropdown-item.notify-item[href='javascript:void(0);']", [
+                    m("a.dropdown-item.notify-item[href='/#!/logout']", [
                       m("i.fi-power"),
                       m("span", "Logout")
                     ])

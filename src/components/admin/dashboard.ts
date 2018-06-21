@@ -49,29 +49,7 @@ export default {
                     ),
                     m("tbody", [
                       m("tr", [
-                        m("td",
-                          m("img.rounded-circle.thumb-sm[alt='contact-img'][src='assets/images/users/avatar-2.jpg'][title='contact-img']")
-                        ),
-                        m("td", [
-                          m("h5.m-0.font-weight-normal", "Tomaslau"),
-                          m("p.mb-0.text-muted",
-                            m("small", "Member Since 2017")
-                          )
-                        ]),
-                        m("td", [
-                          m("i.mdi.mdi-currency-btc.text-primary"),
-                          "BTC"
-                        ]),
-                        m("td", "0.00816117 BTC"),
-                        m("td", "0.00097036 BTC"),
-                        m("td", [
-                          m("a.btn.btn-sm.btn-custom[href='#']",
-                            m("i.mdi.mdi-plus")
-                          ),
-                          m("a.btn.btn-sm.btn-danger[href='#']",
-                            m("i.mdi.mdi-minus")
-                          )
-                        ])
+
                       ]),
                     ])
                   ])

@@ -1,6 +1,5 @@
 import m, { Vnode } from "mithril";
 
-
 export default {
   view(vnode: Vnode) {
     return m(".sf-root", [

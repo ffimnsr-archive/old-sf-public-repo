@@ -4,20 +4,30 @@ import Raven from "raven-js";
 import register from "components/register";
 import login from "components/login";
 import logout from "components/logout";
+import privacy from "components/privacy";
+import frequentlyAsk from "components/frequently_ask";
 import lockScreen from "components/lock_screen";
 import confirmMailRegister from "components/confirm_mail_register";
 import confirmMailRecover from "components/confirm_mail_recover";
 import recoverPassword from "components/recover_password";
 
 import home from "components/home";
+import profile from "components/profile";
 import uploadDocument from "components/upload_document";
 import adminDashboard from "components/admin/dashboard";
 
+import siteMaintenance from "components/site_maintenance";
 import notFound from "components/not_found";
 import notFoundAlt from "components/not_found_alt";
 import serverError from "components/server_error";
 
 import { Auth } from "./auth";
+
+import "bootstrap";
+import "jquery-slimscroll";
+
+import "styles/app";
+import "styles/icons";
 
 function SmartFundingRouter() {
   document.body.id = "sf";
@@ -32,6 +42,12 @@ function SmartFundingRouter() {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else return uploadDocument;
+      }
+    },
+    "/profile": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return profile;
       }
     },
     "/admin/dashboard": {
@@ -52,11 +68,22 @@ function SmartFundingRouter() {
         else m.route.set("/");
       }
     },
-    "/logout": logout,
+    "/logout": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return logout;
+      }
+    },
     "/lock-screen": {
       onmatch: function() {
-        if (Auth.checkTokenNone()) return lockScreen;
-        else m.route.set("/");
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return lockScreen;
+      }
+    },
+    "/frequently-ask": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return frequentlyAsk;
       }
     },
     "/confirm-mail/register": {
@@ -77,9 +104,15 @@ function SmartFundingRouter() {
         else m.route.set("/");
       }
     },
+    "/privacy": privacy,
+    "/site-maintenance": siteMaintenance,
     "/server-error": serverError,
-    "/not-found-alt": notFoundAlt,
-    "/:any...": notFound
+    "/:any...": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return notFound;
+        else return notFoundAlt;
+      }
+    }
   });
 }
 

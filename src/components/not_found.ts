@@ -1,8 +1,5 @@
 import m, { Vnode } from "mithril";
 
-import "styles/app";
-import "styles/icons";
-
 import bg from "images/bg-1.jpg";
 import logo from "images/sf-logo.png";
 
@@ -35,7 +32,12 @@ export default {
             )
           )
         ),
-        m(".m-t-40.text-center", m("p.account-copyright", "2018 © SmartFunding"))
+        m(".m-t-40.text-center",
+          m("p.account-copyright", [
+            "2018 © SmartFunding | ",
+            m("a[href='/#!/privacy']", "Privacy Policy")
+          ])
+        )
       ])
     ]);
   }

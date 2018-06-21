@@ -3,9 +3,6 @@ import m, { Vnode } from "mithril";
 import header from "widgets/header";
 import footer from "widgets/footer";
 
-import "styles/app";
-import "styles/icons";
-
 import bg from "images/bg-1.jpg";
 import logo from "images/sf-logo.png";
 
