@@ -11,6 +11,7 @@ export type UserModel = mongoose.Document & {
   image: string,
   hash: string,
   salt: string,
+  typeset: string,
   forename: string,
   surname: string,
   kycStatus: any,
@@ -31,6 +32,7 @@ const UserSchema = new mongoose.Schema({
   salt: String,
   forename: String,
   surname: String,
+  typeset: String,
   kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
   createdAt: Date,
@@ -57,6 +59,7 @@ UserSchema.methods.generateJWT = function() {
   return jwt.sign({
     id: this._id,
     username: this.username,
+    typeset: this.typeset,
     exp: exp.getTime() / 1000
   }, secret);
 };
@@ -68,7 +71,8 @@ UserSchema.methods.toAuthJSON = function() {
     email: this.email,
     token: token,
     bio: this.bio,
-    image: this.image
+    image: this.image,
+    typeset: this.typeset
   };
 };
 

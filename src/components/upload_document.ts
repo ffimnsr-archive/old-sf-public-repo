@@ -5,6 +5,7 @@ import header from "widgets/header";
 import footer from "widgets/footer";
 
 import "jquery-slimscroll";
+import "dropzone";
 
 import avatar from "images/users/avatar-2.jpg";
 
@@ -22,14 +23,14 @@ const bucket = new AWS.S3({
 
 export default {
   oninit() {
-    $(".navbar-toggle").on("click", function(e: Event) {
+    $(".navbar-toggle").on("click", function (e: Event) {
       $(this).toggleClass("open");
       $("#navigation").slideToggle(400);
     });
 
     $(".navigation-menu>li").slice(-2).addClass("last-elements");
 
-    $(".navigation-menu li.has-submenu a[href='#']").on("click", function(e: Event) {
+    $(".navigation-menu li.has-submenu a[href='#']").on("click", function (e: Event) {
       if ($(window).width()! < 992) {
         e.preventDefault();
         $(this).parent("li").toggleClass("open").find(".submenu:first").toggleClass("open");
@@ -47,8 +48,7 @@ export default {
     return m(".sf-root", [
       m(header),
       m(".wrapper",
-        m(".container-fluid",
-
+        m(".container-fluid", [
           m(".row",
             m(".col-sm-12",
               m(".page-title-box", [
@@ -57,72 +57,30 @@ export default {
                     m("li.breadcrumb-item",
                       m("a[href='/#!/']", "SmartFunding")
                     ),
-                    m("li.breadcrumb-item.active", "Dashboard")
+                    m("li.breadcrumb-item.active", "Upload Verification Documents")
                   ])
                 ),
-                m("h4.page-title", "Dashboard")
+                m("h4.page-title", "Upload Verification Documents")
               ])
             )
           ),
-
-          m(".row", [
-            m(".col-lg-8",
+          m(".row",
+            m(".col-12",
               m(".card-box", [
-                m("h4.header-title.mb-3", "Wallet Balances"),
-                m(".table-responsive",
-                  m("table.table.table-hover.table-centered.m-0", [
-                    m("thead",
-                      m("tr", [
-                        m("th", "Profile"),
-                        m("th", "Name"),
-                        m("th", "Currency"),
-                        m("th", "Balance"),
-                        m("th", "Reserved in orders"),
-                        m("th", "Action")
-                      ])
-                    ),
-                    m("tbody", [
-                      m("tr", [
-                        m("td",
-                          m("img.rounded-circle.thumb-sm[alt='img'][title='contact-img']", {
-                            src: avatar
-                          })
-                        ),
-                        m("td", [
-                          m("h5.m-0.font-weight-normal", "#000000"),
-                          m("p.mb-0.text-muted", m("small", "January 01, 1970"))
-                        ]),
-                        m("td", [
-                          m("i.mdi.mdi-currency-btc.text-primary"),
-                          "BTC"
-                        ]),
-                        m("td", "0.00000000 BTC"),
-                        m("td", "0.00000000 BTC"),
-                        m("td", [
-                          m("a.btn.btn-sm.btn-custom[href='#']",
-                            m("i.mdi.mdi-plus")
-                          ),
-                          m("a.btn.btn-sm.btn-danger[href='#']",
-                            m("i.mdi.mdi-minus")
-                          )
-                        ])
-                      ]),
-                    ])
-                  ])
-                )
-              ])
-            ),
-            m(".col-lg-4",
-              m(".card-box", [
-                m("h4.m-t-0.header-title", "Total Wallet Balance"),
-                m("[id='donut-chart']",
-                  m(".flot-chart.mt-5[id='donut-chart-container']", { style: { "height": "340px" } },
+                m("h4.header-title.m-t-0", "Dropzone File Upload"),
+                m("p.text-muted.font-14.m-b-10", "Your awesome text goes here."),
+                m("form.dropzone[action='#'][id='dropzone']",
+                  m(".fallback",
+                    m("input[multiple=''][name='file'][type='file']")
                   )
+                ),
+                m(".clearfix.text-right.mt-3",
+                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", "Submit")
                 )
               ])
             )
-          ])
-        )
+          )
+        ])
       ),
       m(footer)
     ]);

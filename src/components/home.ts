@@ -58,8 +58,6 @@ export default {
                   m("table.table.table-hover.table-centered.m-0", [
                     m("thead",
                       m("tr", [
-                        m("th", "Profile"),
-                        m("th", "Name"),
                         m("th", "Currency"),
                         m("th", "Balance"),
                         m("th", "Reserved in orders"),
@@ -67,9 +65,7 @@ export default {
                       ])
                     ),
                     m("tbody", [
-                      m("tr", [
 
-                      ]),
                     ])
                   ])
                 )
