@@ -52,7 +52,7 @@ export default {
             m(".account-box",
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='/#!/']",
+                  m("a.text-success[href='/']", { oncreate: m.route.link },
                     m("span", m("img[alt=''][height='26']", { src: logo }))
                   )
                 ),
@@ -88,7 +88,7 @@ export default {
                   m(".col-sm-12.text-center",
                     m("p.text-muted", [
                       "Back to ",
-                      m("a.text-dark.m-l-5[href='/#!/login']", m("b", "Sign In"))
+                      m("a.text-dark.m-l-5[href='/login']", { oncreate: m.route.link }, m("b", "Sign In"))
                     ])
                   )
                 )
@@ -99,7 +99,7 @@ export default {
         m(".m-t-40.text-center",
           m("p.account-copyright", [
             "2018 © SmartFunding | ",
-            m("a[href='/#!/privacy']", "Privacy Policy")
+            m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         )
       ])

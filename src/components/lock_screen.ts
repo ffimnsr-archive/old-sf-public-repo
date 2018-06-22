@@ -63,7 +63,7 @@ export default {
                   m(".col-sm-12.text-center",
                     m("p.text-muted", [
                       "Not you? return",
-                      m("a.text-dark.ml-2[href='/#!/login']", m("b", "Sign In"))
+                      m("a.text-dark.ml-2[href='/login']", { oncreate: m.route.link }, m("b", "Sign In"))
                     ])
                   )
                 )
@@ -74,7 +74,7 @@ export default {
         m(".m-t-40.text-center",
           m("p.account-copyright", [
             "2018 © SmartFunding | ",
-            m("a[href='/#!/privacy']", "Privacy Policy")
+            m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         )
       ])

@@ -14,8 +14,8 @@ export type UserModel = mongoose.Document & {
   typeset: string,
   forename: string,
   surname: string,
-  isMailVerified: bool,
-  isDocumentsSubmitted: bool,
+  isMailVerified: boolean,
+  isDocumentsSubmitted: boolean,
   kycStatus: mongoose.Schema.Types.ObjectId,
   address: mongoose.Schema.Types.ObjectId,
   createdAt: Date,
@@ -65,6 +65,7 @@ UserSchema.methods.generateJWT = function() {
   return jwt.sign({
     id: this._id,
     username: this.username,
+    email: this.email,
     typeset: this.typeset,
     exp: exp.getTime() / 1000
   }, secret);

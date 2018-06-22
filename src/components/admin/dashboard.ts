@@ -3,10 +3,9 @@ import m, { Vnode } from "mithril";
 import header from "widgets/header";
 import footer from "widgets/footer";
 
-import "styles/app";
-import "styles/icons";
-
 import logo from "images/sf-logo.png";
+
+import "datatables.net";
 
 export default {
   view(vnode: Vnode) {
@@ -63,11 +62,9 @@ export default {
           m(".row",
             m(".col-12",
               m(".card-box.table-responsive", [
-                m("h4.m-t-0.header-title", "Default Example"),
+                m("h4.m-t-0.header-title", "Borrowers/ Investors"),
                 m("p.text-muted.font-14.m-b-30", [
-                  "DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function:",
-                  m("code", "$().DataTable();"),
-                  "."
+                  "List of all investors and borrowers."
                 ]),
                 m("table.table.table-bordered[id='datatable']", [
                   m("thead",
@@ -82,7 +79,7 @@ export default {
                   ),
                   m("tbody", [
                     m("tr", [
-                      m("td", "Tiger Nixon"),
+                      m("td", "Anonymous User"),
                       m("td", "System Architect"),
                       m("td", "Edinburgh"),
                       m("td", "61"),
@@ -94,7 +91,6 @@ export default {
               ])
             )
           )
-
         ])
       ),
       m(footer)

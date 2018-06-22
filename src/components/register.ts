@@ -58,7 +58,7 @@ export default {
             m(".account-box",
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='/#!/']",
+                  m("a.text-success[href='/']", { oncreate: m.route.link },
                     m("span", m("img[alt='logo'][height='26']", { src: logo }))
                   )
                 ),
@@ -101,7 +101,7 @@ export default {
                         m("input[checked][id='remember'][type='checkbox']"),
                         m("label[for='remember']", [
                           "I accept ",
-                          m("a.text-custom[href='/#!/terms-and-conditions']", "Terms and Conditions")
+                          m("a.text-custom[href='/terms-and-conditions']", { oncreate: m.route.link }, "Terms and Conditions")
                         ])
                       ])
                     )
@@ -118,7 +118,7 @@ export default {
                   m(".col-sm-12.text-center",
                     m("p.text-muted", [
                       "Already have an account? ",
-                      m("a.text-dark.m-l-5[href='/#!/login']", m("b", "Sign In"))
+                      m("a.text-dark.m-l-5[href='/login']", { oncreate: m.route.link }, m("b", "Sign In"))
                     ])
                   )
                 )

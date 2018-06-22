@@ -11,4 +11,11 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+router.put("/", (req: Request, res: Response, next: NextFunction) => {
+  return res.json({
+    success: true,
+    message: "SmartFunding"
+  });
+});
+
 export default router;

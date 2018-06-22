@@ -18,7 +18,7 @@ export default {
                 m(".btn-group.pull-right",
                   m("ol.breadcrumb.hide-phone.p-0.m-0", [
                     m("li.breadcrumb-item",
-                      m("a[href='/#!/']", "SmartFunding")
+                      m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
                     m("li.breadcrumb-item.active", "Page Not Found")
                   ])
@@ -36,7 +36,7 @@ export default {
                   "It's looking like you may have taken a wrong turn. Don't worry... it\
                     happens to the best of us. Here's a little tip that might help you get back on track."
                 ),
-                m("a.btn.btn-md.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Return Home")
+                m("a.btn.btn-md.btn-custom.waves-effect.waves-light.mt-3[href='/']", { oncreate: m.route.link }, "Return Home")
               ])
             )
           )

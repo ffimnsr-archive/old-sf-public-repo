@@ -1,12 +1,19 @@
 import m, { Vnode } from "mithril";
+import jwtDecode from "jwt-decode";
 
 import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-1.jpg";
 
 const HeaderData = {
   getEmail() {
-    let email = localStorage.getItem("email");
+    let email = localStorage.getItem("email")!;
     return email;
+  },
+  getUsername(): string {
+    let token = localStorage.getItem("token")!;
+    let data = jwtDecode<any>(token);
+    console.log(data.username);
+    return data.username;
   }
 };
 
@@ -72,13 +79,14 @@ export default {
                   m("a.nav-link.dropdown-toggle.waves-effect.nav-user[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
                     m("img.rounded-circle[alt='user']", { src: avatar }),
                     m("span.ml-1.pro-user-name", [
-                      HeaderData.getEmail(),
+                      "  ",
+                      HeaderData.getUsername(),
                       m("i.mdi.mdi-chevron-down")
                     ])
                   ]),
                   m(".dropdown-menu.dropdown-menu-right.profile-dropdown.", [
                     m(".dropdown-item.noti-title",
-                      m("h6.text-overflow.m-0", "Welcome !")
+                      m("h6.text-overflow.m-0", `Welcome ${HeaderData.getUsername()}!`)
                     ),
                     m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
                       m("i.fi-head"),
