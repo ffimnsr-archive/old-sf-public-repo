@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 
 export type WalletModel = mongoose.Document & {
-  company: number,
-  user: number
+  company: mongoose.Schema.Types.ObjectId,
+  user: mongoose.Schema.Types.ObjectId,
+  createdAt: Date,
+  updatedAt: Date
 };
 
 const WalletSchema = new mongoose.Schema({

@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "start": "npm run watch",
+    "dep:up": "npm run mongo:up && npm run redis:up",
+    "dep:down": "npm run mongo:down && npm run redis:down",
     "mongo:up": "docker run -d --rm --name smartfunding-mongo -p 127.0.0.1:27017:27017 mongo & sleep 5",
     "mongo:down": "docker stop smartfunding-mongo",
+    "redis:up": "docker run -d --rm --name smartfunding-redis -p 127.0.0.1:27017:27017 redis & sleep 5",
+    "redis:down": "docker stop smartfunding-redis",
     "dev": "nodemon dist/server.js",
     "dev:inspect": "nodemon --inspect dist/server.js",
     "build:ts": "tsc",
@@ -19,6 +23,7 @@
     "@types/tapable": "1.0.2"
   },
   "dependencies": {
+    "@types/redis": "^2.8.6",
     "async": "^2.6.1",
     "aws-sdk": "^2.257.1",
     "bcrypt-nodejs": "0.0.3",
@@ -45,6 +50,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "raven": "^2.6.2",
+    "redis": "^2.8.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "uuid": "^3.2.1",

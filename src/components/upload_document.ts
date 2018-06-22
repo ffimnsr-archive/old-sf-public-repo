@@ -55,7 +55,7 @@ export default {
                 m(".btn-group.pull-right",
                   m("ol.breadcrumb.hide-phone.p-0.m-0", [
                     m("li.breadcrumb-item",
-                      m("a[href='/#!/']", "SmartFunding")
+                      m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
                     m("li.breadcrumb-item.active", "Upload Verification Documents")
                   ])

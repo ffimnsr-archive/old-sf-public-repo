@@ -29,7 +29,7 @@ export default {
             m(".account-box",
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='/#!/']",
+                  m("a.text-success[href='/']", { oncreate: m.route.link },
                     m("span",
                       m("img[alt=''][height='26']", { src: logo })
                     )

@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
 export type KycDocumentTypeModel = mongoose.Document & {
-  description: string
+  description: string,
+  createdAt: Date,
+  updatedAt: Date,
 };
 
 const KycDocumentTypeSchema = new mongoose.Schema({

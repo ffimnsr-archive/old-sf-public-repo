@@ -18,7 +18,7 @@ export default {
             m(".account-box",
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='/#!/']",
+                  m("a.text-success[href='/']", { oncreate: m.route.link },
                     m("span", m("img[alt=''][height='26']", { src: logo }))
                   )
                 ),
@@ -27,9 +27,9 @@ export default {
                   m("h4.text-uppercase.text-danger.mt-3", "Internal Server Error"),
                   m("p.text-muted.mt-3", [
                     "Why not try refreshing your page? or you can contact ",
-                    m("a.text-dark[href='/#!/support']", m("b", "Support"))
+                    m("a.text-dark[href='/support']", { oncreate: m.route.link }, m("b", "Support"))
                   ]),
-                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Return Home")
+                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/']", { oncreate: m.route.link }, "Return Home")
                 ])
               ])
             )
@@ -38,7 +38,7 @@ export default {
         m(".m-t-40.text-center",
           m("p.account-copyright", [
             "2018 © SmartFunding | ",
-            m("a[href='/#!/privacy']", "Privacy Policy")
+            m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         )
       ])

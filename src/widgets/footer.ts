@@ -7,7 +7,7 @@ export default {
         m(".row", [
           m(".col-12.text-center", [
             "2018 © SmartFunding | ",
-            m("a[href='/#!/privacy']", "Privacy Policy")
+            m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         ])
       )

@@ -7,13 +7,17 @@ import { secret } from "../config";
 export type PowerUserModel = mongoose.Document & {
   username: string,
   email: string,
-  hash: string
+  hash: string,
+  salt: string,
+  createdAt: Date,
+  updatedAt: Date
 };
 
 const PowerUserSchema = new mongoose.Schema({
   username: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], index: true },
   email: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], index: true },
   hash: String,
+  salt: String,
   createdAt: Date,
   updatedAt: Date
 }, { timestamps: true });

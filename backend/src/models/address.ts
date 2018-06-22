@@ -1,18 +1,20 @@
 import mongoose from "mongoose";
 
 export type AddressModel = mongoose.Document & {
-  user: number,
-  company: number,
+  user: mongoose.Schema.Types.ObjectId,
+  company: mongoose.Schema.Types.ObjectId,
   address1: string,
   address2: string,
   city: string,
   stateProvince: string,
   postalCode: string,
-  country: number,
+  country: mongoose.Schema.Types.ObjectId,
   active: boolean,
   ipAddress: string,
   approvedBy: string,
-  updatedBy: string
+  updatedBy: string,
+  createdAt: Date,
+  updatedAt: Date
 };
 
 const AddressSchema = new mongoose.Schema({
@@ -29,7 +31,7 @@ const AddressSchema = new mongoose.Schema({
   approvedBy: String,
   updatedBy: String,
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date,
 }, { timestamps: true });
 
 AddressSchema.methods.toJSONFor = function(user: any) {

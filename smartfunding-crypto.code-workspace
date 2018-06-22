@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Mithril Frontend",
+			"path": "."
+		},
+		{
+			"name": "Express Backend",
+			"path": "backend"
+		}
+	],
+	"settings": {}
+}

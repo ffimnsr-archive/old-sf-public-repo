@@ -3,6 +3,7 @@ import fs from "fs";
 import AWS from "aws-sdk";
 import { Router, Request, Response, NextFunction } from "express";
 import { default as User, UserModel } from "../../models/user";
+import { constant } from "async";
 
 const router = Router();
 
@@ -46,7 +47,9 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   user.email = req.body.user.email;
   user.setPassword(req.body.user.password);
 
-  const content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
+  let content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
+  content = content.replace(/sf_verification_code/g, user.username);
+
   const params = {
     Destination: {
       ToAddresses: [ user.email ]
@@ -82,11 +85,17 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   }).catch(next);
 });
 
+router.post("/register/:token", (req: Request, res: Response, next: NextFunction) => {
+
+});
+
 router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
   const user = new User();
   user.email = req.body.user.email;
 
-  const content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
+  let content = fs.readFileSync("./templates/email/confirm_mail_recover.html", "utf8");
+  content = content.replace("/sf_verification_code/g", user.username);
+
   const params = {
     Destination: {
       ToAddresses: [ user.email ]
@@ -131,6 +140,10 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
       user: user.toAuthJSON()
     });
   }).catch(next);
+});
+
+router.post("/recover/:token", (req: Request, res: Response, next: NextFunction) => {
+
 });
 
 export default router;

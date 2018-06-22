@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
 export type CommentModel = mongoose.Document & {
-  user: number,
-  company: number,
+  user: string,
+  company: string,
   message: string,
-  createdBy: string
+  createdBy: string,
+  createdAt: Date,
 };
 
 const CommentSchema = new mongoose.Schema({
@@ -12,7 +13,7 @@ const CommentSchema = new mongoose.Schema({
   company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
   message: String,
   createdBy: String,
-  createdAt: Date
+  createdAt: Date,
 }, { timestamps: true });
 
 CommentSchema.methods.toJSONFor = function(user: any) {

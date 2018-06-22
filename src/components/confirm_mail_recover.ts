@@ -25,7 +25,7 @@ export default {
             m(".account-box",
               m(".card-box.p-5", [
                 m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='/#!/']",
+                  m("a.text-success[href='/']", { oncreate: m.route.link },
                     m("span",
                       m("img[alt=''][height='26']", { src: logo })
                     )
@@ -60,7 +60,8 @@ export default {
                     m("b", ConfirmMailData.getVerifyEmail()),
                     ". Please check for an email from SmartFunding and click on the included link to reset your password."
                   ]),
-                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/#!/']", "Back to Home")
+                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/']",
+                    { oncreate: m.route.link }, "Back to Home")
                 ])
               ])
             )
@@ -69,7 +70,7 @@ export default {
         m(".m-t-40.text-center",
           m("p.account-copyright", [
             "2018 © SmartFunding | ",
-            m("a[href='/#!/privacy']", "Privacy Policy")
+            m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         )
       ])

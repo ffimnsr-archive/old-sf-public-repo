@@ -62,6 +62,12 @@ function SmartFundingRouter() {
         else m.route.set("/");
       }
     },
+    "/register/:token": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return register;
+        else m.route.set("/");
+      }
+    },
     "/login": {
       onmatch: function() {
         if (Auth.checkTokenNone()) return login;
@@ -99,6 +105,12 @@ function SmartFundingRouter() {
       }
     },
     "/recover-password": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) return recoverPassword;
+        else m.route.set("/");
+      }
+    },
+    "/recover-password/:token": {
       onmatch: function() {
         if (Auth.checkTokenNone()) return recoverPassword;
         else m.route.set("/");

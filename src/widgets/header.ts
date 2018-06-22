@@ -34,7 +34,7 @@ export default {
       m(".topbar-main",
         m(".container-fluid", [
             m(".logo",
-              m("a.logo[href='/#!/']", [
+              m("a.logo[href='/']", { oncreate: m.route.link }, [
                 m("img.logo-small[alt=''][height='26'][src='assets/images/logo_sm.png']"),
                 m("img.logo-large[alt=''][height='22']", { src: logo })
               ])
@@ -80,23 +80,23 @@ export default {
                     m(".dropdown-item.noti-title",
                       m("h6.text-overflow.m-0", "Welcome !")
                     ),
-                    m("a.dropdown-item.notify-item[href='/#!/profile']", [
+                    m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
                       m("i.fi-head"),
                       m("span", "My Account")
                     ]),
-                    m("a.dropdown-item.notify-item[href='/#!/settings']", [
+                    m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
                       m("i.fi-cog"),
                       m("span", "Settings")
                     ]),
-                    m("a.dropdown-item.notify-item[href='/#!/frequently-ask']", [
+                    m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
                       m("i.fi-help"),
                       m("span", "Support")
                     ]),
-                    m("a.dropdown-item.notify-item[href='/#!/lock-screen']", [
+                    m("a.dropdown-item.notify-item[href='/lock-screen']", { oncreate: m.route.link }, [
                       m("i.fi-lock"),
                       m("span", "Lock Screen")
                     ]),
-                    m("a.dropdown-item.notify-item[href='/#!/logout']", [
+                    m("a.dropdown-item.notify-item[href='/logout']", { oncreate: m.route.link }, [
                       m("i.fi-power"),
                       m("span", "Logout")
                     ])
@@ -112,7 +112,7 @@ export default {
           m("[id='navigation']",
             m("ul.navigation-menu", [
               m("li.has-submenu",
-                m("a[href='/#!/']", [
+                m("a[href='/']", { oncreate: m.route.link }, [
                   m("i.icon-speedometer"),
                   "Dashboard"
                 ])
