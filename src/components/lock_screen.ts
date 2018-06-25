@@ -8,13 +8,18 @@ import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-5.jpg";
 
 const LockScreenData = {
+  email: "",
+
   getEmail() {
-    let email = localStorage.getItem("email");
-    return email;
+    const email = localStorage.getItem("email")!;
+    LockScreenData.email = email;
   }
 };
 
 export default {
+  oninit() {
+    LockScreenData.getEmail();
+  },
   view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
@@ -44,9 +49,6 @@ export default {
                   m("p.text-muted.m-b-0.font-14", "Enter your password to access your account.")
                 ]),
                 m("form.form-horizontal[action='javascript:;']", [
-                  m("input[type='hidden']", {
-                    value: LockScreenData.getEmail()
-                  }),
                   m(".form-group.row",
                     m(".col-12", [
                       m("label[for='password']", "Password"),

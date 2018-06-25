@@ -15,8 +15,6 @@ import home from "components/home";
 import profile from "components/profile";
 import uploadDocument from "components/upload_document";
 
-import adminLogin from "components/admin/login";
-import adminLogout from "components/admin/logout";
 import adminDashboard from "components/admin/dashboard";
 
 import siteMaintenance from "components/site_maintenance";
@@ -53,20 +51,8 @@ function SmartFundingRouter() {
     },
     "/admin/dashboard": {
       onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/admin/login");
+        if (Auth.checkTokenNone()) m.route.set("/login");
         else return adminDashboard;
-      }
-    },
-    "/admin/login": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) return adminLogin;
-        else m.route.set("/admin/dashboard");
-      }
-    },
-    "/admin/logout": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/admin/login");
-        else return adminLogout;
       }
     },
     "/register": {

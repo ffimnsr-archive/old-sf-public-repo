@@ -36,6 +36,7 @@ const UserSchema = new mongoose.Schema({
   salt: String,
   forename: String,
   surname: String,
+  role: { type: String, enum: [ "admin", "moderator", "member" ], default: "member" },
   typeset: String,
   isMailVerified: { type: Boolean, default: false },
   isDocumentsSubmitted: { type: Boolean, default: false },
