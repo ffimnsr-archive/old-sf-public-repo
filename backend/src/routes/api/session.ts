@@ -53,8 +53,11 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   user.isMailVerified = false,
   user.setPassword(req.body.user.password);
 
+  // TODO: must store verification token with associated user identifier
+  // in redis with expiration time
+  const verificationToken = Math.random().toString(36).substring(7);
   let content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
-  content = content.replace(/sf_verification_code/g, user.username);
+  content = content.replace(/sf_verification_code/g, verificationToken);
 
   const params = {
     Destination: {
@@ -75,6 +78,7 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
     Source: "noreply@ses.smartfunding.io"
   };
 
+  // TODO: must go async
   user.save().then((t: UserModel) => {
     const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
       .sendEmail(params)
@@ -99,7 +103,7 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post("/register/:token", (req: Request, res: Response, next: NextFunction) => {
-
+  // TODO: must get and verify to and from redis with expiration time
 });
 
 router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
@@ -156,7 +160,7 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post("/recover/:token", (req: Request, res: Response, next: NextFunction) => {
-
+  // TODO: must get and verify to and from redis with expiration time
 });
 
 export default router;

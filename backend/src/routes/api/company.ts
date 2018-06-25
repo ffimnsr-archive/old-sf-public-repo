@@ -5,6 +5,7 @@ import auth from "../auth";
 const router = Router();
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
+  // TODO: must get the current user associated company
   return res.json({
     success: true,
     message: "SmartFunding"
@@ -12,6 +13,7 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
 });
 
 router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
+  // TODO: must modify own company
   return res.json({
     success: true,
     message: "SmartFunding"

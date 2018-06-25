@@ -6,14 +6,12 @@ import { default as Country, CountryModel } from "../../models/country";
 const router = Router();
 
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
-  Country.find({}, function(err: any, countries: CountryModel[]) => {
-    let countryMap = {};
-
-    countries.forEach((country: CountryModel) => {
-      countryMap[country._id] = country;
+  Country.find({}, (err: any, countries: CountryModel[]) => {
+    const countryNames = countries.map((v: CountryModel) => v.name);
+    res.json({
+      success: true,
+      countries: countryNames,
     });
-
-    res.send(countryMap);
   });
 });
 
