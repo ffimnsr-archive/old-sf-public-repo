@@ -6,20 +6,22 @@ import footer from "widgets/footer";
 
 import "jquery-slimscroll";
 import "dropzone";
+import "../../node_modules/dropzone/dist/dropzone.css";
 
 import avatar from "images/users/avatar-2.jpg";
 
-AWS.config.region = 'ap-southeast-1';
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: 'ap-southeast-1:4c1e349b-13b9-49ce-9b27-2d0b1fac48cd',
-});
-
 const bucketName = "bucket.smartfunding.io";
 const bucket = new AWS.S3({
+  apiVersion: "2006-03-01",
   params: {
     Bucket: bucketName
-  }
+  },
+  signatureVersion: "v4",
 });
+
+function updateForPending() {
+
+}
 
 export default {
   oninit() {
@@ -67,15 +69,24 @@ export default {
           m(".row",
             m(".col-12",
               m(".card-box", [
-                m("h4.header-title.m-t-0", "Dropzone File Upload"),
-                m("p.text-muted.font-14.m-b-10", "Your awesome text goes here."),
-                m("form.dropzone[action='#'][id='dropzone']",
+                m("h4.header-title.m-t-0", "KYC Documents"),
+                m("p.text-muted.font-14.m-b-10", "Upload your KYC Documents (e.g. Government ID Cards, Proof of Billing)."),
+                m("form.dropzone[method='post'][id='dropzone'][enctype='multipart/form-data']", {
+                  action: `https://${bucketName}.s3.amazonaws.com`
+                },
+                  m("input[type='hidden'][name='AWSAccessKeyId'][value='AKIAI4UWK5X7H6GWTC7A']"),
+                  m("input[type='hidden'][name='acl'][value='private']"),
+                  m("input[type='hidden'][name='key'][value='hello']"),
+                  m("input[type='hidden'][name='policy'][value='policy']"),
+                  m("input[type='hidden'][name='signature'][value='signature']"),
                   m(".fallback",
-                    m("input[multiple=''][name='file'][type='file']")
+                    m("input[multiple][name='file'][type='file']")
                   )
                 ),
                 m(".clearfix.text-right.mt-3",
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", "Submit")
+                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                    onclick: updateForPending,
+                  }, "Submit")
                 )
               ])
             )

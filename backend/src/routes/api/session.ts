@@ -3,6 +3,8 @@ import fs from "fs";
 import AWS from "aws-sdk";
 import { Router, Request, Response, NextFunction } from "express";
 import { default as User, UserModel } from "../../models/user";
+import { default as Wallet, WalletModel } from "../../models/wallet";
+import { default as KycStatus, KycStatusModel } from "../../models/kyc_status";
 import { constant } from "async";
 
 const router = Router();
@@ -42,9 +44,13 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   const user = new User();
+  const wallet = new Wallet();
+  const kycStatus = new KycStatus();
 
   user.username = req.body.user.username;
   user.email = req.body.user.email;
+  user.isDocumentsSubmitted = false;
+  user.isMailVerified = false,
   user.setPassword(req.body.user.password);
 
   let content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
@@ -77,6 +83,13 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
     sendPromise
       .then(data => console.log(data))
       .catch(err => console.error(err));
+
+    wallet.user = user._id;
+    wallet.balance = 0.0;
+    wallet.save();
+
+    kycStatus.status = "new";
+    kycStatus.save();
 
     return res.json({
       success: true,

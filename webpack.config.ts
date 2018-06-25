@@ -63,6 +63,13 @@ const config: webpack.Configuration = {
         ]
       },
       {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
+      },
+      {
         test: /\.(png|jpg|gif)$/,
         include: path.resolve(__dirname, "images"),
         use: [
@@ -104,6 +111,7 @@ const config: webpack.Configuration = {
     alias: {
       styles: path.resolve(__dirname, "styles"),
       images: path.resolve(__dirname, "images"),
+      modules: path.resolve(__dirname, "node_modules"),
       components: path.resolve(__dirname, "src/components"),
       widgets: path.resolve(__dirname, "src/widgets"),
       configs: path.resolve(__dirname, "src/configs")

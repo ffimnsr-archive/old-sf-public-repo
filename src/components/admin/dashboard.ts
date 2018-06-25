@@ -7,6 +7,12 @@ import logo from "images/sf-logo.png";
 
 import "datatables.net";
 
+const AdminDashboardData = {
+  listUsers() {
+  },
+
+};
+
 export default {
   view(vnode: Vnode) {
     return m(".sf-root", [

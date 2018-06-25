@@ -79,7 +79,9 @@ UserSchema.methods.toAuthJSON = function() {
     token: token,
     bio: this.bio,
     image: this.image,
-    typeset: this.typeset
+    typeset: this.typeset,
+    isMailVerified: this.isMailVerified,
+    isDocumentsSubmitted: this.isDocumentsSubmitted,
   };
 };
 

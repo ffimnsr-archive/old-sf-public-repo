@@ -12,7 +12,6 @@ const HeaderData = {
   getUsername(): string {
     let token = localStorage.getItem("token")!;
     let data = jwtDecode<any>(token);
-    console.log(data.username);
     return data.username;
   }
 };

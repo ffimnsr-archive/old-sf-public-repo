@@ -5,6 +5,7 @@ export type WalletModel = mongoose.Document & {
   user: mongoose.Schema.Types.ObjectId,
   balance: number,
   balanceSync: boolean,
+  reference: string,
   createdAt: Date,
   updatedAt: Date
 };
@@ -14,6 +15,7 @@ const WalletSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   balance: { type: Number, default: 0.0 },
   balanceSync: Boolean,
+  reference: String,
   createdAt: Date,
   updatedAt: Date,
 }, { timestamps: true });

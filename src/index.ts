@@ -38,13 +38,11 @@ function SmartFundingRouter() {
     "/": {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
-        else return home;
-      }
-    },
-    "/upload-document": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/login");
-        else return uploadDocument;
+        else {
+          console.log("hello");
+          if (Auth.checkIsDocumentsSubmitted()) return home;
+          else return uploadDocument;
+        };
       }
     },
     "/profile": {

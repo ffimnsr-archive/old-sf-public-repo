@@ -30,7 +30,6 @@ if (isProduction) {
 AWS.config.loadFromPath("config.json");
 AWS.config.update({ region: "us-west-2" });
 
-
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());

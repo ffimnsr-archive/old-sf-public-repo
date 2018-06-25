@@ -8,7 +8,12 @@ const router = Router();
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
   User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) { return res.sendStatus(401); }
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "unauthorized access",
+      });
+    }
 
     return res.json({
       success: true,
@@ -19,7 +24,12 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
 
 router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
   User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) { return res.sendStatus(401); }
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "unauthorized access",
+      });
+    }
 
     if (typeof req.body.user.username !== "undefined") {
       user.username = req.body.user.username;
