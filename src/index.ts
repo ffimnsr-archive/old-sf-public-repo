@@ -16,6 +16,8 @@ import profile from "components/profile";
 import addProfileDetails from "components/add_profile_details";
 import addProfileType from "components/add_profile_type";
 import addProfilePicture from "components/add_profile_picture";
+import addInvestorDetails from "components/add_investor_details";
+import addBorrowerDetails from "components/add_borrower_details";
 import uploadDocument from "components/upload_document";
 
 import adminDashboard from "components/admin/dashboard";
@@ -33,6 +35,7 @@ import "jquery-slimscroll";
 import "styles/app";
 import "styles/icons";
 
+// TODO: need code splitting to minimize large chunk dependecy.
 function SmartFundingRouter() {
   document.body.id = "sf";
   m.route(document.body, "/", {
@@ -45,10 +48,34 @@ function SmartFundingRouter() {
         };
       }
     },
-    "/personal": {
+    "/personal/1": {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else return addProfileDetails;
+      }
+    },
+    "/personal/2": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return addProfileType;
+      }
+    },
+    "/personal/3": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return addProfilePicture;
+      }
+    },
+    "/personal/4": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return addInvestorDetails;
+      }
+    },
+    "/personal/5": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return addBorrowerDetails;
       }
     },
     "/profile": {

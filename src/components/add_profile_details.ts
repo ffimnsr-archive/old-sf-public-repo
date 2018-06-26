@@ -52,8 +52,12 @@ export default {
                     ]),
                   ]),
                   m("div.form-group", [
-                    m("label.col-form-label", "Address"),
-                    m("input.form-control[type='text'][placeholder='Address']")
+                    m("label.col-form-label", "Address 1"),
+                    m("input.form-control[type='text'][placeholder='House/Lot No. and Street']")
+                  ]),
+                  m("div.form-group", [
+                    m("label.col-form-label", "Address 2"),
+                    m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']")
                   ]),
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [
@@ -68,6 +72,10 @@ export default {
                       m("label.col-form-label", "Zip Code"),
                       m("input.form-control[type='text'][placeholder='Zip Code']")
                     ]),
+                  ]),
+                  m("div.form-group", [
+                    m("label.col-form-label", "Country"),
+                    m("input.form-control[type='text'][placeholder='Country']")
                   ]),
                 ),
                 m(".clearfix.text-right.mt-3",
