@@ -75,8 +75,7 @@ export default {
               m(".card-box", [
                 m("h4.m-t-0.header-title", "Total Wallet Balance"),
                 m("[id='donut-chart']",
-                  m(".flot-chart.mt-5[id='donut-chart-container']", { style: { "height": "340px" } },
-                  )
+                  m(".flot-chart.mt-5[id='donut-chart-container']", { style: { "height": "340px" } })
                 )
               ])
             )

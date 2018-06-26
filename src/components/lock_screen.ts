@@ -18,6 +18,10 @@ const LockScreenData = {
 
 export default {
   oninit() {
+    // Remove only the token and retain email so user don't need
+    // to re-input it.
+    localStorage.removeItem("token");
+
     LockScreenData.getEmail();
   },
   view(vnode: Vnode) {

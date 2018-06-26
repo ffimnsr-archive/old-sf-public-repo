@@ -23,7 +23,6 @@
     "@types/tapable": "1.0.2"
   },
   "dependencies": {
-    "@types/redis": "^2.8.6",
     "async": "^2.6.1",
     "aws-sdk": "^2.257.1",
     "bcrypt-nodejs": "0.0.3",
@@ -82,6 +81,7 @@
     "@types/nodemailer": "^4.6.0",
     "@types/passport": "^0.4.3",
     "@types/passport-local": "^1.0.33",
+    "@types/redis": "^2.8.6",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "@types/shelljs": "^0.8.0",

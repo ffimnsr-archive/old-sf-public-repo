@@ -13,6 +13,9 @@ import recoverPassword from "components/recover_password";
 
 import home from "components/home";
 import profile from "components/profile";
+import addProfileDetails from "components/add_profile_details";
+import addProfileType from "components/add_profile_type";
+import addProfilePicture from "components/add_profile_picture";
 import uploadDocument from "components/upload_document";
 
 import adminDashboard from "components/admin/dashboard";
@@ -37,10 +40,15 @@ function SmartFundingRouter() {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else {
-          console.log("hello");
           if (Auth.checkIsDocumentsSubmitted()) return home;
           else return uploadDocument;
         };
+      }
+    },
+    "/personal": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return addProfileDetails;
       }
     },
     "/profile": {

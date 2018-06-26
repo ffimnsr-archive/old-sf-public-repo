@@ -6,18 +6,10 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const config: webpack.Configuration = {
-  mode: "development",
-  devtool: "inline-source-map",
   entry: {
     sesame: [
       path.resolve(__dirname, "src/index.ts")
     ]
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, "dist"),
-    compress: true,
-    port: 4444,
-    index: "index.html"
   },
   optimization: {
     splitChunks: {
@@ -142,9 +134,6 @@ const config: webpack.Configuration = {
       jQuery: "jquery",
       Popper: ["popper.js", "default"],
 
-    }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
     }),
     new webpack.BannerPlugin("SmartFunding")
   ]

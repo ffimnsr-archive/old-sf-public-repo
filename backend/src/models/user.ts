@@ -18,6 +18,7 @@ export type UserModel = mongoose.Document & {
   isDocumentsSubmitted: boolean,
   kycStatus: mongoose.Schema.Types.ObjectId,
   address: mongoose.Schema.Types.ObjectId,
+  status: string,
   createdAt: Date,
   updatedAt: Date,
   validPassword: (password: string) => string,
@@ -42,6 +43,7 @@ const UserSchema = new mongoose.Schema({
   isDocumentsSubmitted: { type: Boolean, default: false },
   kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
+  status: { type: String, enum: [ "step1", "step2", "step3", "deleted", "locked", "okay" ], default: "okay" },
   createdAt: Date,
   updatedAt: Date
 }, { timestamps: true });

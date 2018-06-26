@@ -1,30 +1,19 @@
 import m, { Vnode } from "mithril";
+import $ from "jquery";
 import AWS from "aws-sdk";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
 
 import "jquery-slimscroll";
-import "dropzone";
+import Dropzone, { DropzoneFile } from "dropzone";
 import "../../node_modules/dropzone/dist/dropzone.css";
 
+import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
-const bucketName = "bucket.smartfunding.io";
-const bucket = new AWS.S3({
-  apiVersion: "2006-03-01",
-  params: {
-    Bucket: bucketName
-  },
-  signatureVersion: "v4",
-});
-
-function updateForPending() {
-
-}
-
 export default {
-  oninit() {
+  oninit(vnode: Vnode) {
     $(".navbar-toggle").on("click", function (e: Event) {
       $(this).toggleClass("open");
       $("#navigation").slideToggle(400);
@@ -44,6 +33,50 @@ export default {
       position: "right",
       size: "8px",
       color: "#9ea5ab"
+    });
+
+    Dropzone.autoDiscover = false;
+  },
+  oncreate(vnode: Vnode) {
+    const dropzone = new Dropzone("form#dropzone", {
+      url: "#",
+      dictDefaultMessage: "Drag n drop or tap here",
+      method: "PUT",
+      parallelUploads: 20,
+      uploadMultiple: false,
+      paramName: "file",
+      maxFiles: 10,
+      autoProcessQueue: true,
+
+      sending(file: Dropzone.DropzoneFile, xhr: XMLHttpRequest) {
+        let _send = xhr.send;
+        xhr.setRequestHeader("x-amz-acl", "public-read");
+        xhr.send = function() {
+          _send.call(xhr, file);
+        };
+      },
+      accept(file: Dropzone.DropzoneFile, done: (error?: string) => void) {
+        const params = {
+          fileName: file.name,
+          fileType: file.type,
+        };
+
+        $.getJSON(AppSettings.API_BASE_URL + "/api/uploader", params).done(function(data: any) {
+          if (!data.signedRequest) {
+            return done("failed to receive an upload url");
+          }
+
+          (<any>file).signedRequest = data.signedRequest,
+          (<any>file).finalURL = data.downloadURL;
+          done();
+        }).fail(function() {
+          return done("failed to receive an upload url");
+        });
+      },
+    });
+
+    dropzone.on("processing", function(file: Dropzone.DropzoneFile) {
+      (<any>dropzone).options.url = (<any>file!).signedRequest;
     });
   },
   view(vnode: Vnode) {
@@ -71,22 +104,13 @@ export default {
               m(".card-box", [
                 m("h4.header-title.m-t-0", "KYC Documents"),
                 m("p.text-muted.font-14.m-b-10", "Upload your KYC Documents (e.g. Government ID Cards, Proof of Billing)."),
-                m("form.dropzone[method='post'][id='dropzone'][enctype='multipart/form-data']", {
-                  action: `https://${bucketName}.s3.amazonaws.com`
-                },
-                  m("input[type='hidden'][name='AWSAccessKeyId'][value='AKIAI4UWK5X7H6GWTC7A']"),
-                  m("input[type='hidden'][name='acl'][value='private']"),
-                  m("input[type='hidden'][name='key'][value='hello']"),
-                  m("input[type='hidden'][name='policy'][value='policy']"),
-                  m("input[type='hidden'][name='signature'][value='signature']"),
+                m("form.dropzone[id='dropzone']",
                   m(".fallback",
                     m("input[multiple][name='file'][type='file']")
                   )
                 ),
                 m(".clearfix.text-right.mt-3",
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                    onclick: updateForPending,
-                  }, "Submit")
+                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", "Submit")
                 )
               ])
             )

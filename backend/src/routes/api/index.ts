@@ -1,3 +1,5 @@
+import uuidv4 from "uuid/v4";
+import AWS from "aws-sdk";
 import { Router, Request, Response, NextFunction } from "express";
 
 import { default as address } from "./address";
@@ -17,6 +19,38 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
   return res.json({
     success: true,
     message: "SmartFunding"
+  });
+});
+
+router.get("/uploader", (req: Request, res: Response, next: NextFunction) => {
+  const prefix = "KYC_";
+  const newFileName = prefix + uuidv4();
+
+  const bucketName = "bucket.smartfunding.io";
+  const s3 = new AWS.S3();
+  const s3Params = {
+    Bucket: bucketName,
+    Key: newFileName,
+    Expires: 60,
+    ContentType: req.query.fileType,
+    ACL: "public-read",
+  };
+
+  s3.getSignedUrl("putObject", s3Params, function(err: Error, url: string) {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: "error happened while getting signed url",
+      });
+    } else {
+      const returnData = {
+        signedRequest: url,
+        uploadURL: `http://${bucketName}.s3.amazonaws.com/${newFileName}`,
+        downloadURL: `http://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
+      };
+
+      res.json(returnData);
+    }
   });
 });
 

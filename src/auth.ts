@@ -6,6 +6,12 @@ export class Auth {
     return token == null;
   }
 
+  public static checkIsRoleAdmin() {
+    let token = localStorage.getItem("token")!;
+    let data = jwtDecode<any>(token);
+    return (<boolean>data.isMailVerified);
+  }
+
   public static checkIsMailVerified() {
     let token = localStorage.getItem("token")!;
     let data = jwtDecode<any>(token);

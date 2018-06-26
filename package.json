@@ -5,11 +5,11 @@
     "build:ts": "tsc",
     "build:ts-watch": "tsc -w",
     "watch": "concurrently -k -p '[{name}]' -n 'Typescript', -c 'cyan.bold' 'npm run build:ts-watch'",
-    "start": "webpack-dev-server --open",
-    "build:bundle": "webpack",
-    "build:bundle-watch": "webpack -w",
+    "start": "webpack-dev-server --config webpack.dev.ts --open",
+    "build:bundle": "webpack --config webpack.prod.ts",
+    "build:bundle-watch": "webpack --config webpack.dev.ts -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "exit 1"
   },
   "author": "ffimnsr <ffimnsr@gmail.com>",
   "private": true,
