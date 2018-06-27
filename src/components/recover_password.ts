@@ -7,32 +7,34 @@ import logo from "images/sf-logo.png";
 const RecoverPasswordData = {
   email: "",
 
-  canSave() {
-    return RecoverPasswordData.email !== "";
+  canSave: function() {
+    return this.email !== "";
   },
-  save() {
+  save: function() {
     const account = {
       user: {
-        email: RecoverPasswordData.email,
+        email: this.email,
       }
     };
 
-    fetch(AppSettings.API_BASE_URL + "/api/session/recover", {
+    const vm = this;
+    m.request(AppSettings.API_BASE_URL + "/api/session/recover", {
       method: "POST",
-      body: JSON.stringify(account),
+      data: account,
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8"
       }
     })
-    .then(res => res.json())
-    .then(res => {
+    .then(function(res: any) {
       if (res.success) {
-        sessionStorage.setItem("verify_email", RecoverPasswordData.email);
+        sessionStorage.setItem("verify_email", vm.email);
         m.route.set("/confirm-mail/recover");
       } else {
-        console.log("error")
+        // TODO: return meaningful feedback
       }
+    }).catch(function(err) {
+      console.error("error", err);
     });
   },
 };

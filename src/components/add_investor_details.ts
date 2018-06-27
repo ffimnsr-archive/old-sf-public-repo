@@ -8,6 +8,15 @@ import footer from "widgets/footer";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
+const InvestorDetailsData = {
+  canSave: function() {
+
+  },
+  save: function() {
+
+  }
+};
+
 export default {
   oninit(vnode: Vnode) {
 

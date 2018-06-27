@@ -9,36 +9,38 @@ const RegisterAccountData = {
   email: "",
   password: "",
 
-  canSave() {
-    return RegisterAccountData.username !== "" &&
-      RegisterAccountData.email !== "" &&
-      RegisterAccountData.password !== "";
+  canSave: function() {
+    return this.username !== "" &&
+      this.email !== "" &&
+      this.password !== "";
   },
-  save() {
+  save: function() {
     const account = {
       user: {
-        username: RegisterAccountData.username,
-        email: RegisterAccountData.email,
-        password: RegisterAccountData.password
+        username: this.username,
+        email: this.email,
+        password: this.password,
       }
     };
 
-    fetch(AppSettings.API_BASE_URL + "/api/session/register", {
+    const vm = this;
+    m.request(AppSettings.API_BASE_URL + "/api/session/register", {
       method: "POST",
-      body: JSON.stringify(account),
+      data: account,
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8"
       }
     })
-    .then(res => res.json())
-    .then(res => {
+    .then(function(res: any) {
       if (res.success) {
-        sessionStorage.setItem("verify_email", RegisterAccountData.email);
+        sessionStorage.setItem("verify_email", vm.email);
         m.route.set("/confirm-mail/register");
       } else {
-        console.error("error", res.message);
+        // TODO: error feedback
       }
+    }).catch(function(err) {
+      console.error("error", err);
     });
   },
 };

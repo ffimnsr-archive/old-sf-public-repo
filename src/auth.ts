@@ -21,7 +21,6 @@ export class Auth {
   public static checkIsDocumentsSubmitted() {
     let token = localStorage.getItem("token")!;
     let data = jwtDecode<any>(token);
-    console.log(data.isDocumentsSubmitted);
     return (<boolean>data.isDocumentsSubmitted);
   }
 }

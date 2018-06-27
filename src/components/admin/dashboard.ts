@@ -8,12 +8,14 @@ import logo from "images/sf-logo.png";
 import "datatables.net";
 
 const AdminDashboardData = {
-  listUsers() {
+  load: function() {
   },
-
 };
 
 export default {
+  oninit(vnode: Vnode) {
+    AdminDashboardData.load();
+  },
   view(vnode: Vnode) {
     return m(".sf-root", [
       m(header),

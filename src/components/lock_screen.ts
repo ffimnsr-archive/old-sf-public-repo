@@ -9,19 +9,25 @@ import avatar from "images/users/avatar-5.jpg";
 
 const LockScreenData = {
   email: "",
+  password: "",
 
   getEmail() {
     const email = localStorage.getItem("email")!;
     LockScreenData.email = email;
+  },
+  canSave: function() {
+
+  },
+  save: function() {
+
   }
 };
 
 export default {
-  oninit() {
+  oninit(vnode: Vnode) {
     // Remove only the token and retain email so user don't need
     // to re-input it.
     localStorage.removeItem("token");
-
     LockScreenData.getEmail();
   },
   view(vnode: Vnode) {
@@ -46,22 +52,30 @@ export default {
                 ),
                 m(".text-center", [
                   m(".mb-3",
-                    m("img.rounded-circle.img-thumbnail.thumb-lg[alt='thumbnail']", {
-                      src: avatar
-                    })
+                    m("img.rounded-circle.img-thumbnail.thumb-lg[alt='thumbnail']", { src: avatar })
                   ),
                   m("p.text-muted.m-b-0.font-14", "Enter your password to access your account.")
                 ]),
-                m("form.form-horizontal[action='javascript:;']", [
+                m("form.form-horizontal", {
+                  onsubmit: (e: Event) => {
+                    e.preventDefault();
+                    LockScreenData.save();
+                  }
+                }, [
                   m(".form-group.row",
                     m(".col-12", [
                       m("label[for='password']", "Password"),
-                      m("input.form-control[id='password'][placeholder='Enter your password'][required][type='password']")
+                      m("input.form-control[id='password'][placeholder='Enter your password'][required][type='password']", {
+                        oninput: m.withAttr("value", (v: string) => { LockScreenData.password = v }),
+                        value: LockScreenData.password
+                      })
                     ])
                   ),
                   m(".form-group.row.text-center",
                     m(".col-12",
-                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", "Log In")
+                      m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
+                        disabled: !LockScreenData.canSave()
+                      }, "Log In")
                     )
                   )
                 ]),

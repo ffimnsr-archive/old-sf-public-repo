@@ -80,33 +80,23 @@ export default {
               ]),
               m("div", [
                 m(".question-q-box", "Q."),
-                m("h4.question",
-                  "When can be used?"
-                ),
+                m("h4.question", "Is SmartFunding regulated by the Monetary Authority of Singapore?"),
                 m("p.answer",
-                  "Lorem ipsum dolor sit amet, in mea nonumes dissentias dissentiunt, pro te solet oratio iriure. Cu sit consetetur moderatius intellegam, ius decore accusamus te. Ne primis suavitate disputando nam. Mutat convenirete."
+                  "The invoice financing services provided and/or offered by SmartFunding is not licensed or regulated by the Monetary Authority of Singapore (MAS). It is not governed by the Securities and Futures Act (Cap. 289), Moneylenders Act (Cap. 188) or the Banking Act (Cap 19).SmartFunding has applied for a Capital Markets Services License to conduct the regulated activity of Dealing in Securities. SmartFunding has obtained in-principle approval for the license by MAS in April 2017. The full license, however, will only be awarded once we have complied with several conditions set by MAS."
                 )
               ]),
               m("div", [
                 m(".question-q-box", "Q."),
-                m("h4.question", [
-                  "License ",
-                  m.trust("&amp;"),
-                  " Copyright"
-                ]),
+                m("h4.question", "Is there a maximum amount I can put in my Investor Wallet?"),
                 m("p.answer",
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+                  "There is no maximum amount Investors can top up. However, even with our growing volume of transactions, we recommend to invest prudently since we are still a new platform. Investors should also be aware that uninvested funds in their Investor Wallet will not give them any interest."
                 )
               ]),
               m("div", [
-                m(".question-q-box",
-                  "Q."
-                ),
-                m("h4.question",
-                  "Is safe use Lorem Ipsum?"
-                ),
+                m(".question-q-box", "Q."),
+                m("h4.question", "How do I know that my non-invested capital is safe with SmartFunding?"),
                 m("p.answer",
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+                  "We have layers of security that ensure the protection of our customers' funds. Escrow Account. We have partnered with Vistra and created an Escrow account for monies transferred by our Investors and Invoice Sellers. If SmartFunding must cease its operations, monies held in the Escrow account will not be liable to payments owed by the company."
                 )
               ])
             ])

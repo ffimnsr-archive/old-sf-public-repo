@@ -8,35 +8,35 @@ const LoginAccountData = {
   email: "",
   password: "",
 
-  canSave() {
-    return LoginAccountData.email !== "" &&
-      LoginAccountData.password !== "";
+  canSave: function() {
+    return this.email !== "" &&
+      this.password !== "";
   },
-  save() {
+  save: function() {
     const account = {
       user: {
-        email: LoginAccountData.email,
-        password: LoginAccountData.password
+        email: this.email,
+        password: this.password,
       }
     };
 
-    fetch(AppSettings.API_BASE_URL + "/api/session/login", {
+    m.request(AppSettings.API_BASE_URL + "/api/session/login", {
       method: "POST",
-      body: JSON.stringify(account),
+      data: account,
       headers: {
         "Accept": "application/json",
-        "Content-Type": "application/json; charset=utf-8"
+        "Content-Type": "application/json; charset=utf-8",
       }
-    })
-    .then(res => res.json())
-    .then(res => {
+    }).then(function(res: any) {
       if (res.success && res.user.token) {
         localStorage.setItem("email", res.user.email);
         localStorage.setItem("token", res.user.token);
         m.route.set("/");
       } else {
-        console.error("error", res.message);
+        // TODO: add feedback so user would know he's been denied
       }
+    }).catch(function(err) {
+      console.error("error", err);
     });
   }
 };

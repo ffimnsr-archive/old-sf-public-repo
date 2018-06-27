@@ -7,11 +7,14 @@ import footer from "widgets/footer";
 import avatar from "images/users/avatar-1.jpg";
 
 const ProfileData = {
-  getEmail() {
+  load: function() {
+
+  },
+  getEmail: function() {
     let email = localStorage.getItem("email")!;
     return email;
   },
-  getUsername(): string {
+  getUsername: function(): string {
     let token = localStorage.getItem("token")!;
     let data = jwtDecode<any>(token);
     return data.username;
@@ -19,8 +22,8 @@ const ProfileData = {
 };
 
 export default {
-  oninit: {
-
+  oninit(vnode: Vnode) {
+    ProfileData.load();
   },
   view(vnode: Vnode) {
     return m(".sf-root", [

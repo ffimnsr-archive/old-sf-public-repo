@@ -84,6 +84,7 @@
     "moment": "^2.22.2",
     "pdfmake": "^0.1.36",
     "popper.js": "^1.14.3",
+    "qrcode": "^1.2.0",
     "raven-js": "^3.26.2",
     "showdown": "^1.8.6",
     "simplemde": "^1.11.2"

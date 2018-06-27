@@ -5,7 +5,7 @@ import { default as Country, CountryModel } from "../../models/country";
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response, next: NextFunction) => {
+router.get("/list", (req: Request, res: Response, next: NextFunction) => {
   Country.find({}, (err: any, countries: CountryModel[]) => {
     const countryNames = countries.map((v: CountryModel) => v.name);
     res.json({

@@ -27,11 +27,13 @@ router.get("/uploader", (req: Request, res: Response, next: NextFunction) => {
   const newFileName = prefix + uuidv4();
 
   const bucketName = "bucket.smartfunding.io";
-  const s3 = new AWS.S3();
+  const s3 = new AWS.S3({
+    apiVersion: "2006-03-01",
+  });
   const s3Params = {
     Bucket: bucketName,
     Key: newFileName,
-    Expires: 60,
+    Expires: 600,
     ContentType: req.query.fileType,
     ACL: "public-read",
   };
@@ -45,8 +47,8 @@ router.get("/uploader", (req: Request, res: Response, next: NextFunction) => {
     } else {
       const returnData = {
         signedRequest: url,
-        uploadURL: `http://${bucketName}.s3.amazonaws.com/${newFileName}`,
-        downloadURL: `http://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
+        uploadURL: `https://${bucketName}.s3.amazonaws.com/${newFileName}`,
+        downloadURL: `https://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
       };
 
       res.json(returnData);

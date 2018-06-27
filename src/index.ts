@@ -44,41 +44,24 @@ function SmartFundingRouter() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else {
           if (Auth.checkIsDocumentsSubmitted()) return home;
-          else return uploadDocument;
+          else {
+            // return addProfileDetails;
+            // return addProfileType;
+            // return addProfilePicture;
+            // return addInvestorDetails;
+            // return addBorrowerDetails;
+            return uploadDocument;
+          }
         };
       }
     },
-    "/personal/1": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/login");
-        else return addProfileDetails;
-      }
-    },
-    "/personal/2": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/login");
-        else return addProfileType;
-      }
-    },
-    "/personal/3": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/login");
-        else return addProfilePicture;
-      }
-    },
-    "/personal/4": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/login");
-        else return addInvestorDetails;
-      }
-    },
-    "/personal/5": {
-      onmatch: function() {
-        if (Auth.checkTokenNone()) m.route.set("/login");
-        else return addBorrowerDetails;
-      }
-    },
     "/profile": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return profile;
+      }
+    },
+    "/profile/edit": {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else return profile;

@@ -140,17 +140,18 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
       });
     }
 
+    // TODO: must go async or in queue handler so no blocking
     const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
-    .sendEmail(params)
-    .promise();
+      .sendEmail(params)
+      .promise();
 
     sendPromise
-    .then(function(data) {
-      console.log(data);
-    })
-    .catch(function(err) {
-      console.error("error", err);
-    });
+      .then(function(data) {
+        console.log(data);
+      })
+      .catch(function(err) {
+        console.error("error", err);
+      });
 
     return res.json({
       success: true,
