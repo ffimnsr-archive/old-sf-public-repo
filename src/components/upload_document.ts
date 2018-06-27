@@ -57,21 +57,22 @@ export default {
       },
       accept(file: Dropzone.DropzoneFile, done: (error?: string) => void) {
         const params = {
-          fileName: file.name,
-          fileType: file.type,
+          filename: file.name,
+          filetype: file.type,
         };
 
-        $.getJSON(AppSettings.API_BASE_URL + "/api/uploader", params).done(function(data: any) {
-          if (!data.signedRequest) {
-            return done("failed to receive an upload url");
-          }
+        $.getJSON(AppSettings.API_BASE_URL + "/api/uploader", params)
+          .done(function(data: any) {
+            if (!data.signedRequest) {
+              return done("failed to receive an upload url");
+            }
 
-          (<any>file).signedRequest = data.signedRequest,
-          (<any>file).finalURL = data.downloadURL;
-          done();
-        }).fail(function() {
-          return done("failed to receive an upload url");
-        });
+            (<any>file).signedRequest = data.signedRequest,
+            (<any>file).finalURL = data.downloadURL;
+            done();
+          }).fail(function() {
+            return done("failed to receive an upload url");
+          });
       },
     });
 
