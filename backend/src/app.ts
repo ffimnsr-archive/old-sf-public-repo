@@ -8,9 +8,11 @@ import helmet from "helmet";
 import compression from "compression";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
+import acl from "acl";
 import AWS from "aws-sdk";
 
 import { default as routes } from "./routes";
+import { mongoUri } from "./config";
 
 // Check if running in production environment
 const isProduction = process.env.NODE_ENV === "production";
@@ -20,9 +22,9 @@ const app = express();
 
 // MongoDB configuration
 if (isProduction) {
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(mongoUri);
 } else {
-  mongoose.connect("mongodb://localhost/admin");
+  mongoose.connect(mongoUri);
   mongoose.set("debug", true);
 }
 
@@ -43,6 +45,34 @@ app.use("/.well-known", express.static(".well-known"));
 // Passport configuration
 app.use(passport.initialize());
 require("./config/passport");
+
+// Access control configuration
+function setRoles() {
+  const nodeAcl = new acl(new acl.memoryBackend());
+
+  nodeAcl.allow([
+    {
+      roles: "admin",
+      allows: [
+        { resources: "/admin", permissions: "*" }
+      ]
+    },
+    {
+      roles: "member",
+      allows: [
+        { resources: "/", permissions: "get" }
+      ]
+    },
+    {
+      roles: "guest",
+      allows: []
+    }
+  ]);
+
+  // Role inheritance
+  nodeAcl.addRoleParents("user", "guest");
+  nodeAcl.addRoleParents("admin", "user");
+}
 
 // Load routes
 app.use(routes);

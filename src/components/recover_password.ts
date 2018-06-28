@@ -31,7 +31,7 @@ const RecoverPasswordData = {
         sessionStorage.setItem("verify_email", vm.email);
         m.route.set("/confirm-mail/recover");
       } else {
-        // TODO: return meaningful feedback
+        // TODO: return meaningful feedback modal or toast
       }
     }).catch(function(err) {
       console.error("error", err);

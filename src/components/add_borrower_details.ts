@@ -13,7 +13,32 @@ const BorrowerDetailsData = {
 
   },
   save: function() {
+    const data = {
+      user: {
+        typeset: "",
+      }
+    };
 
+    const token = localStorage.getItem("token")!;
+
+    m.request(AppSettings.API_BASE_URL + "/api/user/type", {
+      method: "PUT",
+      data: data,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization": `Token ${token}`,
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+        m.route.set("/");
+      } else {
+        // TODO: add feedback so user would know he's been denied
+        console.error("error", res);
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+    });
   }
 };
 

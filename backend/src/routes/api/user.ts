@@ -51,10 +51,37 @@ router.put("/", auth.required, (req: Request, res: Response, next: NextFunction)
       user.setPassword(req.body.user.password);
     }
 
-    return user.save().then(() => {
-      return res.json({
+    user.save().then((t: UserModel) => {
+      console.log(t.toAuthJSON());
+      return res.status(200).json({
         success: true,
-        user: user.toAuthJSON()
+        user: t.toAuthJSON()
+      });
+    });
+  }).catch(next);
+});
+
+router.put("/details", auth.required, (req: Request, res: Response, next: NextFunction) => {
+  User.findById((<any>req).payload.id).then((user: UserModel) => {
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "unauthorized access",
+      });
+    }
+
+    if (typeof req.body.user.forename !== "undefined") {
+      user.forename = req.body.user.forename;
+    }
+
+    if (typeof req.body.user.surname !== "undefined") {
+      user.surname = req.body.user.surname;
+    }
+
+    user.save().then((t: UserModel) => {
+      return res.status(200).json({
+        success: true,
+        user: t.toAuthJSON()
       });
     });
   }).catch(next);

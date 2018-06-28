@@ -17,7 +17,7 @@ const ProfileDetailsData = {
   state: "",
   zipCode: "",
 
-  loadCountryList: function() {
+  load: function() {
     m.request(AppSettings.API_BASE_URL + "/api/countries", {
       method: "GET",
       headers: {
@@ -45,23 +45,33 @@ const ProfileDetailsData = {
   },
   save: function() {
     const data = {
-      body: {
-        forename: ProfileDetailsData.forename
+      user: {
+        forename: ProfileDetailsData.forename,
+        surname: ProfileDetailsData.surname,
+        address1: ProfileDetailsData.address1,
+        address2: ProfileDetailsData.address2,
+        city: ProfileDetailsData.city,
+        state: ProfileDetailsData.state,
+        zipCode: ProfileDetailsData.zipCode,
       }
     };
 
-    m.request(AppSettings.API_BASE_URL + "/api/session/login", {
-      method: "POST",
+    const token = localStorage.getItem("token")!;
+
+    m.request(AppSettings.API_BASE_URL + "/api/user/details", {
+      method: "PUT",
       data: data,
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8",
+        "Authorization": `Token ${token}`,
       }
     }).then(function(res: any) {
       if (res.success) {
-
+        m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied
+        console.error("error", res);
       }
     }).catch(function(err) {
       console.error("error", err);
@@ -71,7 +81,7 @@ const ProfileDetailsData = {
 
 export default {
   oninit(vnode: Vnode) {
-    ProfileDetailsData.loadCountryList();
+    // ProfileDetailsData.load();
   },
   oncreate(vnode: Vnode) {
 
@@ -166,12 +176,12 @@ export default {
 
                     })
                   ]),
+                  m(".clearfix.text-right.mt-3",
+                    m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                      disabled: !ProfileDetailsData.canSave()
+                    }, "Submit")
+                  )
                 ]),
-                m(".clearfix.text-right.mt-3",
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
-                    disabled: !ProfileDetailsData.canSave()
-                  }, "Submit")
-                )
               ])
             )
           )

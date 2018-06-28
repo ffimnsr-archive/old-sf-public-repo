@@ -9,6 +9,21 @@ import "datatables.net";
 
 const AdminDashboardData = {
   load: function() {
+    m.request(AppSettings.API_BASE_URL + "/api/countries", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+
+      } else {
+        // TODO: add feedback so user would know he's been denied
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+    });
   },
 };
 

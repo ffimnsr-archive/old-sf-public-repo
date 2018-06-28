@@ -45,12 +45,12 @@ function SmartFundingRouter() {
         else {
           if (Auth.checkIsDocumentsSubmitted()) return home;
           else {
-            // return addProfileDetails;
+            return addProfileDetails;
             // return addProfileType;
-            // return addProfilePicture;
             // return addInvestorDetails;
             // return addBorrowerDetails;
-            return uploadDocument;
+            // return addProfilePicture;
+            // return uploadDocument;
           }
         };
       }

@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
   isDocumentsSubmitted: { type: Boolean, default: false },
   kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
-  status: { type: String, enum: [ "step1", "step2", "step3", "deleted", "locked", "okay" ], default: "okay" },
+  status: { type: String, enum: [ "step1", "step2", "step3", "deleted", "locked", "okay" ], default: "step1" },
   createdAt: Date,
   updatedAt: Date
 }, { timestamps: true });
@@ -85,6 +85,7 @@ UserSchema.methods.toAuthJSON = function() {
     typeset: this.typeset,
     isMailVerified: this.isMailVerified,
     isDocumentsSubmitted: this.isDocumentsSubmitted,
+    status: this.status,
   };
 };
 
