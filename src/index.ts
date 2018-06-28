@@ -45,12 +45,25 @@ function SmartFundingRouter() {
         else {
           if (Auth.checkIsDocumentsSubmitted()) return home;
           else {
-            return addProfileDetails;
-            // return addProfileType;
-            // return addInvestorDetails;
-            // return addBorrowerDetails;
-            // return addProfilePicture;
-            // return uploadDocument;
+            const status = localStorage.getItem("status")
+            switch (status) {
+              case "step1":
+                return addProfileDetails;
+              case "step2":
+                return addProfileType;
+              case "step3":
+                const typeset = localStorage.getItem("typeset")
+                if typeset == "investor":
+                  return addInvestorDetails;
+                else
+                  return addBorrowerDetails;
+              case "step4":
+                return addProfilePicture;
+              case "step5":
+                return uploadDocument;
+              default:
+                return addProfileDetails;
+            }
           }
         };
       }

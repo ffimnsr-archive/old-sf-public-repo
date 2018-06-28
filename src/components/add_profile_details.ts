@@ -68,6 +68,7 @@ const ProfileDetailsData = {
       }
     }).then(function(res: any) {
       if (res.success) {
+        localStorage.setItem("status", "step2");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied

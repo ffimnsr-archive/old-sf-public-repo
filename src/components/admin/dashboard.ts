@@ -5,6 +5,7 @@ import footer from "widgets/footer";
 
 import logo from "images/sf-logo.png";
 
+import { AppSettings } from "configs";
 import "datatables.net";
 
 const AdminDashboardData = {
