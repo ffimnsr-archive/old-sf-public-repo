@@ -1,0 +1,26 @@
+version: '3.4'
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik.server
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "127.0.0.1:8080:8080"
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - "$PWD/etc/traefik/traefik.toml:/etc/traefik/traefik.toml:ro"
+      - "$PWD/etc/traefik/rules:/etc/traefik/rules:rw"
+      - "$PWD/etc/letsencrypt:/etc/letsencrypt:rw"
+      - "$PWD/var/log/traefik:/var/log/traefik:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - proxy
+
+# Note: bridge on single host and overlay on swarm
+# https://docs.docker.com/compose/compose-file/#driver-1
+networks:
+  proxy:
+    driver: bridge

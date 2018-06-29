@@ -51,12 +51,10 @@ function SmartFundingRouter() {
                 return addProfileDetails;
               case "step2":
                 return addProfileType;
-              case "step3":
-                const typeset = localStorage.getItem("typeset")
-                if typeset == "investor":
-                  return addInvestorDetails;
-                else
-                  return addBorrowerDetails;
+              case "step3-1":
+                return addInvestorDetails;
+              case "step3-2":
+                return addBorrowerDetails;
               case "step4":
                 return addProfilePicture;
               case "step5":

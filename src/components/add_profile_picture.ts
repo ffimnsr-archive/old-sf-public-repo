@@ -15,7 +15,7 @@ const ProfilePictureData = {
 
   },
   canSave: function() {
-    return image != "";
+    return this.image != "";
   },
   save: function() {
     const data = {

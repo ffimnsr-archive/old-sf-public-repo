@@ -18,7 +18,7 @@ module.exports = merge(common, {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: "production",
-      SF_API_BASE_URL: "https://api.smartfunding.io",
+      SF_API_BASE_URL: "https://staging.smartfunding.io/backend",
     }),
   ],
 });

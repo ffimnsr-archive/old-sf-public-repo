@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+  frontend:
+    build: .
+    image: smartfunding:1.0.5
+    container_name: frontend.server
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=frontend"
+      - "traefik.frontend.rule=Host:staging.smartfunding.io"
+      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.docker.network=server_proxy"
+      - "traefik.port=80"
+    environment:
+      - "SF_API_BASE_URL=https://api.smartfunding.io"
+    ports:
+      - "127.0.0.1:8000:80"
+    volumes:
+      - "$PWD/dist/.well-known:/usr/share/nginx/html/.well-known:rw"
+      - "$PWD/var/log/http:/var/log/http:rw"
+      - "$PWD/var/www:/var/www:rw"
+    networks:
+      - proxy
+      - default
+
+networks:
+  proxy:
+    external:
+      name: server_proxy

@@ -9,39 +9,13 @@ import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
 const ProfileTypeData = {
-  load: function() {
-
+  setPhaseInvestor: function () {
+    localStorage.setItem("status", "step3-1");
+    m.route.set("/");
   },
-  canSave: function() {
-
-  },
-  save: function() {
-    const data = {
-      user: {
-        typeset: "",
-      }
-    };
-
-    const token = localStorage.getItem("token")!;
-
-    m.request(AppSettings.API_BASE_URL + "/api/user/type", {
-      method: "PUT",
-      data: data,
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-        "Authorization": `Token ${token}`,
-      }
-    }).then(function(res: any) {
-      if (res.success) {
-        m.route.set("/");
-      } else {
-        // TODO: add feedback so user would know he's been denied
-        console.error("error", res);
-      }
-    }).catch(function(err) {
-      console.error("error", err);
-    });
+  setPhaseBorrower: function () {
+    localStorage.setItem("status", "step3-2");
+    m.route.set("/");
   }
 };
 
@@ -65,25 +39,51 @@ export default {
                     m("li.breadcrumb-item",
                       m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
-                    m("li.breadcrumb-item.active", "Personal Details")
+                    m("li.breadcrumb-item.active", "Account Type")
                   ])
                 ),
-                m("h4.page-title", "Personal Details")
+                m("h4.page-title", "Account Type")
               ])
             )
           ),
-          m(".row",
-            m(".col-12",
-              m(".card-box", [
-                m("h4.header-title.m-t-0", "Type"),
-                m("p.text-muted.font-14.m-b-10", "Stores personal details."),
 
-                m(".clearfix.text-right.mt-3",
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", "Submit")
-                )
-              ])
-            )
+          m(".row.justify-content-center",
+            m(".col-xl-10", [
+              m(".text-center", [
+                m("h3.m-b-30.m-t-20", "Choose your account type"),
+                m("p.text-muted", [
+                  ""
+                ])
+              ]),
+              m(".mt-3",
+                m(".row", [
+                  m(".col-md-6",
+                    m(".price_card.text-center", [
+                      m(".pricing-header.bg-light", [
+                        m("span.price.text-dark", "Investor"),
+                        m("span.name.text-dark", "For people that want to invest money")
+                      ]),
+                      m("button.btn.btn-custom.waves-effect.waves-light.w-md", {
+                        onclick: ProfileTypeData.setPhaseInvestor,
+                      }, "Select")
+                    ])
+                  ),
+                  m(".col-md-6",
+                    m(".price_card.text-center", [
+                      m(".pricing-header.bg-custom", [
+                        m("span.price", "Borrower"),
+                        m("span.name", "For people who needs to borrow money")
+                      ]),
+                      m("button.btn.btn-custom.w-md.waves-effect.waves-light", {
+                        onclick: ProfileTypeData.setPhaseBorrower,
+                      }, "Select")
+                    ])
+                  ),
+                ])
+              )
+            ])
           )
+
         ])
       ),
       m(footer)

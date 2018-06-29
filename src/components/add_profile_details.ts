@@ -17,8 +17,11 @@ const ProfileDetailsData = {
   state: "",
   zipCode: "",
 
+  countries: [] as string[],
+
   load: function() {
-    m.request(AppSettings.API_BASE_URL + "/api/countries", {
+    const vm = this;
+    m.request(AppSettings.API_BASE_URL + "/api/country/list", {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -26,7 +29,7 @@ const ProfileDetailsData = {
       }
     }).then(function(res: any) {
       if (res.success) {
-
+        vm.countries = res.countries;
       } else {
         // TODO: add feedback so user would know he's been denied
       }
@@ -82,7 +85,7 @@ const ProfileDetailsData = {
 
 export default {
   oninit(vnode: Vnode) {
-    // ProfileDetailsData.load();
+    ProfileDetailsData.load();
   },
   oncreate(vnode: Vnode) {
 
@@ -151,7 +154,7 @@ export default {
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "City"),
-                      m("input.form-control[type='text'e][placeholder='City']", {
+                      m("input.form-control[type='text'][placeholder='City']", {
                         oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.city = v }),
                         value: ProfileDetailsData.city
                       })
@@ -173,9 +176,9 @@ export default {
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Country"),
-                    m("input.form-control[type='text'][placeholder='Country']", {
-
-                    })
+                    m("select.form-control", ProfileDetailsData.countries.map(function(v: any) {
+                      return m("option", { value: v.code }, v.name)
+                    })),
                   ]),
                   m(".clearfix.text-right.mt-3",
                     m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
