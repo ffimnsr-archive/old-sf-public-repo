@@ -10,9 +10,6 @@ export type AddressModel = mongoose.Document & {
   postalCode: string,
   country: mongoose.Schema.Types.ObjectId,
   active: boolean,
-  ipAddress: string,
-  approvedBy: string,
-  updatedBy: string,
   createdAt: Date,
   updatedAt: Date
 };
@@ -26,10 +23,7 @@ const AddressSchema = new mongoose.Schema({
   stateProvince: String,
   postalCode: String,
   country: { type: mongoose.Schema.Types.ObjectId, ref: "Country" },
-  active: String,
-  ipAddress: String,
-  approvedBy: String,
-  updatedBy: String,
+  active: Boolean,
   createdAt: Date,
   updatedAt: Date,
 }, { timestamps: true });
@@ -46,9 +40,6 @@ AddressSchema.methods.toJSONFor = function(user: any) {
     postalCode: this.postalCode,
     country: this.country,
     active: this.active,
-    ipAddress: this.ipAddress,
-    approvedBy: this.approvedBy,
-    updatedBy: this.updatedBy
   };
 };
 

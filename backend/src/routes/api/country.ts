@@ -11,14 +11,6 @@ router.get("/list", (req: Request, res: Response, next: NextFunction) => {
     success: true,
     countries: c,
   });
-
-  // Country.find({}, (err: any, countries: CountryModel[]) => {
-  //   const countryNames = countries.map((v: CountryModel) => v.name);
-  //   res.json({
-  //     success: true,
-  //     countries: countryNames,
-  //   });
-  // });
 });
 
 export default router;

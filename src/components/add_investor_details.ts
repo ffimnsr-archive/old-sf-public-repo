@@ -18,7 +18,7 @@ const InvestorDetailsData = {
   save: function() {
     const data = {
       user: {
-        typeset: "",
+        typeset: "investor",
       }
     };
 
@@ -34,6 +34,7 @@ const InvestorDetailsData = {
       }
     }).then(function(res: any) {
       if (res.success) {
+        localStorage.setItem("status", "okay");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied
@@ -65,21 +66,23 @@ export default {
                     m("li.breadcrumb-item",
                       m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
-                    m("li.breadcrumb-item.active", "Personal Details")
+                    m("li.breadcrumb-item.active", "Investor Details")
                   ])
                 ),
-                m("h4.page-title", "Personal Details")
+                m("h4.page-title", "Investor Details")
               ])
             )
           ),
           m(".row",
             m(".col-12",
               m(".card-box", [
-                m("h4.header-title.m-t-0", "Personal Details"),
+                m("h4.header-title.m-t-0", "Investor Details"),
                 m("p.text-muted.font-14.m-b-10", "All fields are required to be answered."),
 
                 m(".clearfix.text-right.mt-3",
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", "Submit")
+                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                    onclick: InvestorDetailsData.save,
+                  }, "Submit")
                 )
               ])
             )

@@ -11,11 +11,4 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
   });
 });
 
-router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  return res.json({
-    success: true,
-    message: "SmartFunding"
-  });
-});
-
 export default router;

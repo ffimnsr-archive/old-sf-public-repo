@@ -43,7 +43,8 @@ function SmartFundingRouter() {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else {
-          if (Auth.checkIsDocumentsSubmitted()) return home;
+          if (Auth.checkIsRoleAdmin()) m.route.set("/admin/dashboard");
+          else if (Auth.checkIsDocumentsSubmitted()) return home;
           else {
             const status = localStorage.getItem("status")
             switch (status) {
@@ -59,6 +60,8 @@ function SmartFundingRouter() {
                 return addProfilePicture;
               case "step5":
                 return uploadDocument;
+              case "okay":
+                return home;
               default:
                 return addProfileDetails;
             }
@@ -81,7 +84,10 @@ function SmartFundingRouter() {
     "/admin/dashboard": {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
-        else return adminDashboard;
+        else {
+          if (Auth.checkIsRoleAdmin()) return adminDashboard;
+          else m.route.set("/");
+        }
       }
     },
     "/register": {

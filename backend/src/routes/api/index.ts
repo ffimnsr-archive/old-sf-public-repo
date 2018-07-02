@@ -18,7 +18,7 @@ const router = Router();
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
   return res.json({
     success: true,
-    message: "SmartFunding"
+    message: "SmartFunding Ptd."
   });
 });
 

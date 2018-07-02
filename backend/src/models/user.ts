@@ -18,6 +18,7 @@ export type UserModel = mongoose.Document & {
   isDocumentsSubmitted: boolean,
   kycStatus: mongoose.Schema.Types.ObjectId,
   address: mongoose.Schema.Types.ObjectId,
+  wallet: mongoose.Schema.Types.ObjectId,
   status: string,
   createdAt: Date,
   updatedAt: Date,
@@ -43,6 +44,7 @@ const UserSchema = new mongoose.Schema({
   isDocumentsSubmitted: { type: Boolean, default: false },
   kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
+  wallet: { type: mongoose.Schema.Types.ObjectId, ref: "Wallet" },
   status: { type: String, enum: [ "step1", "step2", "step3", "deleted", "locked", "okay" ], default: "step1" },
   createdAt: Date,
   updatedAt: Date
@@ -69,7 +71,9 @@ UserSchema.methods.generateJWT = function() {
     id: this._id,
     username: this.username,
     email: this.email,
+    role: this.role,
     typeset: this.typeset,
+    status: this.status,
     exp: exp.getTime() / 1000
   }, secret);
 };
@@ -78,10 +82,12 @@ UserSchema.methods.toAuthJSON = function() {
   const token = this.generateJWT();
   return {
     username: this.username,
+    fullname: this.fullname(),
     email: this.email,
     token: token,
     bio: this.bio,
     image: this.image,
+    role: this.role,
     typeset: this.typeset,
     isMailVerified: this.isMailVerified,
     isDocumentsSubmitted: this.isDocumentsSubmitted,
@@ -97,8 +103,8 @@ UserSchema.methods.toProfileJSONFor = function() {
   };
 };
 
-UserSchema.methods.fullName = function() {
-  return (this.forename.trim() + " " + this.surname.trim());
+UserSchema.methods.fullname = function() {
+  return (this.forename + " " + this.surname);
 };
 
 const User: mongoose.Model<UserModel> = mongoose.model<UserModel>("User", UserSchema);

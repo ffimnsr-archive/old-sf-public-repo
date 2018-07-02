@@ -90,10 +90,16 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
 
     wallet.user = user._id;
     wallet.balance = 0.0;
-    wallet.save();
+    wallet.save().then((w: WalletModel) => {
+      user.wallet = w._id;
+      user.save();
+    });
 
     kycStatus.status = "new";
-    kycStatus.save();
+    kycStatus.save().then((k: KycStatusModel) => {
+      user.kycStatus = k._id;
+      user.save();
+    });
 
     return res.json({
       success: true,

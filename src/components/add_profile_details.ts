@@ -16,6 +16,7 @@ const ProfileDetailsData = {
   city: "",
   state: "",
   zipCode: "",
+  country: "",
 
   countries: [] as string[],
 
@@ -44,18 +45,20 @@ const ProfileDetailsData = {
       this.address2 !== "" &&
       this.city !== "" &&
       this.state !== "" &&
-      this.zipCode !== "";
+      this.zipCode !== "" &&
+      this.country !== "";
   },
   save: function() {
     const data = {
       user: {
-        forename: ProfileDetailsData.forename,
-        surname: ProfileDetailsData.surname,
-        address1: ProfileDetailsData.address1,
-        address2: ProfileDetailsData.address2,
-        city: ProfileDetailsData.city,
-        state: ProfileDetailsData.state,
-        zipCode: ProfileDetailsData.zipCode,
+        forename: this.forename,
+        surname: this.surname,
+        address1: this.address1,
+        address2: this.address2,
+        city: this.city,
+        state: this.state,
+        zipCode: this.zipCode,
+        country: this.country,
       }
     };
 
@@ -176,7 +179,9 @@ export default {
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Country"),
-                    m("select.form-control", ProfileDetailsData.countries.map(function(v: any) {
+                    m("select.form-control", {
+                      onchange: m.withAttr("value", (v: string) => { ProfileDetailsData.country = v }),
+                    }, ProfileDetailsData.countries.map(function(v: any) {
                       return m("option", { value: v.code }, v.name)
                     })),
                   ]),
