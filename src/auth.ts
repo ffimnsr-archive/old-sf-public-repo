@@ -9,7 +9,7 @@ export class Auth {
   public static checkIsRoleAdmin() {
     let token = localStorage.getItem("token")!;
     let data = jwtDecode<any>(token);
-    return (<boolean>data.isMailVerified);
+    return data.role === "admin";
   }
 
   public static checkIsMailVerified() {

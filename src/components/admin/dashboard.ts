@@ -10,21 +10,21 @@ import "datatables.net";
 
 const AdminDashboardData = {
   load: function() {
-    m.request(AppSettings.API_BASE_URL + "/api/countries", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      }
-    }).then(function(res: any) {
-      if (res.success) {
+    // m.request(AppSettings.API_BASE_URL + "/api/country/list", {
+    //   method: "GET",
+    //   headers: {
+    //     "Accept": "application/json",
+    //     "Content-Type": "application/json; charset=utf-8",
+    //   }
+    // }).then(function(res: any) {
+    //   if (res.success) {
 
-      } else {
-        // TODO: add feedback so user would know he's been denied
-      }
-    }).catch(function(err) {
-      console.error("error", err);
-    });
+    //   } else {
+    //     // TODO: add feedback so user would know he's been denied
+    //   }
+    // }).catch(function(err) {
+    //   console.error("error", err);
+    // });
   },
 };
 
@@ -56,29 +56,29 @@ export default {
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.widget-flat.border-custom.bg-custom.text-white", [
                 m("i.fi-tag"),
-                m("h3.m-b-10", "25563"),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Total Investors")
+                m("h3.m-b-10", "0"),
+                m("p.text-uppercase.m-b-5.font-13.font-600", "Total Registered Users")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.bg-primary.widget-flat.border-primary.text-white", [
                 m("i.fi-archive"),
-                m("h3.m-b-10", "6952"),
+                m("h3.m-b-10", "0"),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Investors")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.widget-flat.border-success.bg-success.text-white", [
                 m("i.fi-help"),
-                m("h3.m-b-10", "18361"),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Total Borrowers")
+                m("h3.m-b-10", "0"),
+                m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Borrowers")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.bg-danger.widget-flat.border-danger.text-white", [
                 m("i.fi-delete"),
-                m("h3.m-b-10", "250"),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Borrowers")
+                m("h3.m-b-10", "0"),
+                m("p.text-uppercase.m-b-5.font-13.font-600", "Discarded Applicants")
               ])
             )
           ]),
@@ -90,28 +90,28 @@ export default {
                 m("p.text-muted.font-14.m-b-30", [
                   "List of all investors and borrowers."
                 ]),
-                m("table.table.table-bordered[id='datatable']", [
-                  m("thead",
-                    m("tr", [
-                      m("th", "Name"),
-                      m("th", "Position"),
-                      m("th", "Office"),
-                      m("th", "Age"),
-                      m("th", "Start date"),
-                      m("th", "Salary")
-                    ])
-                  ),
-                  m("tbody", [
-                    m("tr", [
-                      m("td", "Anonymous User"),
-                      m("td", "System Architect"),
-                      m("td", "Edinburgh"),
-                      m("td", "61"),
-                      m("td", "2011/04/25"),
-                      m("td", "$320,800")
-                    ]),
-                  ])
-                ])
+                // m("table.table.table-bordered[id='datatable']", [
+                //   m("thead",
+                //     m("tr", [
+                //       m("th", "Name"),
+                //       m("th", "Position"),
+                //       m("th", "Office"),
+                //       m("th", "Age"),
+                //       m("th", "Start date"),
+                //       m("th", "Salary")
+                //     ])
+                //   ),
+                //   m("tbody", [
+                //     m("tr", [
+                //       m("td", "Anonymous User"),
+                //       m("td", "System Architect"),
+                //       m("td", "Edinburgh"),
+                //       m("td", "61"),
+                //       m("td", "2011/04/25"),
+                //       m("td", "$320,800")
+                //     ]),
+                //   ])
+                // ])
               ])
             )
           )
