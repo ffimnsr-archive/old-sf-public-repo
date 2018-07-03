@@ -10,7 +10,7 @@ import "datatables.net";
 
 const AdminDashboardData = {
   load: function() {
-    m.request(AppSettings.API_BASE_URL + "/api/country/list", {
+    m.request(AppSettings.API_BASE_URL + "/api/user/list", {
       method: "GET",
       headers: {
         "Accept": "application/json",

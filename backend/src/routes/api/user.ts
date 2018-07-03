@@ -147,18 +147,14 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
 });
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "unauthorized access",
+  User.find({}).then((res: UserModel[]) => {
+    if (Array.isArray(res)) {
+      return res.json({
+        success: true,
+        count: res.length,
+        users: res,
       });
     }
-
-    return res.json({
-      success: true,
-      user: user.toAuthJSON()
-    });
   }).catch(next);
 });
 

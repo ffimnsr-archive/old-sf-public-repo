@@ -12,6 +12,13 @@ import "../../node_modules/dropzone/dist/dropzone.css";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
+const UploadDocumentData = {
+  continue: function () {
+    localStorage.setItem("status", "okay");
+    m.route.set("/");
+  }
+};
+
 export default {
   oninit(vnode: Vnode) {
     $(".navbar-toggle").on("click", function (e: Event) {
@@ -111,7 +118,9 @@ export default {
                   )
                 ),
                 m(".clearfix.text-right.mt-3",
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", "Submit")
+                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                    onclick: UploadDocumentData.continue,
+                  }, "Submit")
                 )
               ])
             )

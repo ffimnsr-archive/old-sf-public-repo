@@ -34,7 +34,7 @@ const InvestorDetailsData = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        localStorage.setItem("status", "okay");
+        localStorage.setItem("status", "step5");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied
