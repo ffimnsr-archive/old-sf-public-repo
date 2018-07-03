@@ -11,7 +11,7 @@ if (!isProduction) {
   app.use(errorhandler());
 }
 
-const server = app.listen(app.get("port"), () => {
+const server = app.listen(app.get("port"), "0.0.0.0", () => {
   console.log(` Server is running at http://localhost:${app.get("port")} in ${app.get("env")} mode.`);
   console.log(" Maintained by @ffimnsr.");
   console.log(" Press Ctrl-C to stop the server.\n");

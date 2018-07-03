@@ -13,6 +13,9 @@ const LockScreenData = {
 
   getEmail() {
     const email = localStorage.getItem("email")!;
+    if (!email) {
+      m.route.set("/server-error");
+    }
     LockScreenData.email = email;
   },
   canSave: function() {

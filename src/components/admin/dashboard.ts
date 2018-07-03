@@ -10,21 +10,21 @@ import "datatables.net";
 
 const AdminDashboardData = {
   load: function() {
-    // m.request(AppSettings.API_BASE_URL + "/api/country/list", {
-    //   method: "GET",
-    //   headers: {
-    //     "Accept": "application/json",
-    //     "Content-Type": "application/json; charset=utf-8",
-    //   }
-    // }).then(function(res: any) {
-    //   if (res.success) {
+    m.request(AppSettings.API_BASE_URL + "/api/country/list", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+      }
+    }).then(function(res: any) {
+      if (res.success) {
 
-    //   } else {
-    //     // TODO: add feedback so user would know he's been denied
-    //   }
-    // }).catch(function(err) {
-    //   console.error("error", err);
-    // });
+      } else {
+        // TODO: add feedback so user would know he's been denied
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+    });
   },
 };
 
@@ -86,7 +86,7 @@ export default {
           m(".row",
             m(".col-12",
               m(".card-box.table-responsive", [
-                m("h4.m-t-0.header-title", "Borrowers/ Investors"),
+                m("h4.m-t-0.header-title", "Borrowers / Investors"),
                 m("p.text-muted.font-14.m-b-30", [
                   "List of all investors and borrowers."
                 ]),

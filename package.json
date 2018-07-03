@@ -28,6 +28,7 @@
     "@types/moment": "^2.13.0",
     "@types/node": "^10.3.2",
     "@types/pdfmake": "^0.1.1",
+    "@types/qrcode": "^1.2.0",
     "@types/showdown": "^1.7.4",
     "@types/simplemde": "^1.11.7",
     "@types/uglifyjs-webpack-plugin": "^1.1.0",

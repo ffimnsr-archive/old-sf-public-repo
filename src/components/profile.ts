@@ -11,6 +11,7 @@ const ProfileData = {
   fullname: "",
   username: "",
   email: "",
+  role: "",
 
   load: function() {
     const token = localStorage.getItem("token")!;
@@ -26,12 +27,15 @@ const ProfileData = {
         vm.fullname = res.user.fullname;
         vm.username = res.user.username;
         vm.email = res.user.email;
+        vm.role = res.user.role;
       } else {
         // TODO: add feedback so user would know he's been denied
         console.error("error", res);
+        m.route.set("/server-error");
       }
     }).catch(function(err) {
       console.error("error", err);
+      m.route.set("/server-error");
     });
   },
 };
@@ -100,7 +104,11 @@ export default {
                     ]),
                     m("p.text-muted.font-13", [
                       m("strong", "Location : "),
-                      m("span.m-l-15", "undefined")
+                      m("span.m-l-15", "undefined"),
+                    ]),
+                    m("p.text-muted.font-13", [
+                      m("strong", "Role : "),
+                      m("span.m-l-15", ProfileData.role),
                     ])
                   ]),
                 ])
@@ -114,7 +122,7 @@ export default {
                     m("h6.text-muted.text-uppercase.mt-0", "Wallet Balance"),
                     m("h2.m-b-20", [
                       "$",
-                      m("span[data-plugin='counterup']", "1,587")
+                      m("span[data-plugin='counterup']", "0")
                     ]),
                     m("span.text-muted", " From previous period")
                   ])

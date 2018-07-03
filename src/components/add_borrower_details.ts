@@ -36,9 +36,11 @@ const BorrowerDetailsData = {
       } else {
         // TODO: add feedback so user would know he's been denied
         console.error("error", res);
+        m.route.set("/server-error");
       }
     }).catch(function(err) {
       console.error("error", err);
+      m.route.set("/server-error");
     });
   }
 };

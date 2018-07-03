@@ -1,4 +1,5 @@
 import m, { Vnode } from "mithril";
+import QRCode from "qrcode";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
@@ -6,8 +7,17 @@ import footer from "widgets/footer";
 import avatar from "images/users/avatar-2.jpg";
 
 const HomeData = {
-  load: function() {
+  image: "",
 
+  load: function() {
+    const vm = this;
+    QRCode.toDataURL("I'm a pony!", {
+      errorCorrectionLevel: "H",
+      version: 12,
+    }, function(err, url) {
+      vm.image = url;
+      m.redraw();
+    });
   }
 };
 
@@ -41,29 +51,29 @@ export default {
             m(".col-lg-8",
               m(".card-box", [
                 m("h4.header-title.mb-3", "Wallet Balances"),
-                m(".table-responsive",
-                  m("table.table.table-hover.table-centered.m-0", [
-                    m("thead",
-                      m("tr", [
-                        m("th", "Currency"),
-                        m("th", "Balance"),
-                        m("th", "Reserved in orders"),
-                        m("th", "Action")
-                      ])
-                    ),
-                    m("tbody", [
+                // m(".table-responsive",
+                //   m("table.table.table-hover.table-centered.m-0", [
+                //     m("thead",
+                //       m("tr", [
+                //         m("th", "Currency"),
+                //         m("th", "Balance"),
+                //         m("th", "Reserved in orders"),
+                //         m("th", "Action")
+                //       ])
+                //     ),
+                //     m("tbody", [
 
-                    ])
-                  ])
-                )
+                //     ])
+                //   ])
+                // )
               ])
             ),
             m(".col-lg-4",
               m(".card-box", [
-                m("h4.m-t-0.header-title", "Total Wallet Balance"),
-                m("[id='donut-chart']",
-                  m(".flot-chart.mt-5[id='donut-chart-container']", { style: { "height": "340px" } })
-                )
+                m("h4.m-t-0.header-title", "Wallet Address"),
+                m("img.mx-auto.d-block[alt='wallet-address']", {
+                  src: HomeData.image,
+                })
               ])
             )
           ])

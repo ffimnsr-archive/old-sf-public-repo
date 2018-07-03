@@ -8,10 +8,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.backend=backend"
-      - "traefik.frontend.rule=Host:api.smartfunding.io"
-      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.backend.maxconn.amount=64"
+      - "traefik.backend.maxconn.extractorfunc=client.ip"
+      - "traefik.frontend.rateLimit.extractorFunc=client.ip"
+      - "traefik.frontend.rateLimit.rateSet.setA.period=6s"
+      - "traefik.frontend.rateLimit.rateSet.setA.average=4"
+      - "traefik.frontend.rateLimit.rateSet.setA.burst=8"
+      - "traefik.frontend.rateLimit.rateSet.setB.period=12s"
+      - "traefik.frontend.rateLimit.rateSet.setB.average=21"
+      - "traefik.frontend.rateLimit.rateSet.setB.burst=42"
+      - "traefik.frontend.rule=Host:staging.smartfunding.io;PathPrefixStrip:/backend"
       - "traefik.docker.network=server_proxy"
       - "traefik.port=3000"
+    environment:
+      - "MONGODB_URI=mongodb://root:secret@mongo/admin"
+      - "REDIS_URI=redis://redis/0"
+      - "BASE_URI=https://staging.smartfunding.io"
     ports:
       - "127.0.0.1:3000:3000"
     volumes:

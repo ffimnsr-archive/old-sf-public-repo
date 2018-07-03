@@ -12,13 +12,16 @@ import acl from "acl";
 import AWS from "aws-sdk";
 
 import { default as routes } from "./routes";
-import { mongoUri } from "./config";
+import { mongoUri, redisUri } from "./config";
 
 // Check if running in production environment
 const isProduction = process.env.NODE_ENV === "production";
 
 // Create express server
 const app = express();
+
+console.log("mongo", mongoUri);
+console.log("redis", redisUri);
 
 // MongoDB configuration
 if (isProduction) {

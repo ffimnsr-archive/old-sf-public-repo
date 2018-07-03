@@ -12,7 +12,7 @@ export type KycStatusModel = mongoose.Document & {
 };
 
 const KycStatusSchema = new mongoose.Schema({
-  status: Number,
+  status: String,
   ipAddress: String,
   expirationDate: Date,
   comments: String,

@@ -1,19 +1,37 @@
 import m, { Vnode } from "mithril";
+import { AppSettings } from "configs";
 
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
 const ConfirmMailData = {
-  getVerifyEmail() {
-    let email = sessionStorage.getItem("verify_email");
-    if (!email) {
+  load(id: string) {
+    const vm = this;
+    m.request(AppSettings.API_BASE_URL + `/api/session/recover/${id}`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+        console.log("success");
+      } else {
+        // TODO: add feedback so user would know he's been denied
+        console.error("error", res);
+        m.route.set("/server-error");
+      }
+    }).catch(function(err) {
+      console.error("error", err);
       m.route.set("/server-error");
-    }
-    return email;
-  }
+    });
+  },
 };
 
 export default {
+  oninit(vnode: Vnode) {
+    const id = m.route.param("token");
+    ConfirmMailData.load(id);
+  },
   view(vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
@@ -30,7 +48,7 @@ export default {
                 m("h2.text-uppercase.text-center.pb-4",
                   m("a.text-success[href='/']", { oncreate: m.route.link },
                     m("span",
-                      m("img[alt=''][height='26']", { src: logo })
+                      m("img[alt='logo'][height='26']", { src: logo })
                     )
                   )
                 ),
@@ -59,11 +77,10 @@ export default {
                     ])
                   ]),
                   m("p.text-muted.font-14.mt-2", [
-                    "A email has been send to ",
-                    m("b", ConfirmMailData.getVerifyEmail()),
-                    ". Please check for an email from SmartFunding and click on the included link to verify your account."
+                    "Your new temporary password has been sent to your email.",
                   ]),
-                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/']", { oncreate: m.route.link }, "Back to Home")
+                  m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/']",
+                    { oncreate: m.route.link }, "Back to Home")
                 ])
               ])
             )

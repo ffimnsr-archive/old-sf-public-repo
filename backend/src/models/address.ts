@@ -8,7 +8,7 @@ export type AddressModel = mongoose.Document & {
   city: string,
   stateProvince: string,
   postalCode: string,
-  country: mongoose.Schema.Types.ObjectId,
+  country: string,
   active: boolean,
   createdAt: Date,
   updatedAt: Date
@@ -22,7 +22,7 @@ const AddressSchema = new mongoose.Schema({
   city: String,
   stateProvince: String,
   postalCode: String,
-  country: { type: mongoose.Schema.Types.ObjectId, ref: "Country" },
+  country: String,
   active: Boolean,
   createdAt: Date,
   updatedAt: Date,

@@ -6,6 +6,9 @@ import logo from "images/sf-logo.png";
 const ConfirmMailData = {
   getVerifyEmail() {
     let email = sessionStorage.getItem("verify_email");
+    if (!email) {
+      m.route.set("/server-error");
+    }
     return email;
   }
 };

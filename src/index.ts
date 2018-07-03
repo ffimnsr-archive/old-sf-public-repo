@@ -2,6 +2,7 @@ import m from "mithril";
 import Raven from "raven-js";
 
 import register from "components/register";
+import registerActivate from "components/register_activate";
 import login from "components/login";
 import logout from "components/logout";
 import privacy from "components/privacy";
@@ -10,6 +11,7 @@ import lockScreen from "components/lock_screen";
 import confirmMailRegister from "components/confirm_mail_register";
 import confirmMailRecover from "components/confirm_mail_recover";
 import recoverPassword from "components/recover_password";
+import recoverPasswordActivate from "components/recover_password_activate";
 
 import home from "components/home";
 import profile from "components/profile";
@@ -98,7 +100,7 @@ function SmartFundingRouter() {
     },
     "/register/:token": {
       onmatch: function() {
-        if (Auth.checkTokenNone()) return register;
+        if (Auth.checkTokenNone()) return registerActivate;
         else m.route.set("/");
       }
     },
@@ -146,7 +148,7 @@ function SmartFundingRouter() {
     },
     "/recover-password/:token": {
       onmatch: function() {
-        if (Auth.checkTokenNone()) return recoverPassword;
+        if (Auth.checkTokenNone()) return recoverPasswordActivate;
         else m.route.set("/");
       }
     },

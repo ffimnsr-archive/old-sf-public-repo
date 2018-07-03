@@ -5,9 +5,11 @@ import { Router, Request, Response, NextFunction } from "express";
 import { default as User, UserModel } from "../../models/user";
 import { default as Wallet, WalletModel } from "../../models/wallet";
 import { default as KycStatus, KycStatusModel } from "../../models/kyc_status";
-import { constant } from "async";
+import { baseUri, redisUri } from "../../config";
+import redis from "redis";
 
 const router = Router();
+const client = redis.createClient(redisUri);
 
 router.post("/login", (req: Request, res: Response, next: NextFunction) => {
   if (!req.body.user.email) {
@@ -28,6 +30,13 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) => {
     if (err) { return next(err); }
 
     if (user) {
+      if (!user.isMailVerified) {
+        return res.status(422).json({
+          success: false,
+          message: "account is not verified",
+        });
+      }
+
       (<any>user).token = user.generateJWT();
       return res.json({
         success: true,
@@ -57,6 +66,7 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
   // in redis with expiration time
   const verificationToken = Math.random().toString(36).substring(7);
   let content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
+  content = content.replace(/base_url/g, baseUri);
   content = content.replace(/sf_verification_code/g, verificationToken);
 
   const params = {
@@ -84,21 +94,23 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
       .sendEmail(params)
       .promise();
 
+    const to = Buffer.from(verificationToken).toString("base64");
+    client.hmset(`cfa:${to}`, "id", t._id.toString(), "token", verificationToken);
+
     sendPromise
       .then(data => console.log(data))
       .catch(err => console.error(err));
 
-    wallet.user = user._id;
+    wallet.user = t._id;
     wallet.balance = 0.0;
     wallet.save().then((w: WalletModel) => {
-      user.wallet = w._id;
-      user.save();
-    });
+      t.wallet = w._id;
 
-    kycStatus.status = "new";
-    kycStatus.save().then((k: KycStatusModel) => {
-      user.kycStatus = k._id;
-      user.save();
+      kycStatus.status = "new";
+      kycStatus.save().then((k: KycStatusModel) => {
+        t.kycStatus = k._id;
+        t.save();
+      });
     });
 
     return res.json({
@@ -109,15 +121,42 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post("/register/:token", (req: Request, res: Response, next: NextFunction) => {
-  // TODO: must get and verify to and from redis with expiration time
+  const token = req.params.token;
+  const to = Buffer.from(token).toString("base64");
+  client.hgetall(`cfa:${to}`, function(err, obj) {
+    if (err || !obj) {
+      return res.json({
+        success: false,
+      });
+    }
+
+    console.log(obj);
+
+    if (obj.token === token) {
+      User.findById(obj.id).then((user: UserModel) => {
+        user.isMailVerified = true;
+        user.save();
+      }).catch(next);
+
+      return res.json({
+        success: true,
+      });
+    }
+
+    return res.json({
+      success: false,
+    });
+  });
 });
 
 router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
   const user = new User();
   user.email = req.body.user.email;
 
+  const verificationToken = Math.random().toString(36).substring(7);
   let content = fs.readFileSync("./templates/email/confirm_mail_recover.html", "utf8");
-  content = content.replace("/sf_verification_code/g", user.username);
+  content = content.replace(/base_url/g, baseUri);
+  content = content.replace(/sf_verification_code/g, verificationToken);
 
   const params = {
     Destination: {
@@ -138,13 +177,16 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
     Source: "noreply@ses.smartfunding.io",
   };
 
-  User.findOne({ "email": user.email }).then((user: UserModel) => {
-    if (!user) {
+  User.findOne({ "email": user.email }).then((t: UserModel) => {
+    if (!t) {
       return res.status(401).json({
         success: false,
         message: "email not found"
       });
     }
+
+    const to = Buffer.from(verificationToken).toString("base64");
+    client.hmset(`rca:${to}`, "id", t._id.toString(), "token", verificationToken);
 
     // TODO: must go async or in queue handler so no blocking
     const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
@@ -161,13 +203,39 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
 
     return res.json({
       success: true,
-      user: user.toAuthJSON()
+      user: t.toAuthJSON()
     });
   }).catch(next);
 });
 
 router.post("/recover/:token", (req: Request, res: Response, next: NextFunction) => {
-  // TODO: must get and verify to and from redis with expiration time
+  const token = req.params.token;
+  const to = Buffer.from(token).toString("base64");
+  client.hgetall(`rca:${to}`, function(err, obj) {
+    console.log(token);
+    console.log(obj);
+
+    if (err || !obj) {
+      return res.json({
+        success: false,
+      });
+    }
+
+    if (obj.token === token) {
+      User.findById(obj.id).then((user: UserModel) => {
+        user.setPassword("temporary");
+        user.save();
+      }).catch(next);
+
+      return res.json({
+        success: true,
+      });
+    }
+
+    return res.json({
+      success: false,
+    });
+  });
 });
 
 export default router;

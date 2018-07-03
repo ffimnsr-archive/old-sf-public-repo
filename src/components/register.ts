@@ -37,10 +37,11 @@ const RegisterAccountData = {
         sessionStorage.setItem("verify_email", vm.email);
         m.route.set("/confirm-mail/register");
       } else {
-        // TODO: error feedback
+        m.route.set("/server-error");
       }
     }).catch(function(err) {
       console.error("error", err);
+      m.route.set("/server-error");
     });
   },
 };

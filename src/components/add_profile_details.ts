@@ -33,9 +33,11 @@ const ProfileDetailsData = {
         vm.countries = res.countries;
       } else {
         // TODO: add feedback so user would know he's been denied
+        m.route.set("/server-error");
       }
     }).catch(function(err) {
       console.error("error", err);
+      m.route.set("/server-error");
     });
   },
   canSave: function() {

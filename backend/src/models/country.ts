@@ -12,7 +12,5 @@ const CountrySchema = new mongoose.Schema({
   updatedAt: Date,
 }, { timestamps: true });
 
-
-
 const Country: mongoose.Model<CountryModel> = mongoose.model<CountryModel>("Country", CountrySchema);
 export default Country;
