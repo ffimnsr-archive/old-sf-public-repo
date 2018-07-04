@@ -1,5 +1,6 @@
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
+import jwtDecode from "jwt-decode";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
@@ -10,8 +11,11 @@ const HomeData = {
   image: "",
 
   load: function() {
+    const token = localStorage.getItem("token")!;
+    const data = jwtDecode<any>(token);
+
     const vm = this;
-    QRCode.toDataURL("I'm a pony!", {
+    QRCode.toDataURL(data.id, {
       errorCorrectionLevel: "H",
       version: 12,
     }, function(err, url) {

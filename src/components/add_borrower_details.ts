@@ -20,7 +20,6 @@ const BorrowerDetailsData = {
     };
 
     const token = localStorage.getItem("token")!;
-
     m.request(AppSettings.API_BASE_URL + "/api/user/type", {
       method: "PUT",
       data: data,

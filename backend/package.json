@@ -6,7 +6,7 @@
     "start": "npm run watch",
     "dep:up": "npm run mongo:up && npm run redis:up",
     "dep:down": "npm run mongo:down && npm run redis:down",
-    "mongo:up": "docker run -d --rm --name smartfunding-mongo -p 127.0.0.1:27017:27017 mongo & sleep 5",
+    "mongo:up": "docker run -d --rm --name smartfunding-mongo -e MONGO_INITDB_ROOT_USERNAME='root' -e MONGO_INITDB_ROOT_PASSWORD='secret' -p 127.0.0.1:27017:27017 mongo & sleep 5",
     "mongo:down": "docker stop smartfunding-mongo",
     "redis:up": "docker run -d --rm --name smartfunding-redis -p 127.0.0.1:6379:6379 redis:alpine & sleep 5",
     "redis:down": "docker stop smartfunding-redis",

@@ -7,30 +7,46 @@ import logo from "images/sf-logo.png";
 
 import { AppSettings } from "configs";
 import "datatables.net";
+import "datatables.net-bs4";
+import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 
 const AdminDashboardData = {
   load: function() {
-    m.request(AppSettings.API_BASE_URL + "/api/user/list", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      }
-    }).then(function(res: any) {
-      if (res.success) {
+    // m.request(AppSettings.API_BASE_URL + "/api/user/list", {
+    //   method: "GET",
+    //   headers: {
+    //     "Accept": "application/json",
+    //     "Content-Type": "application/json; charset=utf-8",
+    //   }
+    // }).then(function(res: any) {
+    //   if (res.success) {
 
-      } else {
-        // TODO: add feedback so user would know he's been denied
-      }
-    }).catch(function(err) {
-      console.error("error", err);
-    });
+    //   } else {
+    //     // TODO: add feedback so user would know he's been denied
+    //   }
+    // }).catch(function(err) {
+    //   console.error("error", err);
+    // });
   },
 };
 
 export default {
   oninit(vnode: Vnode) {
     AdminDashboardData.load();
+  },
+  oncreate(vnode: Vnode) {
+    $(document).ready(function() {
+      $("#datatable").DataTable({
+        ajax: {
+          url: AppSettings.API_BASE_URL + "/api/user/list",
+          type: "GET",
+          dataSrc: function(json: any) {
+            console.log("success:", json);
+            return json.users;
+          }
+        }
+      });
+    });
   },
   view(vnode: Vnode) {
     return m(".sf-root", [
@@ -90,28 +106,28 @@ export default {
                 m("p.text-muted.font-14.m-b-30", [
                   "List of all investors and borrowers."
                 ]),
-                // m("table.table.table-bordered[id='datatable']", [
-                //   m("thead",
-                //     m("tr", [
-                //       m("th", "Name"),
-                //       m("th", "Position"),
-                //       m("th", "Office"),
-                //       m("th", "Age"),
-                //       m("th", "Start date"),
-                //       m("th", "Salary")
-                //     ])
-                //   ),
-                //   m("tbody", [
-                //     m("tr", [
-                //       m("td", "Anonymous User"),
-                //       m("td", "System Architect"),
-                //       m("td", "Edinburgh"),
-                //       m("td", "61"),
-                //       m("td", "2011/04/25"),
-                //       m("td", "$320,800")
-                //     ]),
-                //   ])
-                // ])
+                m("table.table.table-bordered[id='datatable']", [
+                  m("thead",
+                    m("tr", [
+                      m("th", "Forename"),
+                      m("th", "Surname"),
+                      m("th", "Username"),
+                      m("th", "Email"),
+                      m("th", "Typeset"),
+                      m("th", "Is Document Submitted")
+                    ])
+                  ),
+                  m("tfoot", [
+                    m("tr", [
+                      m("th", "Forename"),
+                      m("th", "Surname"),
+                      m("th", "Username"),
+                      m("th", "Email"),
+                      m("th", "Typeset"),
+                      m("th", "Is Document Submitted")
+                    ]),
+                  ])
+                ])
               ])
             )
           )

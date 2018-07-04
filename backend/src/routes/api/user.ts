@@ -146,13 +146,26 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
   }).catch(next);
 });
 
-router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.find({}).then((res: UserModel[]) => {
-    if (Array.isArray(res)) {
+router.get("/list", (req: Request, res: Response, next: NextFunction) => {
+  User.find({}).then((t: UserModel[]) => {
+    if (Array.isArray(t)) {
       return res.json({
         success: true,
-        count: res.length,
-        users: res,
+        count: t.length,
+        users: t.map<String[]>((r: UserModel) => {
+          return [
+            r.forename,
+            r.surname,
+            r.username,
+            r.email,
+            r.typeset,
+            String(r.isDocumentsSubmitted),
+          ];
+          // r.hash = undefined;
+          // r.salt = undefined;
+          // r.__v = undefined;
+          // return r;
+        }),
       });
     }
   }).catch(next);
