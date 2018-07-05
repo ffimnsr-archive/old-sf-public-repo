@@ -6,27 +6,14 @@ import footer from "widgets/footer";
 import logo from "images/sf-logo.png";
 
 import { AppSettings } from "configs";
+
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 
 const AdminDashboardData = {
   load: function() {
-    // m.request(AppSettings.API_BASE_URL + "/api/user/list", {
-    //   method: "GET",
-    //   headers: {
-    //     "Accept": "application/json",
-    //     "Content-Type": "application/json; charset=utf-8",
-    //   }
-    // }).then(function(res: any) {
-    //   if (res.success) {
 
-    //   } else {
-    //     // TODO: add feedback so user would know he's been denied
-    //   }
-    // }).catch(function(err) {
-    //   console.error("error", err);
-    // });
   },
 };
 
@@ -41,10 +28,19 @@ export default {
           url: AppSettings.API_BASE_URL + "/api/user/list",
           type: "GET",
           dataSrc: function(json: any) {
-            console.log("success:", json);
             return json.users;
           }
-        }
+        },
+        columns: [
+          { data: "forename" },
+          { data: "surname" },
+          { data: "username" },
+          { data: "email" },
+          { data: "typeset" },
+          { data: "isDocumentsSubmitted" },
+          { data: "isMailVerified" },
+          { data: "status" },
+        ]
       });
     });
   },
@@ -114,7 +110,9 @@ export default {
                       m("th", "Username"),
                       m("th", "Email"),
                       m("th", "Typeset"),
-                      m("th", "Is Document Submitted")
+                      m("th", "Documents"),
+                      m("th", "Verified"),
+                      m("th", "Status"),
                     ])
                   ),
                   m("tfoot", [
@@ -124,7 +122,9 @@ export default {
                       m("th", "Username"),
                       m("th", "Email"),
                       m("th", "Typeset"),
-                      m("th", "Is Document Submitted")
+                      m("th", "Documents"),
+                      m("th", "Verified"),
+                      m("th", "Status"),
                     ]),
                   ])
                 ])

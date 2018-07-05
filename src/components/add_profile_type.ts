@@ -83,10 +83,10 @@ export default {
               )
             ])
           )
-
         ])
       ),
-      m(footer)
+      m(footer),
+      m("div#snackbar"),
     ]);
   }
 } as m.Component;

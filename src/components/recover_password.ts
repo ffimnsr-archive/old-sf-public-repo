@@ -1,5 +1,6 @@
 import m, { Vnode } from "mithril";
 import { AppSettings } from "configs";
+import { Utils } from "../utils";
 
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
@@ -31,11 +32,10 @@ const RecoverPasswordData = {
         sessionStorage.setItem("verify_email", vm.email);
         m.route.set("/confirm-mail/recover");
       } else {
-        m.route.set("/server-error");
+        Utils.showSnackbar(res.message);
       }
     }).catch(function(err) {
-      console.error("error", err);
-      m.route.set("/server-error");
+      Utils.showSnackbar(err);
     });
   },
 };
@@ -105,7 +105,8 @@ export default {
             m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         )
-      ])
+      ]),
+      m("div#snackbar"),
     ]);
   }
 } as m.Component;

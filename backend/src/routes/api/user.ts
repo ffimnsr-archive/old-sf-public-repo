@@ -152,19 +152,11 @@ router.get("/list", (req: Request, res: Response, next: NextFunction) => {
       return res.json({
         success: true,
         count: t.length,
-        users: t.map<String[]>((r: UserModel) => {
-          return [
-            r.forename,
-            r.surname,
-            r.username,
-            r.email,
-            r.typeset,
-            String(r.isDocumentsSubmitted),
-          ];
-          // r.hash = undefined;
-          // r.salt = undefined;
-          // r.__v = undefined;
-          // return r;
+        users: t.map((r: UserModel) => {
+          r.hash = undefined;
+          r.salt = undefined;
+          r.__v = undefined;
+          return r;
         }),
       });
     }

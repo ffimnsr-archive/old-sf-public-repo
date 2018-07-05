@@ -135,7 +135,8 @@ export default {
             m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
           ])
         )
-      ])
+      ]),
+      m("div#snackbar"),
     ]);
   }
 } as m.Component;
