@@ -90,6 +90,7 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
 
   // TODO: must go async
   user.save().then((t: UserModel) => {
+    AWS.config.update({ region: "us-west-2" });
     const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
       .sendEmail(params)
       .promise();
@@ -189,6 +190,7 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
     client.hmset(`rca:${to}`, "id", t._id.toString(), "token", verificationToken);
 
     // TODO: must go async or in queue handler so no blocking
+    AWS.config.update({ region: "us-west-2" });
     const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
       .sendEmail(params)
       .promise();

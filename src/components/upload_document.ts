@@ -49,15 +49,14 @@ export default {
       url: "#",
       dictDefaultMessage: "Drag n drop or tap here",
       method: "PUT",
-      parallelUploads: 20,
+      parallelUploads: 3,
       uploadMultiple: false,
       paramName: "file",
-      maxFiles: 10,
+      maxFiles: 5,
       autoProcessQueue: true,
 
       sending(file: Dropzone.DropzoneFile, xhr: XMLHttpRequest) {
         let _send = xhr.send;
-        xhr.setRequestHeader("x-amz-acl", "public-read");
         xhr.send = function() {
           _send.call(xhr, file);
         };
