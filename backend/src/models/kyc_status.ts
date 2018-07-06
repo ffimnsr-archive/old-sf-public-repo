@@ -22,5 +22,5 @@ const KycStatusSchema = new mongoose.Schema({
   updatedAt: Date,
 }, { timestamps: true });
 
-const KycStatus: mongoose.Model<KycStatusModel> = mongoose.model<KycStatusModel>("KycStatus", KycStatusSchema);
+const KycStatus: mongoose.Model<KycStatusModel> = mongoose.model<KycStatusModel>("KycStatus", KycStatusSchema, "kyc_status");
 export default KycStatus;

@@ -26,5 +26,5 @@ CommentSchema.methods.toJSONFor = function(user: any) {
   };
 };
 
-const Comment: mongoose.Model<CommentModel> = mongoose.model<CommentModel>("Comment", CommentSchema);
+const Comment: mongoose.Model<CommentModel> = mongoose.model<CommentModel>("Comment", CommentSchema, "comments");
 export default Comment;

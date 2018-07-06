@@ -12,5 +12,5 @@ const KycDocumentTypeSchema = new mongoose.Schema({
   updatedAt: Date
 }, { timestamps: true });
 
-const KycDocumentType: mongoose.Model<KycDocumentTypeModel> = mongoose.model<KycDocumentTypeModel>("DocumentType", KycDocumentTypeSchema);
+const KycDocumentType: mongoose.Model<KycDocumentTypeModel> = mongoose.model<KycDocumentTypeModel>("KycDocumentType", KycDocumentTypeSchema, "kyc_document_types");
 export default KycDocumentType;

@@ -107,5 +107,5 @@ UserSchema.methods.fullname = function() {
   return (this.forename + " " + this.surname);
 };
 
-const User: mongoose.Model<UserModel> = mongoose.model<UserModel>("User", UserSchema);
+const User: mongoose.Model<UserModel> = mongoose.model<UserModel>("User", UserSchema, "users");
 export default User;

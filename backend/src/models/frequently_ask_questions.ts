@@ -14,5 +14,5 @@ const FrequentlyAskQuestionSchema = new mongoose.Schema({
   updatedAt: Date,
 }, { timestamps: true });
 
-const FrequentlyAskQuestion: mongoose.Model<FrequentlyAskQuestionModel> = mongoose.model<FrequentlyAskQuestionModel>("FrequentlyAskQuestion", FrequentlyAskQuestionSchema);
+const FrequentlyAskQuestion: mongoose.Model<FrequentlyAskQuestionModel> = mongoose.model<FrequentlyAskQuestionModel>("FrequentlyAskQuestion", FrequentlyAskQuestionSchema, "frequently_ask_questions");
 export default FrequentlyAskQuestion;

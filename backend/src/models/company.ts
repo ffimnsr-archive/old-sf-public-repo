@@ -16,5 +16,5 @@ const CompanySchema = new mongoose.Schema({
   updatedAt: Date,
 }, { timestamps: true });
 
-const Company: mongoose.Model<CompanyModel> = mongoose.model<CompanyModel>("Company", CompanySchema);
+const Company: mongoose.Model<CompanyModel> = mongoose.model<CompanyModel>("Company", CompanySchema, "companies");
 export default Company;

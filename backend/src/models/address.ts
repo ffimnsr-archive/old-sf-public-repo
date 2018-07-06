@@ -43,5 +43,5 @@ AddressSchema.methods.toJSONFor = function(user: any) {
   };
 };
 
-const Address = mongoose.model("Address", AddressSchema);
+const Address = mongoose.model("Address", AddressSchema, "addresses");
 export default Address;

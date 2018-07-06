@@ -20,5 +20,5 @@ const WalletSchema = new mongoose.Schema({
   updatedAt: Date,
 }, { timestamps: true });
 
-const Wallet: mongoose.Model<WalletModel> = mongoose.model<WalletModel>("Wallet", WalletSchema);
+const Wallet: mongoose.Model<WalletModel> = mongoose.model<WalletModel>("Wallet", WalletSchema, "wallets");
 export default Wallet;
