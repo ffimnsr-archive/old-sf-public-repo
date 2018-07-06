@@ -54,22 +54,33 @@ export default {
           m(".row", [
             m(".col-lg-8",
               m(".card-box", [
-                m("h4.header-title.mb-3", "Wallet Balances"),
-                // m(".table-responsive",
-                //   m("table.table.table-hover.table-centered.m-0", [
-                //     m("thead",
-                //       m("tr", [
-                //         m("th", "Currency"),
-                //         m("th", "Balance"),
-                //         m("th", "Reserved in orders"),
-                //         m("th", "Action")
-                //       ])
-                //     ),
-                //     m("tbody", [
-
-                //     ])
-                //   ])
-                // )
+                m("h4.header-title.mb-3", "Wallet Logs"),
+                m("table.table.table-bordered[id='datatable']", [
+                  m("thead",
+                    m("tr", [
+                      m("th", "Forename"),
+                      m("th", "Surname"),
+                      m("th", "Username"),
+                      m("th", "Email"),
+                      m("th", "Typeset"),
+                      m("th", "Documents"),
+                      m("th", "Verified"),
+                      m("th", "Status"),
+                    ])
+                  ),
+                  m("tfoot", [
+                    m("tr", [
+                      m("th", "Forename"),
+                      m("th", "Surname"),
+                      m("th", "Username"),
+                      m("th", "Email"),
+                      m("th", "Typeset"),
+                      m("th", "Documents"),
+                      m("th", "Verified"),
+                      m("th", "Status"),
+                    ]),
+                  ])
+                ])
               ])
             ),
             m(".col-lg-4",

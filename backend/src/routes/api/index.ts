@@ -27,7 +27,10 @@ router.get("/uploader", (req: Request, res: Response, next: NextFunction) => {
   const newFileName = prefix + uuidv4();
 
   const bucketName = "bucket.smartfunding.io";
+
+  AWS.config.loadFromPath("config.json");
   AWS.config.update({ region: "ap-southeast-1" });
+
   const s3 = new AWS.S3({
     apiVersion: "2006-03-01",
   });
