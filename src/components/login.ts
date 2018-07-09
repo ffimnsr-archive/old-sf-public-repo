@@ -21,6 +21,8 @@ const LoginAccountData = {
       }
     };
 
+    localStorage.removeItem("status");
+
     m.request(AppSettings.API_BASE_URL + "/api/session/login", {
       method: "POST",
       data: account,

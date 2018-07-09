@@ -7,6 +7,7 @@ export default {
   oninit() {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
+    localStorage.removeItem("status");
   },
   view(vnode: Vnode) {
     return m(".sf-root", [

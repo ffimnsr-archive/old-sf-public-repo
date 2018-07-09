@@ -9,7 +9,10 @@ import { default as Wallet, WalletModel } from "../../models/wallet";
 const router = Router();
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).populate("wallet").then((user: UserModel) => {
+  User.findById((<any>req).payload.id)
+    .populate("wallet")
+    .populate("address")
+    .then((user: UserModel) => {
     if (!user) {
       return res.status(401).json({
         success: false,

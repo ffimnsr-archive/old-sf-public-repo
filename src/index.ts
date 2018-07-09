@@ -20,7 +20,8 @@ import addProfileType from "components/add_profile_type";
 import addProfilePicture from "components/add_profile_picture";
 import addInvestorDetails from "components/add_investor_details";
 import addBorrowerDetails from "components/add_borrower_details";
-import uploadDocument from "components/upload_document";
+import addKycDocuments from "components/add_kyc_documents";
+import editProfileDetails from "components/edit_profile_details";
 
 import adminDashboard from "components/admin/dashboard";
 
@@ -61,7 +62,7 @@ function SmartFundingRouter() {
               case "step4":
                 return addProfilePicture;
               case "step5":
-                return uploadDocument;
+                return addKycDocuments;
               case "okay":
                 return home;
               default:
@@ -80,7 +81,7 @@ function SmartFundingRouter() {
     "/profile/edit": {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
-        else return profile;
+        else return editProfileDetails;
       }
     },
     "/admin/dashboard": {

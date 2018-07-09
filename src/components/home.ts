@@ -58,25 +58,19 @@ export default {
                 m("table.table.table-bordered[id='datatable']", [
                   m("thead",
                     m("tr", [
-                      m("th", "Forename"),
-                      m("th", "Surname"),
-                      m("th", "Username"),
-                      m("th", "Email"),
-                      m("th", "Typeset"),
-                      m("th", "Documents"),
-                      m("th", "Verified"),
+                      m("th", "Date"),
+                      m("th", "Balance"),
+                      m("th", "To"),
+                      m("th", "Note"),
                       m("th", "Status"),
                     ])
                   ),
                   m("tfoot", [
                     m("tr", [
-                      m("th", "Forename"),
-                      m("th", "Surname"),
-                      m("th", "Username"),
-                      m("th", "Email"),
-                      m("th", "Typeset"),
-                      m("th", "Documents"),
-                      m("th", "Verified"),
+                      m("th", "Date"),
+                      m("th", "Balance"),
+                      m("th", "To"),
+                      m("th", "Note"),
                       m("th", "Status"),
                     ]),
                   ])

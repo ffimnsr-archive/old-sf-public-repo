@@ -24,6 +24,7 @@ const ProfileData = {
       }
     }).then(function(res: any) {
       if (res.success) {
+        console.log(res.user);
         vm.fullname = res.user.fullname;
         vm.username = res.user.username;
         vm.email = res.user.email;
@@ -78,7 +79,7 @@ export default {
                   ]),
                   m(".col-sm-6",
                     m(".text-right",
-                      m("button.btn.btn-light.waves-effect[type='button']", [
+                      m("a.btn.btn-light.waves-effect[type='button'][href='/profile/edit']", { oncreate: m.route.link }, [
                         m("i.mdi.mdi-account-settings-variant.mr-1"),
                         "Edit Profile"
                       ])
