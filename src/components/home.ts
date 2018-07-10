@@ -65,21 +65,14 @@ export default {
                       m("th", "Status"),
                     ])
                   ),
-                  m("tfoot", [
-                    m("tr", [
-                      m("th", "Date"),
-                      m("th", "Balance"),
-                      m("th", "To"),
-                      m("th", "Note"),
-                      m("th", "Status"),
-                    ]),
-                  ])
                 ])
               ])
             ),
             m(".col-lg-4",
               m(".card-box", [
                 m("h4.m-t-0.header-title", "Wallet Address"),
+                m("a[href='/']", "hello"),
+                m("a[href='/']", "hello"),
                 m("img.mx-auto.d-block[alt='wallet-address']", {
                   src: HomeData.image,
                 })

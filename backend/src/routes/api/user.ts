@@ -91,6 +91,7 @@ router.put("/details", auth.required, (req: Request, res: Response, next: NextFu
       city: req.body.user.city,
       stateProvince: req.body.user.stateProvince,
       postalCode: req.body.user.postalCode,
+      status: req.body.user.status,
       active: false,
     });
 
@@ -150,12 +151,18 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
 });
 
 router.get("/list", (req: Request, res: Response, next: NextFunction) => {
-  User.find({}).then((t: UserModel[]) => {
+  User.find({ role: { $not: "admin" } }).then((t: UserModel[]) => {
     if (Array.isArray(t)) {
       return res.json({
         success: true,
         count: t.length,
         users: t.map((r: UserModel) => {
+          if (r.forename == "") r.forename = "undefined";
+
+          if (r.surname == "") r.surname = "undefined";
+
+          if (r.typeset == "undefined") r.typeset = "undefined";
+
           r.hash = undefined;
           r.salt = undefined;
           r.__v = undefined;

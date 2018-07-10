@@ -43,11 +43,6 @@ const ProfileDetailsData = {
   canSave: function() {
     return this.forename !== "" &&
       this.surname !== "" &&
-      this.address1 !== "" &&
-      this.address2 !== "" &&
-      this.city !== "" &&
-      this.state !== "" &&
-      this.zipCode !== "" &&
       this.country !== "";
   },
   save: function() {
@@ -61,6 +56,7 @@ const ProfileDetailsData = {
         state: this.state,
         zipCode: this.zipCode,
         country: this.country,
+        status: "step2",
       }
     };
 

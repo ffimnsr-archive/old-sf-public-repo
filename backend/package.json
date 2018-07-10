@@ -91,6 +91,7 @@
     "@types/shelljs": "^0.8.0",
     "@types/tapable": "^1.0.2",
     "@types/uuid": "^3.4.3",
+    "@types/web3": "^1.0.0",
     "@types/webpack": "^4.4.4",
     "@types/winston": "^2.3.9",
     "concurrently": "^3.6.0",
