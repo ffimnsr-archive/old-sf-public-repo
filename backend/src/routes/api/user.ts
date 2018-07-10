@@ -151,17 +151,22 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
 });
 
 router.get("/list", (req: Request, res: Response, next: NextFunction) => {
-  User.find({ role: { $not: "admin" } }).then((t: UserModel[]) => {
+  User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
+    const investorsCount = t.filter((r: UserModel) => t.typeset == "investors" && t.status != "okay").length;
+    const borrowersCount = t.filter((r: UserModel) => t.typeset == "borrowers" && t.status != "okay").length;
     if (Array.isArray(t)) {
       return res.json({
         success: true,
         count: t.length,
+        pendingInvestorsCount: investorsCount,
+        pendingBorrowersCount: borrowersCount,
+        discardedCount: 0,
         users: t.map((r: UserModel) => {
-          if (r.forename == "") r.forename = "undefined";
+          if (!r.forename || r.forename == "") r.forename = "undefined";
 
-          if (r.surname == "") r.surname = "undefined";
+          if (!r.surname || r.surname == "") r.surname = "undefined";
 
-          if (r.typeset == "undefined") r.typeset = "undefined";
+          if (!r.typeset || r.typeset == "") r.typeset = "undefined";
 
           r.hash = undefined;
           r.salt = undefined;

@@ -12,6 +12,11 @@ import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 
 const AdminDashboardData = {
+  count: 0,
+  pendingInvestorsCount: 0,
+  pendingBorrowersCount: 0,
+  discardedCount: 0,
+
   load: function() {
 
   },
@@ -28,6 +33,10 @@ export default {
           url: AppSettings.API_BASE_URL + "/api/user/list",
           type: "GET",
           dataSrc: function(json: any) {
+            AdminDashboardData.count = json.count;
+            AdminDashboardData.pendingInvestorsCount = json.pendingInvestorsCount;
+            AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
+            AdminDashboardData.discardedCount = json.discardedCount;
             return json.users;
           }
         },
@@ -68,28 +77,28 @@ export default {
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.widget-flat.border-custom.bg-custom.text-white", [
                 m("i.fi-tag"),
-                m("h3.m-b-10", "0"),
+                m("h3.m-b-10", AdminDashboardData.count),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Total Registered Users")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.bg-primary.widget-flat.border-primary.text-white", [
                 m("i.fi-archive"),
-                m("h3.m-b-10", "0"),
+                m("h3.m-b-10", AdminDashboardData.pendingInvestorsCount),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Investors")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.widget-flat.border-success.bg-success.text-white", [
                 m("i.fi-help"),
-                m("h3.m-b-10", "0"),
+                m("h3.m-b-10", AdminDashboardData.pendingBorrowersCount),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Borrowers")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.bg-danger.widget-flat.border-danger.text-white", [
                 m("i.fi-delete"),
-                m("h3.m-b-10", "0"),
+                m("h3.m-b-10", AdminDashboardData.discardedCount),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Discarded Applicants")
               ])
             )
@@ -109,7 +118,7 @@ export default {
                       m("th", "Surname"),
                       m("th", "Username"),
                       m("th", "Email"),
-                      m("th", "Typeset"),
+                      m("th", "Type"),
                       m("th", "Documents"),
                       m("th", "Verified"),
                       m("th", "Status"),
@@ -121,7 +130,7 @@ export default {
                       m("th", "Surname"),
                       m("th", "Username"),
                       m("th", "Email"),
-                      m("th", "Typeset"),
+                      m("th", "Type"),
                       m("th", "Documents"),
                       m("th", "Verified"),
                       m("th", "Status"),
