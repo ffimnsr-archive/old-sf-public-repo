@@ -151,7 +151,43 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
   }).catch(next);
 });
 
+router.put("/mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
+  User.findById((<any>req).payload.id).then((user: UserModel) => {
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "unauthorized access",
+      });
+    }
+
+    if (typeof req.body.user.typeset !== "undefined") {
+      user.typeset = req.body.user.typeset;
+    }
+
+    user.save().then((t: UserModel) => {
+      return res.status(200).json({
+        success: true,
+        user: t.toAuthJSON()
+      });
+    });
+  }).catch(next);
+});
+
 router.get("/generate-mfa", (req: Request, res: Response, next: NextFunction) => {
+  const secret = speakeasy.generateSecret();
+  const url = speakeasy.otpauthURL({
+    secret: secret.ascii,
+    label: "SmartFunding",
+    algorithm: "sha512",
+  });
+  return res.json({
+    success: true,
+    secretKey: secret.base32,
+    otpUrl: url,
+  });
+});
+
+router.post("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
   const secret = speakeasy.generateSecret();
   return res.json({
     success: true,
@@ -159,7 +195,7 @@ router.get("/generate-mfa", (req: Request, res: Response, next: NextFunction) =>
   });
 });
 
-router.get("/list", (req: Request, res: Response, next: NextFunction) => {
+router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
   User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
     const investorsCount = t.filter((r: UserModel) => r.typeset == "investors" && r.status != "okay").length;
     const borrowersCount = t.filter((r: UserModel) => r.typeset == "borrowers" && r.status != "okay").length;

@@ -123,6 +123,7 @@ export default {
                       m("th", "Documents"),
                       m("th", "Verified"),
                       m("th", "Status"),
+                      m("th", "Action"),
                     ])
                   ),
                   m("tfoot", [
@@ -135,6 +136,7 @@ export default {
                       m("th", "Documents"),
                       m("th", "Verified"),
                       m("th", "Status"),
+                      m("th", "Action"),
                     ]),
                   ])
                 ])
