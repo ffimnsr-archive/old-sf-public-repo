@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import speakeasy from "speakeasy";
 import passport from "passport";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
@@ -148,6 +149,14 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
       });
     });
   }).catch(next);
+});
+
+router.get("/generate-mfa", (req: Request, res: Response, next: NextFunction) => {
+  const secret = speakeasy.generateSecret();
+  return res.json({
+    success: true,
+    secretKey: secret.ascii,
+  });
 });
 
 router.get("/list", (req: Request, res: Response, next: NextFunction) => {
