@@ -9,8 +9,44 @@ import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
 const BorrowerDetailsData = {
-  canSave: function() {
+  forename: "",
+  surname: "",
+  address1: "",
+  address2: "",
+  city: "",
+  state: "",
+  zipCode: "",
+  country: "",
 
+  countries: [] as string[],
+
+  load: function() {
+    const token = localStorage.getItem("token")!;
+
+    const vm = this;
+    m.request(AppSettings.API_BASE_URL + "/api/country/list", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization": `Token ${token}`,
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+        vm.countries = res.countries;
+      } else {
+        // TODO: add feedback so user would know he's been denied
+        m.route.set("/server-error");
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+      m.route.set("/server-error");
+    });
+  },
+  canSave: function() {
+    return this.forename !== "" &&
+      this.surname !== "" &&
+      this.country !== "";
   },
   save: function() {
     const data = {
@@ -46,7 +82,7 @@ const BorrowerDetailsData = {
 
 export default {
   oninit(vnode: Vnode) {
-
+    BorrowerDetailsData.load();
   },
   oncreate(vnode: Vnode) {
 
@@ -82,22 +118,20 @@ export default {
                     BorrowerDetailsData.save();
                   }
                 }, [
-                  m("div.form-row", [
-                    m("div.form-group.col-md-6", [
-                      m("label.col-form-label", "First Name"),
-                      m("input.form-control[type='text'][placeholder='Jose']")
-                    ]),
-                    m("div.form-group.col-md-6", [
-                      m("label.col-form-label", "Last Name"),
-                      m("input.form-control[type='text'][placeholder='Rizal']")
-                    ]),
+                  m("div.form-group", [
+                    m("label.col-form-label", "Company Name"),
+                    m("input.form-control[type='text'][placeholder='Acme Inc.']")
                   ]),
                   m("div.form-group", [
-                    m("label.col-form-label", "Address 1"),
+                    m("label.col-form-label", "Company Registration No."),
+                    m("input.form-control[type='text'][placeholder='SEC Registration No.']")
+                  ]),
+                  m("div.form-group", [
+                    m("label.col-form-label", "Company Address 1"),
                     m("input.form-control[type='text'][placeholder='House/Lot No. and Street']")
                   ]),
                   m("div.form-group", [
-                    m("label.col-form-label", "Address 2"),
+                    m("label.col-form-label", "Company Address 2"),
                     m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']")
                   ]),
                   m("div.form-row", [
@@ -113,6 +147,14 @@ export default {
                       m("label.col-form-label", "Zip Code"),
                       m("input.form-control[type='text'][placeholder='Zip Code']")
                     ]),
+                  ]),
+                  m("div.form-group", [
+                    m("label.col-form-label", "Country"),
+                    m("select.form-control", {
+                      onchange: m.withAttr("value", (v: string) => { BorrowerDetailsData.country = v }),
+                    }, BorrowerDetailsData.countries.map(function(v: any) {
+                      return m("option", { value: v.code }, v.name)
+                    })),
                   ]),
                   m(".clearfix.text-right.mt-3",
                     m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {

@@ -173,7 +173,7 @@ router.put("/mfa", auth.required, (req: Request, res: Response, next: NextFuncti
   }).catch(next);
 });
 
-router.get("/generate-mfa", (req: Request, res: Response, next: NextFunction) => {
+router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
   const secret = speakeasy.generateSecret();
   const url = speakeasy.otpauthURL({
     secret: secret.ascii,

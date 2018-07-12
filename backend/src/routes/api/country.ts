@@ -5,7 +5,7 @@ import CountryList from "country-list";
 
 const router = Router();
 
-router.get("/list", (req: Request, res: Response, next: NextFunction) => {
+router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
   const c = CountryList().getData();
   res.json({
     success: true,

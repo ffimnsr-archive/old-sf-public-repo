@@ -34,7 +34,7 @@ const InvestorDetailsData = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        localStorage.setItem("status", "step5");
+        localStorage.setItem("status", "okay");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied
@@ -79,6 +79,9 @@ export default {
             m(".col-12",
               m(".card-box", [
                 m("h4.header-title.m-t-0", "Investor Details"),
+                m("img[alt='mfa-key']", {
+                  src: "",
+                }),
                 m(".clearfix.text-right.mt-3",
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                     onclick: InvestorDetailsData.save,

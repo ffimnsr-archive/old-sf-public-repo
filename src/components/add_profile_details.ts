@@ -21,12 +21,15 @@ const ProfileDetailsData = {
   countries: [] as string[],
 
   load: function() {
+    const token = localStorage.getItem("token")!;
+
     const vm = this;
     m.request(AppSettings.API_BASE_URL + "/api/country/list", {
       method: "GET",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8",
+        "Authorization": `Token ${token}`,
       }
     }).then(function(res: any) {
       if (res.success) {

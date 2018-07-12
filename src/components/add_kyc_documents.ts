@@ -14,7 +14,7 @@ import avatar from "images/users/avatar-2.jpg";
 
 const UploadDocumentData = {
   continue: function () {
-    localStorage.setItem("status", "okay");
+    localStorage.setItem("status", "step6");
     m.route.set("/");
   }
 };
