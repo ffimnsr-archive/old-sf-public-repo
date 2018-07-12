@@ -152,15 +152,16 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
 
 router.get("/list", (req: Request, res: Response, next: NextFunction) => {
   User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
-    const investorsCount = t.filter((r: UserModel) => t.typeset == "investors" && t.status != "okay").length;
-    const borrowersCount = t.filter((r: UserModel) => t.typeset == "borrowers" && t.status != "okay").length;
+    const investorsCount = t.filter((r: UserModel) => r.typeset == "investors" && r.status != "okay").length;
+    const borrowersCount = t.filter((r: UserModel) => r.typeset == "borrowers" && r.status != "okay").length;
+    const noTypeCount = t.filter((r: UserModel) => !r.typeset || r.typeset == "").length;
     if (Array.isArray(t)) {
       return res.json({
         success: true,
         count: t.length,
         pendingInvestorsCount: investorsCount,
         pendingBorrowersCount: borrowersCount,
-        discardedCount: 0,
+        discardedCount: noTypeCount,
         users: t.map((r: UserModel) => {
           if (!r.forename || r.forename == "") r.forename = "undefined";
 

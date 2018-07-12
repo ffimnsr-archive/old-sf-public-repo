@@ -60,7 +60,7 @@ export default {
                     m("tr", [
                       m("th", "Date"),
                       m("th", "Balance"),
-                      m("th", "To"),
+                      m("th", "From / To"),
                       m("th", "Note"),
                       m("th", "Status"),
                     ])
@@ -71,11 +71,8 @@ export default {
             m(".col-lg-4",
               m(".card-box", [
                 m("h4.m-t-0.header-title", "Wallet Address"),
-                m("a[href='/']", "hello"),
-                m("a[href='/']", "hello"),
-                m("img.mx-auto.d-block[alt='wallet-address']", {
-                  src: HomeData.image,
-                })
+                m("a.btn.btn-block.btn-info[href='/']", "Ethereum Wallet Address"),
+                m("a.btn.btn-block.btn-info[href='/']", "Bitcoin Wallet Address"),
               ])
             )
           ])

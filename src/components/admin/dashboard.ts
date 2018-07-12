@@ -37,6 +37,7 @@ export default {
             AdminDashboardData.pendingInvestorsCount = json.pendingInvestorsCount;
             AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
             AdminDashboardData.discardedCount = json.discardedCount;
+            m.redraw();
             return json.users;
           }
         },

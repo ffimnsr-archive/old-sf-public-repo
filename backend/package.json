@@ -54,6 +54,7 @@
     "redis": "^2.8.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
+    "speakeasy": "^2.0.0",
     "uuid": "^3.3.0",
     "winston": "^2.4.3"
   },
@@ -89,6 +90,7 @@
     "@types/request": "^2.47.1",
     "@types/request-promise": "^4.1.41",
     "@types/shelljs": "^0.8.0",
+    "@types/speakeasy": "^2.0.2",
     "@types/tapable": "^1.0.2",
     "@types/uuid": "^3.4.3",
     "@types/web3": "^1.0.0",
