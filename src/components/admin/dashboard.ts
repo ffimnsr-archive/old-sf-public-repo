@@ -50,6 +50,7 @@ export default {
           { data: "isDocumentsSubmitted" },
           { data: "isMailVerified" },
           { data: "status" },
+          { data: "_id" },
         ]
       });
     });
