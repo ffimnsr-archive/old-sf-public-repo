@@ -9,7 +9,8 @@ import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
 const InvestorDetailsData = {
-  q: Array(13).fill(false),
+  q: Array(11).fill(false),
+  qs: Array(6).fill("not defined"),
 
   load: function() {
 
@@ -50,6 +51,7 @@ const InvestorDetailsData = {
   }
 };
 
+// TODO: convert the questions to array and pass it to foreach and iterate.
 export default {
   oninit(vnode: Vnode) {
     InvestorDetailsData.load();
@@ -117,7 +119,7 @@ export default {
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q2'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[1] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -127,14 +129,14 @@ export default {
                     m("label.col-form-label", "Investor shall be responsible for his/her/its own tax affairs and hereby declare that you have never been convicted of any serious tax crimes, whether in Singapore or elsewhere."),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q3'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[2] = v }),
+                        value: 1
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q3'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[2] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -144,14 +146,14 @@ export default {
                     m("label.col-form-label", "Monies which Investor shall use in investing on our Platform are from legitimate sources and will not be considered as proceeds of serious tax crimes in Singapore or elsewhere."),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q4'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[3] = v }),
+                        value: 1
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q4'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[3] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -161,34 +163,31 @@ export default {
                     m("label.col-form-label", "Investor shall be solely responsible for any tax reporting obligation imposed by the any relevant tax authority."),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q5'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[4] = v }),
+                        value: 1
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q5'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[4] = v }),
                         value: 0
                       }),
-                      m("label.custom-control-label", "No", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
-                      })
+                      m("label.custom-control-label", "No")
                     ]),
                   ]),
                   m("div.form-group.col-md-6", [
                     m("label.col-form-label", "Investor is not a U.S. person and does not intend to be one."),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q6'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[5] = v }),
+                        value: 1
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q6'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[5] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -198,15 +197,15 @@ export default {
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "Primary Tax Residency"),
                       m("input.form-control[name='q7'][type='text'][placeholder='Residency (e.g. Singapore)']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.qs[0] = v }),
+                        value: InvestorDetailsData.qs[0]
                       })
                     ]),
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "Other Tax Residency"),
                       m("input.form-control[name='q8'][type='text'][placeholder='Residency (e.g. Singapore)']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.qs[1] = v }),
+                        value: InvestorDetailsData.qs[1]
                       })
                     ]),
                   ]),
@@ -214,14 +213,14 @@ export default {
                     m("label.col-form-label", "Has the Investor at any time pleaded guilty or have been found guilty of a criminal offence, or is currently a subject of any criminal investigation or inquiry in Singapore or elsewhere, in connection with financial transactions or investments of any kind?"),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q9'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[6] = v }),
+                        value: 1
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q9'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[6] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -231,34 +230,31 @@ export default {
                     m("label.col-form-label", "Has the Investor ever been subject to any inquiry or investigation by any relevant authority in Singapore or elsewhere? (Excluding routine regulatory inquiry or audit)"),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q10'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[7] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q10'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[7] = v }),
                         value: 0
                       }),
-                      m("label.custom-control-label", "No", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
-                        value: 0
-                      })
+                      m("label.custom-control-label", "No")
                     ]),
                   ]),
                   m("div.form-group.col-md-6", [
                     m("label.col-form-label", "Has the Investor been made subject of a court order in Singapore or elsewhere?"),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q11'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[8] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q11'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[8] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -268,14 +264,14 @@ export default {
                     m("label.col-form-label", "Has the Investor been subject to any bankruptcy order or has been served with a bankruptcy petition in Singapore or elsewhere?"),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q12'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[9] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
                       m("input.custom-control-input[name='q12'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[0] = v }),
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[9] = v }),
                         value: 0
                       }),
                       m("label.custom-control-label", "No")
@@ -284,11 +280,17 @@ export default {
                   m("div.form-group.col-md-6", [
                     m("label.col-form-label", "Is the Investor currently involved in any legal proceedings in Singapore or elsewhere which would affect the investment?"),
                     m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']"),
+                      m("input.custom-control-input[name='q13'][type='radio']", {
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
+                        value: 0
+                      }),
                       m("label.custom-control-label", "Yes")
                     ]),
                     m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']"),
+                      m("input.custom-control-input[name='q13'][type='radio']", {
+                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
+                        value: 0
+                      }),
                       m("label.custom-control-label", "No")
                     ]),
                   ]),
@@ -297,19 +299,31 @@ export default {
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Employer Name / Business Name / Inheritance Lineage / Donor / Desciption of Assets"),
-                    m("input.form-control[type='text'][placeholder='Details']")
+                    m("input.form-control[type='text'][placeholder='Details']", {
+                      onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.qs[2] = v }),
+                      value: InvestorDetailsData.qs[2]
+                    })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Occupation / Nature of Business / Relationship to donor"),
-                    m("input.form-control[type='text'][placeholder='Details']")
+                    m("input.form-control[type='text'][placeholder='Details']", {
+                      onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.qs[3] = v }),
+                      value: InvestorDetailsData.qs[3]
+                    })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Annual Salary / Annual Sales of Profit / Value of Inheritance / Value of Gift / Value of Assets"),
-                    m("input.form-control[type='text'][placeholder='Details']")
+                    m("input.form-control[type='text'][placeholder='Details']", {
+                      onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.qs[4] = v }),
+                      value: InvestorDetailsData.qs[4]
+                    })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Additional Detailed Source of Wealth / Other Information"),
-                    m("input.form-control[type='text'][placeholder='Details']")
+                    m("input.form-control[type='text'][placeholder='Details']", {
+                      onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.qs[5] = v }),
+                      value: InvestorDetailsData.qs[5]
+                    })
                   ]),
                   m("div.form-group.col-md-6", [
                     m("label.col-form-label", "I confirm that the information provided in the above is true and accurate, and agree to promptly inform of any material changes or inaccuracies in the information or documents provided."),
