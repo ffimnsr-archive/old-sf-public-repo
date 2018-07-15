@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 export type CompanyModel = mongoose.Document & {
   registrationNo: string,
   name: string,
+  website: string,
+  profile: string,
   address: mongoose.Schema.Types.ObjectId,
   kycStatus: mongoose.Schema.Types.ObjectId,
   createdAt: Date,
@@ -12,6 +14,8 @@ export type CompanyModel = mongoose.Document & {
 const CompanySchema = new mongoose.Schema({
   registrationNo: String,
   name: String,
+  website: String,
+  profile: String,
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
   kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
   createdAt: Date,

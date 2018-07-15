@@ -20,6 +20,7 @@ export type UserModel = mongoose.Document & {
   kycStatus: mongoose.Schema.Types.ObjectId,
   address: mongoose.Schema.Types.ObjectId,
   wallet: mongoose.Schema.Types.ObjectId,
+  remarks: string,
   status: string,
   createdAt: Date,
   updatedAt: Date,
@@ -47,6 +48,7 @@ const UserSchema = new mongoose.Schema({
   kycStatus: { type: mongoose.Schema.Types.ObjectId, ref: "KycStatus" },
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
   wallet: { type: mongoose.Schema.Types.ObjectId, ref: "Wallet" },
+  remarks: String,
   status: { type: String, enum: [ "step1", "step2", "step3", "deleted", "locked", "okay" ], default: "step1" },
   createdAt: Date,
   updatedAt: Date

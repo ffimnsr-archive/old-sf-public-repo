@@ -16,8 +16,40 @@ const HeaderData = {
   }
 };
 
+function ProfileBarComponent(vnode: Vnode) {
+  return {
+    view: function() {
+      return m(".dropdown-menu.dropdown-menu-right.profile-dropdown.", [
+        m(".dropdown-item.noti-title",
+          m("h6.text-overflow.m-0", `Welcome ${HeaderData.getUsername()}!`)
+        ),
+        m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
+          m("i.fi-head"),
+          m("span", "My Account")
+        ]),
+        m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
+          m("i.fi-cog"),
+          m("span", "Settings")
+        ]),
+        m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
+          m("i.fi-help"),
+          m("span", "Support")
+        ]),
+        m("a.dropdown-item.notify-item[href='/lock-screen']", { oncreate: m.route.link }, [
+          m("i.fi-lock"),
+          m("span", "Lock Screen")
+        ]),
+        m("a.dropdown-item.notify-item[href='/logout']", { oncreate: m.route.link }, [
+          m("i.fi-power"),
+          m("span", "Logout")
+        ])
+      ]);
+    }
+  };
+}
+
 export default {
-  oninit() {
+  oninit(vnode: Vnode) {
     $('.navbar-toggle')
       .on('click', function (e: Event) {
       $(this).toggleClass('open');
@@ -83,31 +115,8 @@ export default {
                       m("i.mdi.mdi-chevron-down")
                     ])
                   ]),
-                  m(".dropdown-menu.dropdown-menu-right.profile-dropdown.", [
-                    m(".dropdown-item.noti-title",
-                      m("h6.text-overflow.m-0", `Welcome ${HeaderData.getUsername()}!`)
-                    ),
-                    m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
-                      m("i.fi-head"),
-                      m("span", "My Account")
-                    ]),
-                    m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
-                      m("i.fi-cog"),
-                      m("span", "Settings")
-                    ]),
-                    m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
-                      m("i.fi-help"),
-                      m("span", "Support")
-                    ]),
-                    m("a.dropdown-item.notify-item[href='/lock-screen']", { oncreate: m.route.link }, [
-                      m("i.fi-lock"),
-                      m("span", "Lock Screen")
-                    ]),
-                    m("a.dropdown-item.notify-item[href='/logout']", { oncreate: m.route.link }, [
-                      m("i.fi-power"),
-                      m("span", "Logout")
-                    ])
-                  ])
+
+                  m(ProfileBarComponent),
                 ])
               ])
             ),

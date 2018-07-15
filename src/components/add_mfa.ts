@@ -8,17 +8,19 @@ import footer from "widgets/footer";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
-const InvestorDetailsData = {
+const MFADetails = {
+  secretKey: "",
+
   load: function() {
 
   },
   canSave: function() {
-
+    return this.secretKey !== "";
   },
   save: function() {
     const data = {
       user: {
-        typeset: "investor",
+        secretKey: this.secretKey,
       }
     };
 
@@ -50,7 +52,7 @@ const InvestorDetailsData = {
 
 export default {
   oninit(vnode: Vnode) {
-    InvestorDetailsData.load();
+    MFADetails.load();
   },
   oncreate(vnode: Vnode) {
 
@@ -68,25 +70,26 @@ export default {
                     m("li.breadcrumb-item",
                       m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
-                    m("li.breadcrumb-item.active", "Investor Details")
+                    m("li.breadcrumb-item.active", "Additional Security Settings")
                   ])
                 ),
-                m("h4.page-title", "Investor Details")
+                m("h4.page-title", "Additional Security Settings")
               ])
             )
           ),
           m(".row",
             m(".col-12",
               m(".card-box", [
-                m("h4.header-title.m-t-0", "Investor Details"),
+                m("h4.header-title.m-t-0", "Multi-factor Authentication"),
                 m("img[alt='mfa-key']", {
                   src: "",
                 }),
-                m(".clearfix.text-right.mt-3",
+                m("button.btn.btn-custom.waves-effect.waves-light[type'button']", "Enable 2-Factor Authentication"),
+                m(".clearfix.text-right.mt-3", [
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                    onclick: InvestorDetailsData.save,
+                    onclick: MFADetails.save,
                   }, "Submit")
-                )
+                ])
               ])
             )
           )

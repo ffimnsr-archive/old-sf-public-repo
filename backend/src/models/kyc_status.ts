@@ -7,6 +7,7 @@ export type KycStatusModel = mongoose.Document & {
   comments: string,
   approvedBy: string,
   updatedBy: string,
+  remarks: string,
   createdAt: Date,
   updatedAt: Date,
 };
@@ -18,6 +19,7 @@ const KycStatusSchema = new mongoose.Schema({
   comments: String,
   approvedBy: String,
   updatedBy: String,
+  remarks: String,
   createdAt: Date,
   updatedAt: Date,
 }, { timestamps: true });

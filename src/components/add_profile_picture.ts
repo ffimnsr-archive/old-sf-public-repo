@@ -69,18 +69,18 @@ export default {
                     m("li.breadcrumb-item",
                       m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
-                    m("li.breadcrumb-item.active", "Personal Picture")
+                    m("li.breadcrumb-item.active", "Profile Picture")
                   ])
                 ),
-                m("h4.page-title", "Personal Picture")
+                m("h4.page-title", "Profile Picture")
               ])
             )
           ),
           m(".row",
             m(".col-12",
               m(".card-box", [
-                m("h4.header-title.m-t-0", "Personal Picture"),
-                m("p.text-muted.font-14.m-b-10", "Stores personal details."),
+                m("h4.header-title.m-t-0", "Profile Picture"),
+                m("p.text-muted.font-14.m-b-10", "Personalise Now Your Profile."),
                 m("form[role='form']", [
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [

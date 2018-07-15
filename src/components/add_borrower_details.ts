@@ -9,8 +9,8 @@ import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
 const BorrowerDetailsData = {
-  forename: "",
-  surname: "",
+  name: "",
+  registrationNo: "",
   address1: "",
   address2: "",
   city: "",
@@ -44,14 +44,26 @@ const BorrowerDetailsData = {
     });
   },
   canSave: function() {
-    return this.forename !== "" &&
-      this.surname !== "" &&
+    return this.name !== "" &&
+      this.registrationNo !== "" &&
       this.country !== "";
   },
   save: function() {
     const data = {
       user: {
         typeset: "borrower",
+        company: {
+          name: this.name,
+          registrationNo: this.registrationNo,
+          address: {
+            address1: this.address1,
+            address2: this.address2,
+            city: this.city,
+            state: this.state,
+            zipCode: this.zipCode,
+            country: this.country,
+          }
+        },
       }
     };
 
@@ -111,7 +123,7 @@ export default {
             m(".col-12",
               m(".card-box", [
                 m("h4.header-title.m-t-0", "Borrower Details"),
-                m("p.text-muted.font-14.m-b-10", "Stores borrower details."),
+                m("p.text-muted.font-14.m-b-10", "All fields are required to be filled up."),
                 m("form[role='form']", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
@@ -120,32 +132,53 @@ export default {
                 }, [
                   m("div.form-group", [
                     m("label.col-form-label", "Company Name"),
-                    m("input.form-control[type='text'][placeholder='Acme Inc.']")
+                    m("input.form-control[type='text'][placeholder='Acme Inc.']", {
+                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.name = v }),
+                      value: BorrowerDetailsData.name
+                    })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Company Registration No."),
-                    m("input.form-control[type='text'][placeholder='SEC Registration No.']")
+                    m("input.form-control[type='text'][placeholder='SEC Registration No.']", {
+                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.registrationNo = v }),
+                      value: BorrowerDetailsData.registrationNo
+                    })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Company Address 1"),
-                    m("input.form-control[type='text'][placeholder='House/Lot No. and Street']")
+                    m("input.form-control[type='text'][placeholder='House/Lot No. and Street']", {
+                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.address1 = v }),
+                      value: BorrowerDetailsData.address1
+                    })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Company Address 2"),
-                    m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']")
+                    m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']", {
+                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.address2 = v }),
+                      value: BorrowerDetailsData.address2
+                    })
                   ]),
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "City"),
-                      m("input.form-control[type='text'][placeholder='City']")
+                      m("input.form-control[type='text'][placeholder='City']", {
+                        oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.city = v }),
+                        value: BorrowerDetailsData.city
+                      })
                     ]),
                     m("div.form-group.col-md-4", [
                       m("label.col-form-label", "State"),
-                      m("input.form-control[type='text'][placeholder='State']")
+                      m("input.form-control[type='text'][placeholder='State']", {
+                        oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.city = v }),
+                        value: BorrowerDetailsData.city
+                      })
                     ]),
                     m("div.form-group.col-md-2", [
                       m("label.col-form-label", "Zip Code"),
-                      m("input.form-control[type='text'][placeholder='Zip Code']")
+                      m("input.form-control[type='text'][placeholder='Zip Code']"), {
+                        oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.zipCode = v }),
+                        value: BorrowerDetailsData.zipCode
+                      }
                     ]),
                   ]),
                   m("div.form-group", [
