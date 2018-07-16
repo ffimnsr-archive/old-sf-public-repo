@@ -20,7 +20,8 @@ const ProfilePictureData = {
   save: function() {
     const data = {
       user: {
-        image: "",
+        status: "step5",
+        image: this.image,
       }
     };
 

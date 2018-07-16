@@ -133,6 +133,18 @@ export default {
                   "Dashboard"
                 ])
               ),
+              m("li.has-submenu",
+                m("a[href='/']", { oncreate: m.route.link }, [
+                  m("i.icon-speedometer"),
+                  "Investors"
+                ])
+              ),
+              m("li.has-submenu",
+                m("a[href='/']", { oncreate: m.route.link }, [
+                  m("i.icon-speedometer"),
+                  "Borrowers"
+                ])
+              ),
             ])
           )
         )

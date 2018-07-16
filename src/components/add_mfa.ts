@@ -11,6 +11,9 @@ import avatar from "images/users/avatar-2.jpg";
 const MFADetails = {
   secretKey: "",
 
+  reload: function() {
+
+  },
   load: function() {
 
   },
@@ -26,7 +29,8 @@ const MFADetails = {
 
     const token = localStorage.getItem("token")!;
 
-    m.request(AppSettings.API_BASE_URL + "/api/user/type", {
+    // TODO: save status to mongoose
+    m.request(AppSettings.API_BASE_URL + "/api/user/mfa", {
       method: "PUT",
       data: data,
       headers: {
@@ -81,10 +85,8 @@ export default {
             m(".col-12",
               m(".card-box", [
                 m("h4.header-title.m-t-0", "Multi-factor Authentication"),
-                m("img[alt='mfa-key']", {
-                  src: "",
-                }),
-                m("button.btn.btn-custom.waves-effect.waves-light[type'button']", "Enable 2-Factor Authentication"),
+                m("img.mx-auto.d-block[alt='mfa-key']", { src: avatar }),
+                // m("button.btn.btn-custom.waves-effect.waves-light[type'button']", "Enable 2-Factor Authentication"),
                 m(".clearfix.text-right.mt-3", [
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                     onclick: MFADetails.save,

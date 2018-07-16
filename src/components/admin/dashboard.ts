@@ -27,17 +27,23 @@ export default {
     AdminDashboardData.load();
   },
   oncreate(vnode: Vnode) {
+    const token = localStorage.getItem("token")!;
+
     $(document).ready(function() {
       $("#datatable").DataTable({
         ajax: {
           url: AppSettings.API_BASE_URL + "/api/user/list",
           type: "GET",
+          beforeSend: function(request: any) {
+            request.setRequestHeader("Authorization", `Token ${token}`);
+          },
           dataSrc: function(json: any) {
             AdminDashboardData.count = json.count;
             AdminDashboardData.pendingInvestorsCount = json.pendingInvestorsCount;
             AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
             AdminDashboardData.discardedCount = json.discardedCount;
             m.redraw();
+            json.users.button = `<a href='${json.users._id}' class='btn btn-default'>Hello</a>`
             return json.users;
           }
         },
@@ -50,7 +56,7 @@ export default {
           { data: "isDocumentsSubmitted" },
           { data: "isMailVerified" },
           { data: "status" },
-          { data: "_id" },
+          { data: "button" },
         ]
       });
     });

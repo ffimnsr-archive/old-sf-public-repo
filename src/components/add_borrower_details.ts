@@ -51,6 +51,7 @@ const BorrowerDetailsData = {
   save: function() {
     const data = {
       user: {
+        status: "step4",
         typeset: "borrower",
         company: {
           name: this.name,
@@ -78,7 +79,7 @@ const BorrowerDetailsData = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        localStorage.setItem("status", "step5");
+        localStorage.setItem("status", "step4");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied
