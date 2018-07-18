@@ -51,7 +51,7 @@ const BorrowerDetailsData = {
   save: function() {
     const data = {
       user: {
-        status: "step4",
+        status: "step3-2",
         typeset: "borrower",
         company: {
           name: this.name,

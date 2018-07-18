@@ -65,6 +65,20 @@ export default {
                       m("th", "Status"),
                     ])
                   ),
+                ]),
+                m("table.table.table-bordered[id='datatable']", [
+                  m("thead",
+                    m("tr", [
+                      m("th", "Invoice"),
+                      m("th", "Terms"),
+                      m("th", "Amount"),
+                      m("th", "Appreciation"),
+                      m("th", "Funded"),
+                      m("th", "Available"),
+                      m("th", "Time Left"),
+                      m("th", "Actions"),
+                    ])
+                  ),
                 ])
               ])
             ),

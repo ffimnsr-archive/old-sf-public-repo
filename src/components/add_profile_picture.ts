@@ -90,7 +90,12 @@ export default {
                     ]),
                   ]),
                   m(".clearfix.text-right.mt-3",
-                    m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", "Submit")
+                    m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                      onclick: () => {
+                        localStorage.setItem("status", "step5");
+                        m.route.set("/");
+                      }
+                    }, "Submit")
                   )
                 ])
               ])

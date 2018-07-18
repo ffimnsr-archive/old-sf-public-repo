@@ -10,9 +10,33 @@ import avatar from "images/users/avatar-2.jpg";
 
 const MFADetails = {
   secretKey: "",
+  otpUrl: "",
 
   reload: function() {
+    const token = localStorage.getItem("token")!;
 
+    // TODO: save status to mongoose
+    m.request(AppSettings.API_BASE_URL + "/api/user/mfa", {
+      method: "PUT",
+      data: data,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization": `Token ${token}`,
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+        localStorage.setItem("status", "okay");
+        m.route.set("/");
+      } else {
+        // TODO: add feedback so user would know he's been denied
+        console.error("error", res);
+        m.route.set("/server-error");
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+      m.route.set("/server-error");
+    });
   },
   load: function() {
 
@@ -23,6 +47,7 @@ const MFADetails = {
   save: function() {
     const data = {
       user: {
+        status: "step6",
         secretKey: this.secretKey,
       }
     };
@@ -86,7 +111,11 @@ export default {
               m(".card-box", [
                 m("h4.header-title.m-t-0", "Multi-factor Authentication"),
                 m("img.mx-auto.d-block[alt='mfa-key']", { src: avatar }),
-                // m("button.btn.btn-custom.waves-effect.waves-light[type'button']", "Enable 2-Factor Authentication"),
+                m(".clearfix.text-right.mt-3", [
+                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                    onclick: MFADetails.reload,
+                  }, "Generate 2-Factor Authentication Key")
+                ]),
                 m(".clearfix.text-right.mt-3", [
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                     onclick: MFADetails.save,

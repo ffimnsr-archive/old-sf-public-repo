@@ -59,7 +59,7 @@ const ProfileDetailsData = {
         state: this.state,
         zipCode: this.zipCode,
         country: this.country,
-        status: "step2",
+        status: "step1",
       }
     };
 

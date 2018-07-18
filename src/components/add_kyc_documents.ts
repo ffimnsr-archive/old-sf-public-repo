@@ -14,8 +14,29 @@ import avatar from "images/users/avatar-2.jpg";
 
 const UploadDocumentData = {
   continue: function () {
-    localStorage.setItem("status", "step6");
-    m.route.set("/");
+    const token = localStorage.getItem("token")!;
+
+    m.request(AppSettings.API_BASE_URL + "/api/user/type", {
+      method: "PUT",
+      data: data,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization": `Token ${token}`,
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+        localStorage.setItem("status", "step6");
+        m.route.set("/");
+      } else {
+        // TODO: add feedback so user would know he's been denied
+        console.error("error", res);
+        m.route.set("/server-error");
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+      m.route.set("/server-error");
+    });
   }
 };
 
