@@ -6,11 +6,12 @@ import auth from "../auth";
 import { default as User, UserModel } from "../../models/user";
 import { default as Address, AddressModel } from "../../models/address";
 import { default as Wallet, WalletModel } from "../../models/wallet";
+import { default as Log } from "../../models/log";
 
 const router = Router();
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id)
+  User.findById(req.payload.id)
     .populate("wallet")
     .populate("address")
     .then((user: UserModel) => {
@@ -30,13 +31,7 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
 });
 
 router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "unauthorized access",
-      });
-    }
+    findById(req.payload.id, res, (user: UserModel) => {
 
     if (typeof req.body.user.username !== "undefined") {
       user.username = req.body.user.username;
@@ -58,118 +53,96 @@ router.put("/", auth.required, (req: Request, res: Response, next: NextFunction)
       user.setPassword(req.body.user.password);
     }
 
-    user.save().then((t: UserModel) => {
-      console.log(t.toAuthJSON());
-      return res.status(200).json({
-        success: true,
-        user: t.toAuthJSON()
-      });
+      user.save().then((t: UserModel) => {
+          logAction(`User ${user.username} successfully updated account`);
+          console.log(t.toAuthJSON());
+          return res.status(200).json({
+              success: true,
+              user: t.toAuthJSON()
+          });
     });
   }).catch(next);
 });
 
 router.put("/details", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "unauthorized access",
-      });
-    }
+    findById(req.payload.id, res, (user: UserModel) => {
 
-    if (typeof req.body.user.forename !== "undefined") {
-      user.forename = req.body.user.forename;
-    }
+        if (typeof req.body.user.forename !== "undefined") {
+          user.forename = req.body.user.forename;
+        }
 
-    if (typeof req.body.user.surname !== "undefined") {
-      user.surname = req.body.user.surname;
-    }
+        if (typeof req.body.user.surname !== "undefined") {
+          user.surname = req.body.user.surname;
+        }
 
-    const address = new Address({
-      user: user._id,
-      address1: req.body.user.address1,
-      address2: req.body.user.address2,
-      city: req.body.user.city,
-      stateProvince: req.body.user.stateProvince,
-      postalCode: req.body.user.postalCode,
-      status: req.body.user.status,
-      active: false,
-    });
+        const address = new Address({
+          user: user._id,
+          address1: req.body.user.address1,
+          address2: req.body.user.address2,
+          city: req.body.user.city,
+          stateProvince: req.body.user.stateProvince,
+          postalCode: req.body.user.postalCode,
+          status: req.body.user.status,
+          active: false,
+        });
 
-    user.save().then((t: UserModel) => {
-      address.save();
-
-      return res.status(200).json({
-        success: true,
-        user: t.toAuthJSON()
-      });
-    });
-  }).catch(next);
+          user.save().then((t: UserModel) => {
+              logAction(`User ${user.username} successfully updated account details`);
+              address.save();
+              return res.status(200).json({
+                success: true,
+                user: t.toAuthJSON()
+              });
+          });
+      }).catch(next);
 });
 
 router.put("/image", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "unauthorized access",
-      });
-    }
+    findById(req.payload.id, res, (user: UserModel) => {
+        if (typeof req.body.user.image !== "undefined") {
+          user.forename = req.body.user.image;
+        }
 
-    if (typeof req.body.user.image !== "undefined") {
-      user.forename = req.body.user.image;
-    }
-
-    user.save().then((t: UserModel) => {
-      return res.status(200).json({
-        success: true,
-        user: t.toAuthJSON()
-      });
-    });
-  }).catch(next);
+          user.save().then((t: UserModel) => {
+              logAction(`User ${user.username} updated account image`);
+              return res.status(200).json({
+                success: true,
+                user: t.toAuthJSON()
+              });
+            });
+      }).catch(next);
 });
 
 router.put("/type", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "unauthorized access",
-      });
-    }
+    findById(req.payload.id, res, (user: UserModel) => {
 
-    if (typeof req.body.user.typeset !== "undefined") {
-      user.typeset = req.body.user.typeset;
-    }
+        if (typeof req.body.user.typeset !== "undefined") {
+          user.typeset = req.body.user.typeset;
+        }
 
-    user.save().then((t: UserModel) => {
-      return res.status(200).json({
-        success: true,
-        user: t.toAuthJSON()
-      });
-    });
-  }).catch(next);
+          user.save().then((t: UserModel) => {
+              logAction(`User ${user.username} updated account type`);
+              return res.status(200).json({
+                success: true,
+                user: t.toAuthJSON()
+              });
+            });
+      }).catch(next);
 });
 
 router.put("/mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  User.findById((<any>req).payload.id).then((user: UserModel) => {
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "unauthorized access",
-      });
-    }
+    findById(req.payload.id, res, (user: UserModel) => {
+        
+        if (typeof req.body.user.typeset !== "undefined") {
+          user.typeset = req.body.user.typeset;
+        }
 
-    if (typeof req.body.user.typeset !== "undefined") {
-      user.typeset = req.body.user.typeset;
-    }
-
-    user.save().then((t: UserModel) => {
-      return res.status(200).json({
-        success: true,
-        user: t.toAuthJSON()
-      });
-    });
+        user.save().then((t: UserModel) => {
+          return res.status(200).json({
+            success: true,
+            user: t.toAuthJSON()
+          });
+        });
   }).catch(next);
 });
 
@@ -180,6 +153,7 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
     label: "SmartFunding",
     algorithm: "sha512",
   });
+    logAction(`User ${req.payload.username} generated multifactor auth code`);
   return res.json({
     success: true,
     secretKey: secret.base32,
@@ -188,11 +162,12 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
 });
 
 router.post("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  const secret = speakeasy.generateSecret();
-  return res.json({
-    success: true,
-    secretKey: secret.ascii,
-  });
+    const secret = speakeasy.generateSecret();
+    logAction(`User ${req.payload.username} validated successfully`);
+    return res.json({
+      success: true,
+      secretKey: secret.ascii,
+    });
 });
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
@@ -201,6 +176,7 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
     const borrowersCount = t.filter((r: UserModel) => r.typeset == "borrowers" && r.status != "okay").length;
     const noTypeCount = t.filter((r: UserModel) => !r.typeset || r.typeset == "").length;
     if (Array.isArray(t)) {
+      logAction(`User ${req.payload.username} requested user list`); 
       return res.json({
         success: true,
         count: t.length,
@@ -223,5 +199,23 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
     }
   }).catch(next);
 });
+
+function logAction(message: string) {
+    let log = new Log();
+    log.message = message;
+    return log.save();
+}
+
+function findById(id: String, res: Response, fn: (user: UserModel) => void) {
+    return User.findById(id).then( (user: UserModel) => {
+        if(!user) {
+            return res.status(401).json({
+                success: false,
+		message: "unauthorized access"
+            });
+        }
+        return fn(user);
+    });
+}
 
 export default router;
