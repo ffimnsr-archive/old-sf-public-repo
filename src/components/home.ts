@@ -66,6 +66,20 @@ export default {
                     ])
                   ),
                 ]),
+              ])
+            ),
+            m(".col-lg-4",
+              m(".card-box", [
+                m("h4.m-t-0.header-title", "Wallet Address"),
+                m("a.btn.btn-block.btn-info[href='/']", "Ethereum Wallet Address"),
+                m("a.btn.btn-block.btn-info[href='/']", "Bitcoin Wallet Address"),
+              ])
+            )
+          ]),
+          m(".row", [
+            m(".col-lg-8",
+              m(".card-box", [
+                m("h4.header-title.mb-3", "Investment Options"),
                 m("table.table.table-bordered[id='datatable']", [
                   m("thead",
                     m("tr", [

@@ -12,7 +12,15 @@ const MFADetails = {
   secretKey: "",
   otpUrl: "",
 
+  tokenInput: "",
+
   reload: function() {
+    const data = {
+      user: {
+        status: "step6",
+      }
+    };
+
     const token = localStorage.getItem("token")!;
 
     // TODO: save status to mongoose
@@ -111,6 +119,13 @@ export default {
               m(".card-box", [
                 m("h4.header-title.m-t-0", "Multi-factor Authentication"),
                 m("img.mx-auto.d-block[alt='mfa-key']", { src: avatar }),
+                m("div.form-group.col-md-6", [
+                  m("label.col-form-label", "Annual Salary / Annual Sales of Profit / Value of Inheritance / Value of Gift / Value of Assets"),
+                  m("input.form-control[type='text'][placeholder='Details']", {
+                    onclick: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
+                    value: MFADetails.tokenInput
+                  })
+                ]),
                 m(".clearfix.text-right.mt-3", [
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                     onclick: MFADetails.reload,

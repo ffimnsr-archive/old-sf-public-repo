@@ -14,6 +14,12 @@ import avatar from "images/users/avatar-2.jpg";
 
 const UploadDocumentData = {
   continue: function () {
+    const data = {
+      user: {
+        status: "step5",
+      }
+    };
+
     const token = localStorage.getItem("token")!;
 
     m.request(AppSettings.API_BASE_URL + "/api/user/type", {

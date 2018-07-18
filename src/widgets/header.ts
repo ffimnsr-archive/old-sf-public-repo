@@ -133,16 +133,26 @@ export default {
                   "Dashboard"
                 ])
               ),
-              m("li.has-submenu",
-                m("a[href='/']", { oncreate: m.route.link }, [
+              m("li.has-submenu", [
+                m("a[href='javascript:;']", { oncreate: m.route.link }, [
                   m("i.icon-speedometer"),
                   "Investors"
+                ]),
+                m("ul.submenu", [
+                  m("li", m("a[href='/']", "New")),
+                  m("li", m("a[href='/']", "Pending")),
+                  m("li", m("a[href='/']", "Active")),
                 ])
-              ),
+              ]),
               m("li.has-submenu",
-                m("a[href='/']", { oncreate: m.route.link }, [
+                m("a[href='javascript:;']", { oncreate: m.route.link }, [
                   m("i.icon-speedometer"),
                   "Borrowers"
+                ]),
+                m("ul.submenu", [
+                  m("li", m("a[href='/']", "New")),
+                  m("li", m("a[href='/']", "Pending")),
+                  m("li", m("a[href='/']", "Active")),
                 ])
               ),
             ])
