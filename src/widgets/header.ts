@@ -1,6 +1,7 @@
 import m, { Vnode } from "mithril";
 import jwtDecode from "jwt-decode";
 
+import { Auth } from "../auth";
 import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-1.jpg";
 
@@ -15,38 +16,6 @@ const HeaderData = {
     return data.username;
   }
 };
-
-function ProfileBarComponent(vnode: Vnode) {
-  return {
-    view: function() {
-      return m(".dropdown-menu.dropdown-menu-right.profile-dropdown.", [
-        m(".dropdown-item.noti-title",
-          m("h6.text-overflow.m-0", `Welcome ${HeaderData.getUsername()}!`)
-        ),
-        m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
-          m("i.fi-head"),
-          m("span", "My Account")
-        ]),
-        m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
-          m("i.fi-cog"),
-          m("span", "Settings")
-        ]),
-        m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
-          m("i.fi-help"),
-          m("span", "Support")
-        ]),
-        m("a.dropdown-item.notify-item[href='/lock-screen']", { oncreate: m.route.link }, [
-          m("i.fi-lock"),
-          m("span", "Lock Screen")
-        ]),
-        m("a.dropdown-item.notify-item[href='/logout']", { oncreate: m.route.link }, [
-          m("i.fi-power"),
-          m("span", "Logout")
-        ])
-      ]);
-    }
-  };
-}
 
 export default {
   oninit(vnode: Vnode) {
@@ -116,7 +85,31 @@ export default {
                     ])
                   ]),
 
-                  m(ProfileBarComponent),
+                  m(".dropdown-menu.dropdown-menu-right.profile-dropdown.", [
+                    m(".dropdown-item.noti-title",
+                      m("h6.text-overflow.m-0", `Welcome ${HeaderData.getUsername()}!`)
+                    ),
+                    !Auth.checkIsRoleAdmin() ? m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
+                      m("i.fi-head"),
+                      m("span", "My Account")
+                    ]) : null,
+                    m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
+                      m("i.fi-cog"),
+                      m("span", "Settings")
+                    ]),
+                    !Auth.checkIsRoleAdmin() ? m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
+                      m("i.fi-help"),
+                      m("span", "Support")
+                    ]) : null,
+                    m("a.dropdown-item.notify-item[href='/lock-screen']", { oncreate: m.route.link }, [
+                      m("i.fi-lock"),
+                      m("span", "Lock Screen")
+                    ]),
+                    m("a.dropdown-item.notify-item[href='/logout']", { oncreate: m.route.link }, [
+                      m("i.fi-power"),
+                      m("span", "Logout")
+                    ])
+                  ])
                 ])
               ])
             ),
@@ -133,7 +126,7 @@ export default {
                   "Dashboard"
                 ])
               ),
-              m("li.has-submenu", [
+              Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
                   m("i.icon-speedometer"),
                   "Investors"
@@ -143,8 +136,8 @@ export default {
                   m("li", m("a[href='/']", "Pending")),
                   m("li", m("a[href='/']", "Active")),
                 ])
-              ]),
-              m("li.has-submenu",
+              ]) : null,
+              Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
                   m("i.icon-speedometer"),
                   "Borrowers"
@@ -154,7 +147,7 @@ export default {
                   m("li", m("a[href='/']", "Pending")),
                   m("li", m("a[href='/']", "Active")),
                 ])
-              ),
+              ]) : null,
             ])
           )
         )

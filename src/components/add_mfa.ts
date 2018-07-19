@@ -1,4 +1,5 @@
 import m, { Vnode } from "mithril";
+import QRCode from "qrcode";
 import $ from "jquery";
 import AWS from "aws-sdk";
 
@@ -11,22 +12,17 @@ import avatar from "images/users/avatar-2.jpg";
 const MFADetails = {
   secretKey: "",
   otpUrl: "",
+  otpImage: "",
 
   tokenInput: "",
 
   reload: function() {
-    const data = {
-      user: {
-        status: "step6",
-      }
-    };
-
+    const vm = this;
     const token = localStorage.getItem("token")!;
 
     // TODO: save status to mongoose
-    m.request(AppSettings.API_BASE_URL + "/api/user/mfa", {
-      method: "PUT",
-      data: data,
+    m.request(AppSettings.API_BASE_URL + "/api/user/generate-mfa", {
+      method: "GET",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json; charset=utf-8",
@@ -34,8 +30,18 @@ const MFADetails = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        localStorage.setItem("status", "okay");
-        m.route.set("/");
+        vm.secretKey = res.secretKey;
+        vm.otpUrl = res.otpUrl;
+
+        console.log(vm.otpUrl);
+
+        QRCode.toDataURL(vm.otpUrl, {
+          errorCorrectionLevel: "H",
+          version: 12,
+        }, function(err, url) {
+          vm.otpImage = url;
+          m.redraw();
+        });
       } else {
         // TODO: add feedback so user would know he's been denied
         console.error("error", res);
@@ -63,7 +69,7 @@ const MFADetails = {
     const token = localStorage.getItem("token")!;
 
     // TODO: save status to mongoose
-    m.request(AppSettings.API_BASE_URL + "/api/user/mfa", {
+    m.request(AppSettings.API_BASE_URL + "/api/user/validate-mfa", {
       method: "PUT",
       data: data,
       headers: {
@@ -118,20 +124,35 @@ export default {
             m(".col-12",
               m(".card-box", [
                 m("h4.header-title.m-t-0", "Multi-factor Authentication"),
-                m("img.mx-auto.d-block[alt='mfa-key']", { src: avatar }),
-                m("div.form-group.col-md-6", [
-                  m("label.col-form-label", "Annual Salary / Annual Sales of Profit / Value of Inheritance / Value of Gift / Value of Assets"),
-                  m("input.form-control[type='text'][placeholder='Details']", {
-                    onclick: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
-                    value: MFADetails.tokenInput
-                  })
+                m("div.row", [
+                  m("div.col-md-6", [
+                    m("p", "To enable additional security multi-factor authentication:"),
+                    m("ol", [
+                      m("li", "Download and install a multi-factor authentication app (e.g. Google Authenticator, Microsoft Authenticator, YaKey, Auth0, etc.)."),
+                      m("li", "Open and scan the qrcode that you see on the right side."),
+                      m("li", "Then, enter the 6 digit code generated on the input box."),
+                    ]),
+                  ]),
+                  m("div.col-md-6", [
+                    m("img.mx-auto.d-block[alt='mfa-key']", { src: MFADetails.otpImage }),
+                    m(".clearfix.text-center.mt-3", [
+                      m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                        onclick: MFADetails.reload,
+                      }, "Generate 2-Factor Authentication Key")
+                    ]),
+                    m("div.form-group.col-md-12.mt-4", [
+                      m("label.col-form-label", "Enter 6 digit token"),
+                      m("input.form-control[type='text'][placeholder='Token']", {
+                        onclick: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
+                        value: MFADetails.tokenInput
+                      })
+                    ]),
+                  ]),
                 ]),
-                m(".clearfix.text-right.mt-3", [
-                  m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                    onclick: MFADetails.reload,
-                  }, "Generate 2-Factor Authentication Key")
-                ]),
-                m(".clearfix.text-right.mt-3", [
+                m(".col-md-12.clearfix.text-right.mt-3", [
+                  m("button.btn.btn-custom.waves-effect.waves-light.mr-2[type='button']", {
+                    onclick: MFADetails.save,
+                  }, "Skip"),
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                     onclick: MFADetails.save,
                   }, "Submit")

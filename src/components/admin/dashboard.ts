@@ -43,7 +43,14 @@ export default {
             AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
             AdminDashboardData.discardedCount = json.discardedCount;
             m.redraw();
-            json.users.button = `<a href='${json.users._id}' class='btn btn-default'>Hello</a>`
+
+            json.users.map((v: any) => {
+              v.button = `
+              <a href="/#!/admin/control/change-status/${v._id}" class="btn btn-custom">View Account</a>
+              <a href="/#!/admin/control/change-status/${v._id}" class="btn btn-custom">Change Status</a>`;
+              return v;
+            });
+
             return json.users;
           }
         },
