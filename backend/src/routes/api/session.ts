@@ -228,8 +228,8 @@ router.post("/recover/:token", (req: Request, res: Response, next: NextFunction)
       User.findById(obj.id).then((user: UserModel) => {
           user.setPassword("temporary"); // TODO
           user.save().then((t: UserModel) => {
-	      logAction(`Password for User ${user.username} has been reset`);
-	  });
+            logAction(`Password for User ${user.username} has been reset`);
+          });
       }).catch(next);
 
       return res.json({
@@ -244,7 +244,7 @@ router.post("/recover/:token", (req: Request, res: Response, next: NextFunction)
 });
 
 function logAction(message: string) {
-    let log = new Log();
+    const log = new Log();
     log.message = message;
     return log.save();
 }

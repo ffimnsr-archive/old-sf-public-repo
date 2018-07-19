@@ -96,6 +96,24 @@ function SmartFundingRouter() {
         }
       }
     },
+    "/admin/dashboard/investors/:type": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else {
+          if (Auth.checkIsRoleAdmin()) return adminDashboard;
+          else m.route.set("/");
+        }
+      }
+    },
+    "/admin/dashboard/borrowers/:type": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else {
+          if (Auth.checkIsRoleAdmin()) return adminDashboard;
+          else m.route.set("/");
+        }
+      }
+    },
     "/register": {
       onmatch: function() {
         if (Auth.checkTokenNone()) return register;

@@ -128,7 +128,7 @@ export default {
               ),
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-speedometer"),
+                  m("i.icon-people"),
                   "Investors"
                 ]),
                 m("ul.submenu", [
@@ -139,7 +139,7 @@ export default {
               ]) : null,
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-speedometer"),
+                  m("i.icon-people"),
                   "Borrowers"
                 ]),
                 m("ul.submenu", [

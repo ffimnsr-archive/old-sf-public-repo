@@ -132,7 +132,7 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
 
 router.put("/mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
-        
+
         if (typeof req.body.user.typeset !== "undefined") {
           user.typeset = req.body.user.typeset;
         }
@@ -176,7 +176,7 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
     const borrowersCount = t.filter((r: UserModel) => r.typeset == "borrowers" && r.status != "okay").length;
     const noTypeCount = t.filter((r: UserModel) => !r.typeset || r.typeset == "").length;
     if (Array.isArray(t)) {
-      logAction(`User ${req.payload.username} requested user list`); 
+      logAction(`User ${req.payload.username} requested user list`);
       return res.json({
         success: true,
         count: t.length,
@@ -201,17 +201,17 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
 });
 
 function logAction(message: string) {
-    let log = new Log();
+    const log = new Log();
     log.message = message;
     return log.save();
 }
 
 function findById(id: String, res: Response, fn: (user: UserModel) => void) {
     return User.findById(id).then( (user: UserModel) => {
-        if(!user) {
+        if (!user) {
             return res.status(401).json({
                 success: false,
-		message: "unauthorized access"
+                message: "unauthorized access",
             });
         }
         return fn(user);
