@@ -5,6 +5,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { default as User, UserModel } from "../../models/user";
 import { default as Wallet, WalletModel } from "../../models/wallet";
 import { default as KycStatus, KycStatusModel } from "../../models/kyc_status";
+import { default as Log } from "../../models/log";
 import { baseUri, redisUri } from "../../config";
 import redis from "redis";
 
@@ -225,8 +226,10 @@ router.post("/recover/:token", (req: Request, res: Response, next: NextFunction)
 
     if (obj.token === token) {
       User.findById(obj.id).then((user: UserModel) => {
-        user.setPassword("temporary");
-        user.save();
+          user.setPassword("temporary"); // TODO
+          user.save().then((t: UserModel) => {
+	      logAction(`Password for User ${user.username} has been reset`);
+	  });
       }).catch(next);
 
       return res.json({
@@ -239,5 +242,11 @@ router.post("/recover/:token", (req: Request, res: Response, next: NextFunction)
     });
   });
 });
+
+function logAction(message: string) {
+    let log = new Log();
+    log.message = message;
+    return log.save();
+}
 
 export default router;
