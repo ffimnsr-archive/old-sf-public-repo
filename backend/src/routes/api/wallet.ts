@@ -16,7 +16,7 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
 });
 
 function logAction(message: string) {
-    let log = new Log();
+    const log = new Log();
     log.message = message;
     return log.save();
 }

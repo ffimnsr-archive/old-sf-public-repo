@@ -23,8 +23,8 @@ router.put("/", auth.required, (req: Request, res: Response, next: NextFunction)
     });
 });
 
-function logAction(message: string){
-    let log = new Log();
+function logAction(message: string) {
+    const log = new Log();
     log.message = message;
     return log.save();
 }
