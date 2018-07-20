@@ -102,7 +102,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 if (!isProduction) {
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    window.error(err.stack);
+    winston.error(err.stack);
 
     res.status((<any>err).status || 500);
 

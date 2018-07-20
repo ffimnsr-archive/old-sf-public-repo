@@ -7,6 +7,7 @@ import footer from "widgets/footer";
 
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
+import investorAvatar from "images/investor.png";
 
 const ProfileTypeData = {
   setTypeInvestor: function () {
@@ -60,6 +61,7 @@ export default {
                   m(".col-md-6",
                     m(".price_card.text-center", [
                       m(".pricing-header.bg-light", [
+                        m("img.img-responsive[alt='investor']", { src: investorAvatar }),
                         m("span.price.text-dark", "Investor"),
                         m("span.name.text-dark", "For people that want to invest money")
                       ]),
@@ -71,6 +73,7 @@ export default {
                   m(".col-md-6",
                     m(".price_card.text-center", [
                       m(".pricing-header.bg-custom", [
+                        m("img.img-responsive[alt='investor']", { src: investorAvatar }),
                         m("span.price", "Borrower"),
                         m("span.name", "For people who needs to borrow money")
                       ]),

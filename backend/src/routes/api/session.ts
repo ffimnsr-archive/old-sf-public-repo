@@ -101,8 +101,8 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
     client.hmset(`cfa:${to}`, "id", t._id.toString(), "token", verificationToken);
 
     sendPromise
-      .then(data => winston.info(data))
-      .catch(err => winston.error(err));
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
 
     wallet.user = t._id;
     wallet.balance = 0.0;
@@ -132,8 +132,6 @@ router.post("/register/:token", (req: Request, res: Response, next: NextFunction
         success: false,
       });
     }
-
-    winston.info(obj);
 
     if (obj.token === token) {
       User.findById(obj.id).then((user: UserModel) => {
@@ -199,7 +197,7 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
 
     sendPromise
       .then(function(data) {
-        winston.info(data);
+        winston.info("data", data);
       })
       .catch(function(err) {
         winston.error("error", err);
