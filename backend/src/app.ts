@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 import methodOverride from "method-override";
 import acl from "acl";
 import AWS from "aws-sdk";
+import winston from "winston";
 
 import { default as routes } from "./routes";
 import { mongoUri, redisUri } from "./config";
@@ -20,14 +21,12 @@ const isProduction = process.env.NODE_ENV === "production";
 // Create express server
 const app = express();
 
-console.log("mongo", mongoUri);
-console.log("redis", redisUri);
+winston.info(`mongo ${mongoUri}`);
+winston.info(`redis ${redisUri}`);
 
 // MongoDB configuration
+mongoose.connect(mongoUri);
 if (isProduction) {
-  mongoose.connect(mongoUri);
-} else {
-  mongoose.connect(mongoUri);
   mongoose.set("debug", true);
 }
 
@@ -103,7 +102,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 if (!isProduction) {
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.log(err.stack);
+    window.error(err.stack);
 
     res.status((<any>err).status || 500);
 

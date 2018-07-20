@@ -128,7 +128,7 @@ export default {
               ),
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-people"),
+                  m("i.icon-eyeglass"),
                   "Investors"
                 ]),
                 m("ul.submenu", [
@@ -139,8 +139,19 @@ export default {
               ]) : null,
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-people"),
+                  m("i.icon-chemistry"),
                   "Borrowers"
+                ]),
+                m("ul.submenu", [
+                  m("li", m("a[href='/']", "New")),
+                  m("li", m("a[href='/']", "Pending")),
+                  m("li", m("a[href='/']", "Active")),
+                ])
+              ]) : null,
+              Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
+                m("a[href='javascript:;']", { oncreate: m.route.link }, [
+                  m("i.icon-mustache"),
+                  "Administartion"
                 ]),
                 m("ul.submenu", [
                   m("li", m("a[href='/']", "New")),

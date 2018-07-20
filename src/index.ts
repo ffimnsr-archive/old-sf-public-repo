@@ -114,6 +114,24 @@ function SmartFundingRouter() {
         }
       }
     },
+    "/admin/control/view-account/:id": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else {
+          if (Auth.checkIsRoleAdmin()) return adminDashboard;
+          else m.route.set("/");
+        }
+      }
+    },
+    "/admin/control/update-status/:id": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else {
+          if (Auth.checkIsRoleAdmin()) return adminDashboard;
+          else m.route.set("/");
+        }
+      }
+    },
     "/register": {
       onmatch: function() {
         if (Auth.checkTokenNone()) return register;
@@ -136,6 +154,12 @@ function SmartFundingRouter() {
       onmatch: function() {
         if (Auth.checkTokenNone()) m.route.set("/login");
         else return logout;
+      }
+    },
+    "/settings": {
+      onmatch: function() {
+        if (Auth.checkTokenNone()) m.route.set("/login");
+        else return profile;
       }
     },
     "/lock-screen": {

@@ -8,6 +8,7 @@ import { default as KycStatus, KycStatusModel } from "../../models/kyc_status";
 import { default as Log } from "../../models/log";
 import { baseUri, redisUri } from "../../config";
 import redis from "redis";
+import winston from "winston";
 
 const router = Router();
 const client = redis.createClient(redisUri);
@@ -100,8 +101,8 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
     client.hmset(`cfa:${to}`, "id", t._id.toString(), "token", verificationToken);
 
     sendPromise
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
+      .then(data => winston.info(data))
+      .catch(err => winston.error(err));
 
     wallet.user = t._id;
     wallet.balance = 0.0;
@@ -132,7 +133,7 @@ router.post("/register/:token", (req: Request, res: Response, next: NextFunction
       });
     }
 
-    console.log(obj);
+    winston.info(obj);
 
     if (obj.token === token) {
       User.findById(obj.id).then((user: UserModel) => {
@@ -198,10 +199,10 @@ router.post("/recover", (req: Request, res: Response, next: NextFunction) => {
 
     sendPromise
       .then(function(data) {
-        console.log(data);
+        winston.info(data);
       })
       .catch(function(err) {
-        console.error("error", err);
+        winston.error("error", err);
       });
 
     return res.json({
@@ -215,9 +216,6 @@ router.post("/recover/:token", (req: Request, res: Response, next: NextFunction)
   const token = req.params.token;
   const to = Buffer.from(token).toString("base64");
   client.hgetall(`rca:${to}`, function(err, obj) {
-    console.log(token);
-    console.log(obj);
-
     if (err || !obj) {
       return res.json({
         success: false,
