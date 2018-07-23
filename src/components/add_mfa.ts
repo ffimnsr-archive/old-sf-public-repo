@@ -30,16 +30,14 @@ const MFADetails = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        vm.secretKey = res.secretKey;
-        vm.otpUrl = res.otpUrl;
+        MFADetails.secretKey = res.secretKey;
+        MFADetails.otpUrl = res.otpUrl;
 
-        console.log(vm.otpUrl);
-
-        QRCode.toDataURL(vm.otpUrl, {
+        QRCode.toDataURL(MFADetails.otpUrl, {
           errorCorrectionLevel: "H",
           version: 12,
         }, function(err, url) {
-          vm.otpImage = url;
+          MFADetails.otpImage = url;
           m.redraw();
         });
       } else {
@@ -63,6 +61,7 @@ const MFADetails = {
       user: {
         status: "step6",
         secretKey: this.secretKey,
+        tokenInput: this.tokenInput,
       }
     };
 
@@ -140,13 +139,13 @@ export default {
                         onclick: MFADetails.reload,
                       }, "Generate 2-Factor Authentication Key")
                     ]),
-                    m("div.form-group.col-md-12.mt-4", [
+                    MFADetails.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
                       m("label.col-form-label", "Enter 6 digit token"),
                       m("input.form-control[type='text'][placeholder='Token']", {
                         onclick: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
                         value: MFADetails.tokenInput
                       })
-                    ]),
+                    ]) : null,
                   ]),
                 ]),
                 m(".col-md-12.clearfix.text-right.mt-3", [

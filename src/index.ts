@@ -61,9 +61,9 @@ function SmartFundingRouter() {
               case "step3-2":
                 return addBorrowerDetails;
               case "step4":
-                return addProfilePicture;
-              case "step5":
                 return addKycDocuments;
+              // case "step4":
+              //   return addProfilePicture;
               case "step6":
                 return addMfa;
               case "okay":

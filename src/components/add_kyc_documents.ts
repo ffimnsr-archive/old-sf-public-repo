@@ -16,7 +16,7 @@ const UploadDocumentData = {
   continue: function () {
     const data = {
       user: {
-        status: "step5",
+        status: "step6",
       }
     };
 

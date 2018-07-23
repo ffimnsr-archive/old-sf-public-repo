@@ -176,10 +176,10 @@ export default {
                     ]),
                     m("div.form-group.col-md-2", [
                       m("label.col-form-label", "Zip Code"),
-                      m("input.form-control[type='text'][placeholder='Zip Code']"), {
+                      m("input.form-control[type='text'][placeholder='Zip Code']", {
                         oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.zipCode = v }),
                         value: BorrowerDetailsData.zipCode
-                      }
+                      })
                     ]),
                   ]),
                   m("div.form-group", [
