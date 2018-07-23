@@ -61,7 +61,7 @@ export default {
                   m(".col-md-6",
                     m(".price_card.text-center", [
                       m(".pricing-header.bg-light", [
-                        m("img.img-responsive[alt='investor']", { src: investorAvatar }),
+                        m("img.img-fluid[alt='investor']", { src: investorAvatar }),
                         m("span.price.text-dark", "Investor"),
                         m("span.name.text-dark", "For people that want to invest money")
                       ]),
@@ -73,7 +73,7 @@ export default {
                   m(".col-md-6",
                     m(".price_card.text-center", [
                       m(".pricing-header.bg-custom", [
-                        m("img.img-responsive[alt='investor']", { src: investorAvatar }),
+                        m("img.img-fluid[alt='borrower']", { src: investorAvatar }),
                         m("span.price", "Borrower"),
                         m("span.name", "For people who needs to borrow money")
                       ]),
