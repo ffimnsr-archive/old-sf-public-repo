@@ -14,9 +14,9 @@ To start off in development, clone the repository and all pre-requisites must be
 
 ~~~
 {
-"accessKeyId": "<IDENTIFIER>",
-"secretAccessKey": "<SECRET>",
-"region": "us-west-2"
+  "accessKeyId": "<IDENTIFIER>",
+  "secretAccessKey": "<SECRET>",
+  "region": "us-west-2"
 }
 ~~~
 

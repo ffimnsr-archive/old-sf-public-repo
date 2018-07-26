@@ -50,16 +50,13 @@ const MFADetails = {
       m.route.set("/server-error");
     });
   },
-  load: function() {
-
-  },
   canSave: function() {
     return this.secretKey !== "";
   },
   save: function() {
     const data = {
       user: {
-        status: "step6",
+        status: "step5",
         secretKey: this.secretKey,
         tokenInput: this.tokenInput,
       }
@@ -78,7 +75,7 @@ const MFADetails = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        localStorage.setItem("status", "okay");
+        localStorage.setItem("status", "pending");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied
@@ -93,12 +90,6 @@ const MFADetails = {
 };
 
 export default {
-  oninit(vnode: Vnode) {
-    MFADetails.load();
-  },
-  oncreate(vnode: Vnode) {
-
-  },
   view(vnode: Vnode) {
     return m(".sf-root", [
       m(header),
@@ -142,7 +133,7 @@ export default {
                     MFADetails.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
                       m("label.col-form-label", "Enter 6 digit token"),
                       m("input.form-control[type='text'][placeholder='Token']", {
-                        onclick: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
+                        oninput: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
                         value: MFADetails.tokenInput
                       })
                     ]) : null,

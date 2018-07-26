@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema({
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
   wallet: { type: mongoose.Schema.Types.ObjectId, ref: "Wallet" },
   remarks: String,
-  status: { type: String, enum: [ "step1", "step2", "step3", "deleted", "locked", "okay" ], default: "step1" },
+  status: { type: String, enum: [ "step1", "step2", "step3", "step4", "step5", "step6", "pending", "deleted", "locked", "okay" ], default: "step1" },
   createdAt: Date,
   updatedAt: Date
 }, { timestamps: true });

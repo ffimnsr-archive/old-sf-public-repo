@@ -16,7 +16,7 @@ const UploadDocumentData = {
   continue: function () {
     const data = {
       user: {
-        status: "step6",
+        status: "step4",
       }
     };
 
@@ -32,7 +32,7 @@ const UploadDocumentData = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        localStorage.setItem("status", "step6");
+        localStorage.setItem("status", "step5");
         m.route.set("/");
       } else {
         // TODO: add feedback so user would know he's been denied

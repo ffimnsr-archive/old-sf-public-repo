@@ -22,6 +22,7 @@ import addInvestorDetails from "components/add_investor_details";
 import addBorrowerDetails from "components/add_borrower_details";
 import addKycDocuments from "components/add_kyc_documents";
 import addMfa from "components/add_mfa";
+import noticePending from "components/notice_pending";
 import editProfileDetails from "components/edit_profile_details";
 
 import adminDashboard from "components/admin/dashboard";
@@ -38,6 +39,7 @@ import "jquery-slimscroll";
 
 import "styles/app";
 import "styles/icons";
+import notice_pending from "./components/notice_pending";
 
 // TODO: need code splitting to minimize large chunk dependecy.
 function SmartFundingRouter() {
@@ -62,10 +64,10 @@ function SmartFundingRouter() {
                 return addBorrowerDetails;
               case "step4":
                 return addKycDocuments;
-              // case "step4":
-              //   return addProfilePicture;
-              case "step6":
+              case "step5":
                 return addMfa;
+              case "pending":
+                return noticePending;
               case "okay":
                 return home;
               default:

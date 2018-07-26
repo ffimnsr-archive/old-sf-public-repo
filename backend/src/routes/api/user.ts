@@ -129,22 +129,6 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
   }).catch(next);
 });
 
-router.put("/mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  findById(req.payload.id, res, (user: UserModel) => {
-
-    if (typeof req.body.user.typeset !== "undefined") {
-      user.typeset = req.body.user.typeset;
-    }
-
-    user.save().then((t: UserModel) => {
-      return res.status(200).json({
-        success: true,
-        user: t.toAuthJSON()
-      });
-    });
-  }).catch(next);
-});
-
 router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
   const secret = speakeasy.generateSecret();
   const url = speakeasy.otpauthURL({
@@ -152,6 +136,7 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
     label: "SmartFunding",
     algorithm: "sha512",
   });
+
   logAction(`User ${req.payload.username} generated multifactor auth code`);
   return res.json({
     success: true,
@@ -161,12 +146,30 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
 });
 
 router.post("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  const secret = speakeasy.generateSecret();
-  logAction(`User ${req.payload.username} validated successfully`);
-  return res.json({
-    success: true,
-    secretKey: secret.ascii,
+  const verified = speakeasy.totp.verify({
+    secret: base32secret,
+    encoding: "base32",
+    token: userToken,
   });
+
+  findById(req.payload.id, res, (user: UserModel) => {
+    if (typeof req.body.user.username !== "undefined") {
+      user.username = req.body.user.username;
+    }
+
+    if (typeof req.body.user.email !== "undefined") {
+      user.email = req.body.user.email;
+    }
+
+    logAction(`User ${req.payload.username} validated successfully`);
+    user.save().then((t: UserModel) => {
+
+      logAction(`User ${user.username} successfully updated account`);
+      return res.status(200).json({
+        success: true,
+      });
+    });
+  }).catch(next);
 });
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {

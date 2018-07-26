@@ -374,6 +374,12 @@ export default {
                     m("label.col-form-label", "I confirm that the information provided in the above is true and accurate, and agree to promptly inform of any material changes or inaccuracies in the information or documents provided."),
                   ]),
                   m(".clearfix.text-right.mt-3",
+                    m("button.btn.btn-custom.waves-effect.waves-light.mr-3[type='button']", {
+                      onclick: () => {
+                        localStorage.setItem("status", "step2");
+                        m.route.set("/");
+                      },
+                    }, "Go Back"),
                     m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
                       disabled: !InvestorDetailsData.canSave()
                     }, "Submit")

@@ -191,6 +191,12 @@ export default {
                     })),
                   ]),
                   m(".clearfix.text-right.mt-3",
+                    m("button.btn.btn-custom.waves-effect.waves-light.mr-3[type='button']", {
+                      onclick: () => {
+                        localStorage.setItem("status", "step2");
+                        m.route.set("/");
+                      },
+                    }, "Go Back"),
                     m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
                       disabled: !BorrowerDetailsData.canSave()
                     }, "Submit")
