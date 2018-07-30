@@ -33,4 +33,16 @@ The production contains same development workflow / prerequisites but instead of
 3. Run `make build` on root folder.
 4. Again on backend run `make build`.
 
-##### Note: This documentation is still work in progress.
+### Envrironment Variables
+
+`NODE_ENV` must always set to `production` when deploying to live server.
+
+`MONGODB_URI` set to mongodb instance.
+
+`REDIS_URI` must be set to redis database uri.
+
+`BASE_URI` always set this to relative path when not in docker image.
+
+`WALLET_WIF` must be generated for receiving funds through stealth addresses.
+
+

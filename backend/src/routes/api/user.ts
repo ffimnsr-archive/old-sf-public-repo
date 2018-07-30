@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 import speakeasy from "speakeasy";
 import passport from "passport";
+import ecc from "tiny-secp256k1";
+import bitcoin from "bitcoinjs-lib";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
 import { default as User, UserModel } from "../../models/user";
 import { default as Address, AddressModel } from "../../models/address";
 import { default as Wallet, WalletModel } from "../../models/wallet";
 import { default as Log } from "../../models/log";
+import { walletWIF } from "./config";
 
 const router = Router();
 
@@ -145,25 +148,16 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
   });
 });
 
-router.post("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
+router.put("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
   const verified = speakeasy.totp.verify({
-    secret: base32secret,
+    secret: req.body.user.secret,
+    token: req.body.user.token,
     encoding: "base32",
-    token: userToken,
   });
 
   findById(req.payload.id, res, (user: UserModel) => {
-    if (typeof req.body.user.username !== "undefined") {
-      user.username = req.body.user.username;
-    }
-
-    if (typeof req.body.user.email !== "undefined") {
-      user.email = req.body.user.email;
-    }
-
     logAction(`User ${req.payload.username} validated successfully`);
     user.save().then((t: UserModel) => {
-
       logAction(`User ${user.username} successfully updated account`);
       return res.status(200).json({
         success: true,
@@ -201,6 +195,50 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
     }
   }).catch(next);
 });
+
+router.get("/get-btc-address", auth.required, (req: Request, res: Response, next: NextFunction) => {
+  // XXX: https://en.bitcoin.it/wiki/Wallet_import_format
+  // Implementation derived from:
+  //   https://github.com/bitcoinjs/bitcoinjs-lib
+  const recipient = bitcoin.ECPair.fromWIP("");
+  const nonce = bitcoin.ECPair.makeRandom();
+
+  const forSender = btcStealthSend(nonce.privateKey, recipient.publicKey);
+  return res.status(200).json({
+    success: true,
+    address: getAddress(forSender),
+  });
+});
+
+function getAddress(node, network) {
+  return bitcoin.payments.p2pkh({ pubkey: node.publicKey, network }).address
+}
+
+function btcStealthSend(e: any, Q: any) {
+  const eQ = ecc.pointMultiply(Q, e, true);
+  const c = bitcoin.crypto.sha256(eQ);
+  const Qc = ecc.pointAddScalar(Q, c);
+  const vG = bitcoin.ECPair.fromPublicKey(Qc);
+
+  return vG;
+}
+
+function btcGenerateP2SHMultiSig() {
+  // Generate P2SH from multi-sig
+  //   https://github.com/bitcoinjs/bitcoinjs-lib/blob/d8b66641b3ae3f3f5ad6f0c04a41877da20b34ef/test/integration/addresses.js#L48-L55
+  // TODO: implement
+
+  const pubkeys = [
+    '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
+    '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
+    '03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9'
+  ].map((hex) => Buffer.from(hex, 'hex'))
+
+  const { address } = bitcoin.payments.p2sh({
+    redeem: bitcoin.payments.p2ms({ m: 2, pubkeys })
+  })
+}
+
 
 function logAction(message: string) {
   const log = new Log();
