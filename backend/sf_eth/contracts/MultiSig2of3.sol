@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.23;
 
 
 // A 2/3 multisig contract compatible with Trezor or Ledger-signed messages.

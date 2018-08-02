@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import speakeasy from "speakeasy";
 import passport from "passport";
-import ecc from "tiny-secp256k1";
+// import ecc from "tiny-secp256k1";
 import bitcoin from "bitcoinjs-lib";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
@@ -9,7 +9,7 @@ import { default as User, UserModel } from "../../models/user";
 import { default as Address, AddressModel } from "../../models/address";
 import { default as Wallet, WalletModel } from "../../models/wallet";
 import { default as Log } from "../../models/log";
-import { walletWIF } from "./config";
+import { walletWIF } from "../../config";
 
 const router = Router();
 
@@ -117,10 +117,23 @@ router.put("/image", auth.required, (req: Request, res: Response, next: NextFunc
 
 router.put("/type", auth.required, (req: Request, res: Response, next: NextFunction) => {
   findById(req.payload.id, res, (user: UserModel) => {
-
     if (typeof req.body.user.typeset !== "undefined") {
       user.typeset = req.body.user.typeset;
     }
+
+    // TODO: here is a callback hell
+    const address = new Address({
+      user: user._id,
+      address1: req.body.user.address1,
+      address2: req.body.user.address2,
+      city: req.body.user.city,
+      stateProvince: req.body.user.stateProvince,
+      postalCode: req.body.user.postalCode,
+      status: req.body.user.status,
+      active: false,
+    });
+
+    // user.address = address;
 
     user.save().then((t: UserModel) => {
       logAction(`User ${user.username} updated account type`);
@@ -196,49 +209,52 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
   }).catch(next);
 });
 
+router.get("/get-eth-address", auth.required, (req: Request, res: Response, next: NextFunction) => {
+
+});
+
 router.get("/get-btc-address", auth.required, (req: Request, res: Response, next: NextFunction) => {
   // XXX: https://en.bitcoin.it/wiki/Wallet_import_format
   // Implementation derived from:
   //   https://github.com/bitcoinjs/bitcoinjs-lib
-  const recipient = bitcoin.ECPair.fromWIP("");
+  const recipient = bitcoin.ECPair.fromWIF("");
   const nonce = bitcoin.ECPair.makeRandom();
 
-  const forSender = btcStealthSend(nonce.privateKey, recipient.publicKey);
-  return res.status(200).json({
-    success: true,
-    address: getAddress(forSender),
-  });
+  // const forSender = btcStealthSend(nonce.privateKey, recipient.publicKey);
+  // return res.status(200).json({
+  //   success: true,
+  //   address: getAddress(forSender),
+  // });
 });
 
-function getAddress(node, network) {
+function getAddress(node: any, network: any) {
   return bitcoin.payments.p2pkh({ pubkey: node.publicKey, network }).address
 }
 
-function btcStealthSend(e: any, Q: any) {
-  const eQ = ecc.pointMultiply(Q, e, true);
-  const c = bitcoin.crypto.sha256(eQ);
-  const Qc = ecc.pointAddScalar(Q, c);
-  const vG = bitcoin.ECPair.fromPublicKey(Qc);
+// function btcStealthSend(e: any, Q: any) {
+//   const eQ = ecc.pointMultiply(Q, e, true);
+//   const c = bitcoin.crypto.sha256(eQ);
+//   const Qc = ecc.pointAddScalar(Q, c);
+//   const vG = bitcoin.ECPair.fromPublicKey(Qc);
 
-  return vG;
-}
+//   return vG;
+// }
 
-function btcGenerateP2SHMultiSig() {
-  // Generate P2SH from multi-sig
-  //   https://github.com/bitcoinjs/bitcoinjs-lib/blob/d8b66641b3ae3f3f5ad6f0c04a41877da20b34ef/test/integration/addresses.js#L48-L55
-  // TODO: implement
+// function btcGenerateP2SHMultiSig() {
+//   // Generate P2SH from multi-sig
+//   //   https://github.com/bitcoinjs/bitcoinjs-lib/blob/d8b66641b3ae3f3f5ad6f0c04a41877da20b34ef/test/integration/addresses.js#L48-L55
+//   // TODO: implement
 
-  const pubkeys = [
-    '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
-    '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
-    '03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9'
-  ].map((hex) => Buffer.from(hex, 'hex'))
+//   const pubkeys = [
+//     '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
+//     '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
+//     '03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9'
+//   ].map((hex) => Buffer.from(hex, 'hex'))
 
-  const { address } = bitcoin.payments.p2sh({
-    redeem: bitcoin.payments.p2ms({ m: 2, pubkeys })
-  })
-}
-
+//   const { address } = bitcoin.payments.p2sh({
+//     redeem: bitcoin.payments.p2ms({ m: 2, pubkeys })
+//   })
+// }
 
 function logAction(message: string) {
   const log = new Log();
