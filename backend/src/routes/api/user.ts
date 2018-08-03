@@ -91,6 +91,7 @@ router.put("/details", auth.required, (req: Request, res: Response, next: NextFu
     user.save().then((t: UserModel) => {
       logAction(`User ${user.username} successfully updated account details`);
       address.save();
+
       return res.status(200).json({
         success: true,
         user: t.toAuthJSON()
@@ -133,10 +134,10 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
       active: false,
     });
 
-    // user.address = address;
-
     user.save().then((t: UserModel) => {
       logAction(`User ${user.username} updated account type`);
+      address.save();
+
       return res.status(200).json({
         success: true,
         user: t.toAuthJSON()
@@ -154,6 +155,7 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
   });
 
   logAction(`User ${req.payload.username} generated multifactor auth code`);
+
   return res.json({
     success: true,
     secretKey: secret.base32,
@@ -162,21 +164,38 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
 });
 
 router.put("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  const verified = speakeasy.totp.verify({
-    secret: req.body.user.secret,
-    token: req.body.user.token,
+  console.log("secret", req.body.user.secretKey);
+  console.log("token", req.body.user.tokenInput);
+
+  const verified = speakeasy.totp.verifyDelta({
+    secret: req.body.user.secretKey,
     encoding: "base32",
+    token: req.body.user.tokenInput,
+    window: 2,
+    step: 60,
   });
 
-  findById(req.payload.id, res, (user: UserModel) => {
-    logAction(`User ${req.payload.username} validated successfully`);
-    user.save().then((t: UserModel) => {
-      logAction(`User ${user.username} successfully updated account`);
-      return res.status(200).json({
-        success: true,
+  console.log("verified", verified);
+
+  if (verified) {
+    findById(req.payload.id, res, (user: UserModel) => {
+      logAction(`User ${req.payload.username} validated successfully`);
+
+      user.secretKey = req.body.user.secret;
+      user.status = req.body.user.status;
+      user.save().then((t: UserModel) => {
+        logAction(`User ${user.username} successfully updated account`);
+
+        return res.status(200).json({
+          success: true,
+        });
       });
+    }).catch(next);
+  } else {
+    return res.status(200).json({
+      success: false,
     });
-  }).catch(next);
+  }
 });
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
@@ -227,9 +246,9 @@ router.get("/get-btc-address", auth.required, (req: Request, res: Response, next
   // });
 });
 
-function getAddress(node: any, network: any) {
-  return bitcoin.payments.p2pkh({ pubkey: node.publicKey, network }).address
-}
+// function getAddress(node: any, network: any) {
+//   return bitcoin.payments.p2pkh({ pubkey: node.publicKey, network }).address
+// }
 
 // function btcStealthSend(e: any, Q: any) {
 //   const eQ = ecc.pointMultiply(Q, e, true);

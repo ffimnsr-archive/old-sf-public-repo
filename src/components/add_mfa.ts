@@ -7,17 +7,17 @@ import header from "widgets/header";
 import footer from "widgets/footer";
 
 import { AppSettings } from "configs";
+import { Utils } from "../utils";
 import avatar from "images/users/avatar-2.jpg";
 
 const MFADetails = {
-  secretKey: "",
+  secretKey: "hello",
   otpUrl: "",
   otpImage: "",
 
   tokenInput: "",
 
   reload: function() {
-    const vm = this;
     const token = localStorage.getItem("token")!;
 
     // TODO: save status to mongoose
@@ -41,9 +41,7 @@ const MFADetails = {
           m.redraw();
         });
       } else {
-        // TODO: add feedback so user would know he's been denied
-        console.error("error", res);
-        m.route.set("/server-error");
+        Utils.showSnackbar("Error on generating key code.");
       }
     }).catch(function(err) {
       console.error("error", err);
@@ -57,14 +55,13 @@ const MFADetails = {
     const data = {
       user: {
         status: "step5",
-        secretKey: this.secretKey,
-        tokenInput: this.tokenInput,
+        secretKey: MFADetails.secretKey,
+        tokenInput: MFADetails.tokenInput,
       }
     };
 
     const token = localStorage.getItem("token")!;
 
-    // TODO: save status to mongoose
     m.request(AppSettings.API_BASE_URL + "/api/user/validate-mfa", {
       method: "PUT",
       data: data,
@@ -78,9 +75,7 @@ const MFADetails = {
         localStorage.setItem("status", "pending");
         m.route.set("/");
       } else {
-        // TODO: add feedback so user would know he's been denied
-        console.error("error", res);
-        m.route.set("/server-error");
+        Utils.showSnackbar("Invalid Key Code");
       }
     }).catch(function(err) {
       console.error("error", err);
@@ -124,11 +119,11 @@ export default {
                     ]),
                   ]),
                   m("div.col-md-6", [
-                    m("img.mx-auto.d-block[alt='mfa-key']", { src: MFADetails.otpImage }),
+                    MFADetails.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: MFADetails.otpImage }) : null,
                     m(".clearfix.text-center.mt-3", [
                       m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                         onclick: MFADetails.reload,
-                      }, "Generate 2-Factor Authentication Key")
+                      }, "Click Here to Generate 2-Factor Authentication Key")
                     ]),
                     MFADetails.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
                       m("label.col-form-label", "Enter 6 digit token"),
