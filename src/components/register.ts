@@ -1,5 +1,6 @@
 import m, { Vnode } from "mithril";
 import { AppSettings } from "configs";
+import { Utils } from "../utils";
 
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
@@ -37,11 +38,10 @@ const RegisterAccountData = {
         sessionStorage.setItem("verify_email", vm.email);
         m.route.set("/confirm-mail/register");
       } else {
-        m.route.set("/server-error");
+        Utils.showSnackbar(res.message);
       }
     }).catch(function(err) {
-      console.error("error", err);
-      m.route.set("/server-error");
+      Utils.showSnackbar(err);
     });
   },
 };

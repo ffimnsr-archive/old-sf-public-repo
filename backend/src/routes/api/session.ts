@@ -90,36 +90,45 @@ router.post("/register", (req: Request, res: Response, next: NextFunction) => {
     Source: "noreply@ses.smartfunding.io"
   };
 
-  // TODO: must go async
-  user.save().then((t: UserModel) => {
-    AWS.config.update({ region: "us-west-2" });
-    const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
-      .sendEmail(params)
-      .promise();
-
-    const to = Buffer.from(verificationToken).toString("base64");
-    client.hmset(`cfa:${to}`, "id", t._id.toString(), "token", verificationToken);
-
-    sendPromise
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
-
-    wallet.user = t._id;
-    wallet.balance = 0.0;
-    wallet.save().then((w: WalletModel) => {
-      t.wallet = w._id;
-
-      kycStatus.status = "new";
-      kycStatus.save().then((k: KycStatusModel) => {
-        t.kycStatus = k._id;
-        t.save();
+  User.findOne({ "email": user.email }).then((u: UserModel) => {
+    if (u) {
+      return res.status(422).json({
+        success: false,
+        message: "email is already registered"
       });
-    });
+    }
 
-    return res.json({
-      success: true,
-      user: t.toAuthJSON(),
-    });
+    user.save().then((t: UserModel) => {
+      AWS.config.update({ region: "us-west-2" });
+      const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+        .sendEmail(params)
+        .promise();
+
+      const to = Buffer.from(verificationToken).toString("base64");
+      client.hmset(`cfa:${to}`, "id", t._id.toString(), "token", verificationToken);
+
+      sendPromise
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
+
+      wallet.user = t._id;
+      wallet.balance = 0.0;
+      wallet.save().then((w: WalletModel) => {
+        t.wallet = w._id;
+
+        kycStatus.status = "new";
+        kycStatus.save().then((k: KycStatusModel) => {
+          t.kycStatus = k._id;
+          t.save();
+        });
+      });
+
+      return res.json({
+        success: true,
+        user: t.toAuthJSON(),
+      });
+    }).catch(next);
+
   }).catch(next);
 });
 
