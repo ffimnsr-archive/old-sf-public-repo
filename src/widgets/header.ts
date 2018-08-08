@@ -151,7 +151,7 @@ export default {
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
                   m("i.icon-mustache"),
-                  "Administartion"
+                  "Control Panel"
                 ]),
                 m("ul.submenu", [
                   m("li", m("a[href='/']", "New")),

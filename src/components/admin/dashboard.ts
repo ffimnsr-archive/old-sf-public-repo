@@ -46,8 +46,8 @@ export default {
 
             json.users.map((v: any) => {
               v.button = `
-              <a href="/#!/admin/control/view-account/${v._id}" class="btn btn-custom">View Account</a>
-              <a href="/#!/admin/control/change-status/${v._id}" class="btn btn-custom">Update Status</a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">View Account</a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
               return v;
             });
 
@@ -159,7 +159,26 @@ export default {
           )
         ])
       ),
-      m(footer)
+      m(footer),
+      m("div.modal#status[tabindex='-1'][role='dialog']",
+        m("div.modal-dialog.modal-dialog-centered[role='document']",
+          m("div.modal-content", [
+            m("div.modal-header", [
+              m("h5.modal-title", "Update Status"),
+              m("button.close[type='button'][data-dismiss='modal'][aria-label='Close']",
+                m("span[aria-hidden='true']", '×')
+              )
+            ]),
+            m("div.modal-body",
+              m("p", "Modal body goes here.")
+            ),
+            m("div.modal-footer", [
+              m("button.btn.btn-primary", "Save changes"),
+              m("button.btn.btn-secondary[data-dismiss='modal']", "Close")
+            ])
+          ])
+        )
+      )
     ]);
   }
 }
