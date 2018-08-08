@@ -11,7 +11,7 @@ import avatar from "images/users/avatar-2.jpg";
 const InvestorDetailsData = {
   q: Array(11).fill(false),
   qs: Array(6).fill("not defined"),
-
+  sourceOfWealth: [{ name: "Employment", code: 0 }, { name: "Business Income", code: 1 }, { name: "Inheritance", code: 2 }, { name: "Gift", code: 3 }, { name: "Monies from sale of property / Other assets", code: 4 }, { name: "Others", code: 5 }],  
   load: function() {
 
   },
@@ -299,49 +299,9 @@ export default {
                   ]),
                   m("div.form-group.col-md-6", [
                     m("label.col-form-label", "Source of Wealth:"),
-                    m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
-                        value: 0
-                      }),
-                      m("label.custom-control-label", "Employment")
-                    ]),
-                    m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
-                        value: 1
-                      }),
-                      m("label.custom-control-label", "Business Income")
-                    ]),
-                    m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
-                        value: 2
-                      }),
-                      m("label.custom-control-label", "Inheritance")
-                    ]),
-                    m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
-                        value: 3
-                      }),
-                      m("label.custom-control-label", "Gift")
-                    ]),
-                    m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
-                        value: 4
-                      }),
-                      m("label.custom-control-label", "Monies from sale of property / Other assets")
-                    ]),
-                    m("div.custom-control.custom-radio", [
-                      m("input.custom-control-input[name='q13'][type='radio']", {
-                        onclick: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v }),
-                        value: 5
-                      }),
-                      m("label.custom-control-label", "Others")
-                    ]),
-                  ]),
+		    m("select.form-control", { onchange: m.withAttr("value", (v: string) => { InvestorDetailsData.q[10] = v })},
+                      InvestorDetailsData.sourceOfWealth.map((data: any) => { return m("option", {value: data.code}, data.name) }))
+		       ]),
                   m("div.form-group.col-md-6", [
                     m("label.col-form-label", "Employer Name / Business Name / Inheritance Lineage / Donor / Desciption of Assets"),
                     m("input.form-control[type='text'][placeholder='Details']", {
