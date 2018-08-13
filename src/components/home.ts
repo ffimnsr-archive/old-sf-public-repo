@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
+import panelExchangePrices from "widgets/panel_exchange_prices";
 
 import avatar from "images/users/avatar-2.jpg";
 
@@ -34,7 +35,6 @@ export default {
       m(header),
       m(".wrapper",
         m(".container-fluid",
-
           m(".row",
             m(".col-sm-12",
               m(".page-title-box", [
@@ -97,9 +97,7 @@ export default {
                 ])
               ])
             ),
-            m(".col-lg-4",
-              ""
-            )
+            m(panelExchangePrices),
           ])
         )
       ),

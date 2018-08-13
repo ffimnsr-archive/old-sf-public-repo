@@ -6,8 +6,6 @@ import auth from "../auth";
 const router = Router();
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    // TODO: must return full wallet balance
-
     logAction(`User ${req.payload.username} requested balance`);
     return res.json({
       success: true,

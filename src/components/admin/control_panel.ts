@@ -11,7 +11,7 @@ import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 
-const AdminDashboardData = {
+const Store = {
   count: 0,
   pendingInvestorsCount: 0,
   pendingBorrowersCount: 0,
@@ -24,7 +24,7 @@ const AdminDashboardData = {
 
 export default {
   oninit(vnode: Vnode) {
-    AdminDashboardData.load();
+    Store.load();
   },
   oncreate(vnode: Vnode) {
     const token = localStorage.getItem("token")!;
@@ -38,10 +38,10 @@ export default {
             request.setRequestHeader("Authorization", `Token ${token}`);
           },
           dataSrc: function(json: any) {
-            AdminDashboardData.count = json.count;
-            AdminDashboardData.pendingInvestorsCount = json.pendingInvestorsCount;
-            AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
-            AdminDashboardData.discardedCount = json.discardedCount;
+            Store.count = json.count;
+            Store.pendingInvestorsCount = json.pendingInvestorsCount;
+            Store.pendingBorrowersCount = json.pendingBorrowersCount;
+            Store.discardedCount = json.discardedCount;
             m.redraw();
 
             json.users.map((v: any) => {
@@ -92,28 +92,28 @@ export default {
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.widget-flat.border-custom.bg-custom.text-white", [
                 m("i.fi-tag"),
-                m("h3.m-b-10", AdminDashboardData.count),
+                m("h3.m-b-10", Store.count),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Total Registered Users")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.bg-primary.widget-flat.border-primary.text-white", [
                 m("i.fi-archive"),
-                m("h3.m-b-10", AdminDashboardData.pendingInvestorsCount),
+                m("h3.m-b-10", Store.pendingInvestorsCount),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Investors")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.widget-flat.border-success.bg-success.text-white", [
                 m("i.fi-help"),
-                m("h3.m-b-10", AdminDashboardData.pendingBorrowersCount),
+                m("h3.m-b-10", Store.pendingBorrowersCount),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Borrowers")
               ])
             ),
             m(".col-sm-6.col-lg-6.col-xl-3",
               m(".card-box.bg-danger.widget-flat.border-danger.text-white", [
                 m("i.fi-delete"),
-                m("h3.m-b-10", AdminDashboardData.discardedCount),
+                m("h3.m-b-10", Store.discardedCount),
                 m("p.text-uppercase.m-b-5.font-13.font-600", "Discarded Applicants")
               ])
             )

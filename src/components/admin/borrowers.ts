@@ -19,7 +19,7 @@ const Store = {
 
 export default {
   oninit(vnode: Vnode) {
-    AdminDashboardData.load();
+    Store.load();
   },
   oncreate(vnode: Vnode) {
     const token = localStorage.getItem("token")!;
@@ -33,10 +33,6 @@ export default {
             request.setRequestHeader("Authorization", `Token ${token}`);
           },
           dataSrc: function(json: any) {
-            AdminDashboardData.count = json.count;
-            AdminDashboardData.pendingInvestorsCount = json.pendingInvestorsCount;
-            AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
-            AdminDashboardData.discardedCount = json.discardedCount;
             m.redraw();
 
             json.users.map((v: any) => {

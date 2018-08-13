@@ -14,13 +14,21 @@ export default {
           m("div.modal-body", [
             m("form", [
               m("div.form-group", [
-                m("label", "What Status?"),
-                m("select.form-control", [
-                  m("option", "okay"),
-                  m("option", "pending"),
-                  m("option", "rejected")
-                ])
-              ])
+                m("label", "Forename"),
+                m("input[type=text]")
+              ]),
+              m("div.form-group", [
+                m("label", "Surname"),
+                m("input[type=text]")
+              ]),
+              m("div.form-group", [
+                m("label", "Email"),
+                m("input[type=text]")
+              ]),
+              m("div.form-group", [
+                m("label", "Username"),
+                m("input[type=text]")
+              ]),
             ])
           ]),
           m("div.modal-footer", [

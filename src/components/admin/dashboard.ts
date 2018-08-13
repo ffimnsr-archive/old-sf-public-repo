@@ -48,8 +48,9 @@ export default {
 
             json.users.map((v: any) => {
               v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Account</a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#account" class="btn btn-custom">Update Account</a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>
+              <a href="javascript:;" data-toggle="modal" data-target="#balance" class="btn btn-custom">View Balance</a>`;
               return v;
             });
 

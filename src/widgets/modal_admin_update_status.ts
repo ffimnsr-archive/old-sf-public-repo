@@ -14,11 +14,19 @@ export default {
           m("div.modal-body", [
             m("form", [
               m("div.form-group", [
-                m("label", "What Status?"),
+                m("label", "What's the account KYC (Know Your Customer) status?"),
                 m("select.form-control", [
-                  m("option", "okay"),
-                  m("option", "pending"),
-                  m("option", "rejected")
+                  m("option", "Pending"),
+                  m("option", "Okay"),
+                  m("option", "Rejected")
+                ])
+              ]),
+              m("div.form-group", [
+                m("label", "What's the account status?"),
+                m("select.form-control", [
+                  m("option", "Pending"),
+                  m("option", "Okay"),
+                  m("option", "Rejected")
                 ])
               ])
             ])
