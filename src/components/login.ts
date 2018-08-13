@@ -5,7 +5,7 @@ import { Utils } from "../utils";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
-const LoginAccountData = {
+const Store = {
   email: "",
   password: "",
 
@@ -66,15 +66,15 @@ export default {
                 m("form[method='post']", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
-                    LoginAccountData.save();
+                    Store.save();
                   }
                 }, [
                   m(".form-group.m-b-20.row",
                     m(".col-12", [
                       m("label[for='emailaddress']", "Email address"),
                       m("input.form-control[id='emailaddress'][placeholder='Enter your email'][required=''][type='email']", {
-                        oninput: m.withAttr("value", (v: string) => { LoginAccountData.email = v }),
-                        value: LoginAccountData.email
+                        oninput: m.withAttr("value", (v: string) => { Store.email = v }),
+                        value: Store.email
                       })
                     ])
                   ),
@@ -85,8 +85,8 @@ export default {
                       ),
                       m("label[for='password']", "Password"),
                       m("input.form-control[id='password'][placeholder='Enter your password'][required=''][type='password']", {
-                        oninput: m.withAttr("value", (v: string) => { LoginAccountData.password = v }),
-                        value: LoginAccountData.password
+                        oninput: m.withAttr("value", (v: string) => { Store.password = v }),
+                        value: Store.password
                       })
                     ])
                   ),
@@ -101,7 +101,7 @@ export default {
                   m(".form-group.row.text-center.m-t-10",
                     m(".col-12",
                       m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
-                        disabled: !LoginAccountData.canSave()
+                        disabled: !Store.canSave()
                       }, "Sign In")
                     )
                   )

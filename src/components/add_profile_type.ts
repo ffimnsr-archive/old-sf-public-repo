@@ -9,7 +9,7 @@ import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 import investorAvatar from "images/investor.png";
 
-const ProfileTypeData = {
+const Store = {
   setTypeInvestor: function () {
     localStorage.setItem("status", "step3-1");
     m.route.set("/");
@@ -66,7 +66,7 @@ export default {
                         m("span.name.text-dark", "For people that want to invest money")
                       ]),
                       m("button.btn.btn-custom.waves-effect.waves-light.w-md", {
-                        onclick: ProfileTypeData.setTypeInvestor,
+                        onclick: Store.setTypeInvestor,
                       }, "Select")
                     ])
                   ),
@@ -78,7 +78,7 @@ export default {
                         m("span.name", "For people who needs to borrow money")
                       ]),
                       m("button.btn.btn-custom.w-md.waves-effect.waves-light", {
-                        onclick: ProfileTypeData.setTypeBorrower,
+                        onclick: Store.setTypeBorrower,
                       }, "Select")
                     ])
                   ),

@@ -12,7 +12,7 @@ import "../../node_modules/dropzone/dist/dropzone.css";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
-const UploadDocumentData = {
+const Store = {
   continue: function () {
     const data = {
       user: {
@@ -145,7 +145,7 @@ export default {
                 ),
                 m(".clearfix.text-right.mt-3",
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                    onclick: UploadDocumentData.continue,
+                    onclick: Store.continue,
                   }, "Submit")
                 )
               ])

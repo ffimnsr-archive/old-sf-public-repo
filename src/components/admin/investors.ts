@@ -11,20 +11,33 @@ import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 
-const AdminDashboardData = {
-  count: 0,
-  pendingInvestorsCount: 0,
-  pendingBorrowersCount: 0,
-  discardedCount: 0,
-
-  load: function() {
-
+const Store = {
+  load: function(type: string) {
+    const vm = this;
+    m.request(AppSettings.API_BASE_URL + `/api/session/recover/${id}`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+      }
+    }).then(function(res: any) {
+      if (res.success) {
+        console.log("success");
+      } else {
+        // TODO: add feedback so user would know he's been denied
+        console.error("error", res);
+        m.route.set("/server-error");
+      }
+    }).catch(function(err) {
+      console.error("error", err);
+      m.route.set("/server-error");
+    });
   },
 };
 
 export default {
   oninit(vnode: Vnode) {
-    AdminDashboardData.load();
+    const type = m.route.param("type");
+    Store.load(type);
   },
   oncreate(vnode: Vnode) {
     const token = localStorage.getItem("token")!;
@@ -46,8 +59,8 @@ export default {
 
             json.users.map((v: any) => {
               v.button = `
-              <a href="/#!/admin/control/view-account/${v._id}" class="btn btn-custom">View Account</a>
-              <a href="/#!/admin/control/change-status/${v._id}" class="btn btn-custom">Update Status</a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">View Account</a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
               return v;
             });
 
@@ -59,10 +72,6 @@ export default {
           { data: "surname" },
           { data: "username" },
           { data: "email" },
-          { data: "typeset" },
-          { data: "isDocumentsSubmitted" },
-          { data: "isMailVerified" },
-          { data: "status" },
           { data: "button" },
         ]
       });
@@ -159,7 +168,45 @@ export default {
           )
         ])
       ),
-      m(footer)
+      m(footer),
+      m("div.modal#status[tabindex='-1'][role='dialog']",
+        m("div.modal-dialog.modal-dialog-centered[role='document']",
+          m("div.modal-content", [
+            m("div.modal-header", [
+              m("h5.modal-title", "Update Status"),
+              m("button.close[type='button'][data-dismiss='modal'][aria-label='Close']",
+                m("span[aria-hidden='true']", '×')
+              )
+            ]),
+            m("div.modal-body",
+              m("p", "Modal body goes here.")
+            ),
+            m("div.modal-footer", [
+              m("button.btn.btn-primary", "Save changes"),
+              m("button.btn.btn-secondary[data-dismiss='modal']", "Close")
+            ])
+          ])
+        )
+      ),
+      m("div.modal#account[tabindex='-1'][role='dialog']",
+        m("div.modal-dialog.modal-dialog-centered[role='document']",
+          m("div.modal-content", [
+            m("div.modal-header", [
+              m("h5.modal-title", "Update Status"),
+              m("button.close[type='button'][data-dismiss='modal'][aria-label='Close']",
+                m("span[aria-hidden='true']", '×')
+              )
+            ]),
+            m("div.modal-body",
+              m("p", "Modal body goes here.")
+            ),
+            m("div.modal-footer", [
+              m("button.btn.btn-primary", "Save changes"),
+              m("button.btn.btn-secondary[data-dismiss='modal']", "Close")
+            ])
+          ])
+        )
+      ),
     ]);
   }
 }

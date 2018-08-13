@@ -10,7 +10,7 @@ import { AppSettings } from "configs";
 import { Utils } from "../utils";
 import avatar from "images/users/avatar-2.jpg";
 
-const MFADetails = {
+const Store = {
   secretKey: "hello",
   otpUrl: "",
   otpImage: "",
@@ -30,14 +30,14 @@ const MFADetails = {
       }
     }).then(function(res: any) {
       if (res.success) {
-        MFADetails.secretKey = res.secretKey;
-        MFADetails.otpUrl = res.otpUrl;
+        Store.secretKey = res.secretKey;
+        Store.otpUrl = res.otpUrl;
 
-        QRCode.toDataURL(MFADetails.otpUrl, {
+        QRCode.toDataURL(Store.otpUrl, {
           errorCorrectionLevel: "H",
           version: 12,
         }, function(err, url) {
-          MFADetails.otpImage = url;
+          Store.otpImage = url;
           m.redraw();
         });
       } else {
@@ -55,8 +55,8 @@ const MFADetails = {
     const data = {
       user: {
         status: "step5",
-        secretKey: MFADetails.secretKey,
-        tokenInput: MFADetails.tokenInput,
+        secretKey: Store.secretKey,
+        tokenInput: Store.tokenInput,
       }
     };
 
@@ -119,27 +119,27 @@ export default {
                     ]),
                   ]),
                   m("div.col-md-6", [
-                    MFADetails.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: MFADetails.otpImage }) : null,
+                    Store.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: Store.otpImage }) : null,
                     m(".clearfix.text-center.mt-3", [
                       m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                        onclick: MFADetails.reload,
+                        onclick: Store.reload,
                       }, "Click Here to Generate 2-Factor Authentication Key")
                     ]),
-                    MFADetails.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
+                    Store.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
                       m("label.col-form-label", "Enter 6 digit token"),
                       m("input.form-control[type='text'][placeholder='Token']", {
-                        oninput: m.withAttr("value", (v: string) => { MFADetails.tokenInput = v }),
-                        value: MFADetails.tokenInput
+                        oninput: m.withAttr("value", (v: string) => { Store.tokenInput = v }),
+                        value: Store.tokenInput
                       })
                     ]) : null,
                   ]),
                 ]),
                 m(".col-md-12.clearfix.text-right.mt-3", [
                   m("button.btn.btn-custom.waves-effect.waves-light.mr-2[type='button']", {
-                    onclick: MFADetails.save,
+                    onclick: Store.save,
                   }, "Skip"),
                   m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                    onclick: MFADetails.save,
+                    onclick: Store.save,
                   }, "Submit")
                 ])
               ])

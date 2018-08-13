@@ -4,7 +4,7 @@ import { AppSettings } from "configs";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
-const ConfirmMailData = {
+const Store = {
   load(id: string) {
     const vm = this;
     m.request(AppSettings.API_BASE_URL + `/api/session/recover/${id}`, {
@@ -30,7 +30,7 @@ const ConfirmMailData = {
 export default {
   oninit(vnode: Vnode) {
     const id = m.route.param("token");
-    ConfirmMailData.load(id);
+    Store.load(id);
   },
   view(vnode: Vnode) {
     return m(".sf-root", [

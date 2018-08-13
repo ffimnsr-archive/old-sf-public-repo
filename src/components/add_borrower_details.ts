@@ -8,7 +8,7 @@ import footer from "widgets/footer";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
-const BorrowerDetailsData = {
+const Store = {
   name: "",
   registrationNo: "",
   address1: "",
@@ -95,7 +95,7 @@ const BorrowerDetailsData = {
 
 export default {
   oninit(vnode: Vnode) {
-    BorrowerDetailsData.load();
+    Store.load();
   },
   oncreate(vnode: Vnode) {
 
@@ -128,65 +128,65 @@ export default {
                 m("form[role='form']", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
-                    BorrowerDetailsData.save();
+                    Store.save();
                   }
                 }, [
                   m("div.form-group", [
                     m("label.col-form-label", "Company Name"),
                     m("input.form-control[type='text'][placeholder='Acme Inc.']", {
-                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.name = v }),
-                      value: BorrowerDetailsData.name
+                      oninput: m.withAttr("value", (v: string) => { Store.name = v }),
+                      value: Store.name
                     })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Company Registration No."),
                     m("input.form-control[type='text'][placeholder='SEC Registration No.']", {
-                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.registrationNo = v }),
-                      value: BorrowerDetailsData.registrationNo
+                      oninput: m.withAttr("value", (v: string) => { Store.registrationNo = v }),
+                      value: Store.registrationNo
                     })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Company Address 1"),
                     m("input.form-control[type='text'][placeholder='House/Lot No. and Street']", {
-                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.address1 = v }),
-                      value: BorrowerDetailsData.address1
+                      oninput: m.withAttr("value", (v: string) => { Store.address1 = v }),
+                      value: Store.address1
                     })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Company Address 2"),
                     m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']", {
-                      oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.address2 = v }),
-                      value: BorrowerDetailsData.address2
+                      oninput: m.withAttr("value", (v: string) => { Store.address2 = v }),
+                      value: Store.address2
                     })
                   ]),
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "City"),
                       m("input.form-control[type='text'][placeholder='City']", {
-                        oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.city = v }),
-                        value: BorrowerDetailsData.city
+                        oninput: m.withAttr("value", (v: string) => { Store.city = v }),
+                        value: Store.city
                       })
                     ]),
                     m("div.form-group.col-md-4", [
                       m("label.col-form-label", "State"),
                       m("input.form-control[type='text'][placeholder='State']", {
-                        oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.city = v }),
-                        value: BorrowerDetailsData.city
+                        oninput: m.withAttr("value", (v: string) => { Store.city = v }),
+                        value: Store.city
                       })
                     ]),
                     m("div.form-group.col-md-2", [
                       m("label.col-form-label", "Zip Code"),
                       m("input.form-control[type='text'][placeholder='Zip Code']", {
-                        oninput: m.withAttr("value", (v: string) => { BorrowerDetailsData.zipCode = v }),
-                        value: BorrowerDetailsData.zipCode
+                        oninput: m.withAttr("value", (v: string) => { Store.zipCode = v }),
+                        value: Store.zipCode
                       })
                     ]),
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Country"),
                     m("select.form-control", {
-                      onchange: m.withAttr("value", (v: string) => { BorrowerDetailsData.country = v }),
-                    }, BorrowerDetailsData.countries.map(function(v: any) {
+                      onchange: m.withAttr("value", (v: string) => { Store.country = v }),
+                    }, Store.countries.map(function(v: any) {
                       return m("option", { value: v.code }, v.name)
                     })),
                   ]),
@@ -198,7 +198,7 @@ export default {
                       },
                     }, "Go Back"),
                     m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
-                      disabled: !BorrowerDetailsData.canSave()
+                      disabled: !Store.canSave()
                     }, "Submit")
                   )
                 ]),

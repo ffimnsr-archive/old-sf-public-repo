@@ -8,7 +8,7 @@ import footer from "widgets/footer";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
-const ProfilePictureData = {
+const Store = {
   image: "",
 
   load: function() {
@@ -52,7 +52,7 @@ const ProfilePictureData = {
 
 export default {
   oninit(vnode: Vnode) {
-    ProfilePictureData.load();
+    Store.load();
   },
   oncreate(vnode: Vnode) {
 

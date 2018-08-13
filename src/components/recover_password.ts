@@ -5,7 +5,7 @@ import { Utils } from "../utils";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
-const RecoverPasswordData = {
+const Store = {
   email: "",
 
   canSave: function() {
@@ -67,22 +67,22 @@ export default {
                 m("form.form-horizontal", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
-                    RecoverPasswordData.save();
+                    Store.save();
                   }
                 }, [
                   m(".form-group.row.m-b-20",
                     m(".col-12", [
                       m("label[for='emailaddress']", "Email address"),
                       m("input.form-control[id='emailaddress'][placeholder='e.g. jose@rizal.com'][required][type='email']", {
-                        oninput: m.withAttr("value", (v: string) => { RecoverPasswordData.email = v }),
-                        value: RecoverPasswordData.email
+                        oninput: m.withAttr("value", (v: string) => { Store.email = v }),
+                        value: Store.email
                       })
                     ])
                   ),
                   m(".form-group.row.text-center.m-t-10",
                     m(".col-12",
                       m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
-                        disabled: !RecoverPasswordData.canSave()
+                        disabled: !Store.canSave()
                       }, "Reset Password")
                     )
                   )

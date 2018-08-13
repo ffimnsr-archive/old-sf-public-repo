@@ -3,7 +3,7 @@ import m, { Vnode } from "mithril";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
-const ConfirmMailData = {
+const Store = {
   getVerifyEmail() {
     let email = sessionStorage.getItem("verify_email");
     if (!email) {
@@ -60,7 +60,7 @@ export default {
                   ]),
                   m("p.text-muted.font-14.mt-2", [
                     "A email has been send to ",
-                    m("b", ConfirmMailData.getVerifyEmail()),
+                    m("b", Store.getVerifyEmail()),
                     ". Please check for an email from SmartFunding and click on the included link to reset your password."
                   ]),
                   m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/']",

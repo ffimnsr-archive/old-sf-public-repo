@@ -7,7 +7,7 @@ import footer from "widgets/footer";
 
 import avatar from "images/users/avatar-2.jpg";
 
-const HomeData = {
+const Store = {
   image: "",
 
   load: function() {
@@ -27,7 +27,7 @@ const HomeData = {
 
 export default {
   oninit() {
-    HomeData.load();
+    Store.load();
   },
   view(vnode: Vnode) {
     return m(".sf-root", [

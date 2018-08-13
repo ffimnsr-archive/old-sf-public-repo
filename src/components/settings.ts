@@ -8,7 +8,7 @@ import footer from "widgets/footer";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-2.jpg";
 
-const ProfileDetailsData = {
+const Store = {
   forename: "",
   surname: "",
   address1: "",
@@ -89,7 +89,7 @@ const ProfileDetailsData = {
 
 export default {
   oninit(vnode: Vnode) {
-    ProfileDetailsData.load();
+    Store.load();
   },
   oncreate(vnode: Vnode) {
 
@@ -122,73 +122,73 @@ export default {
                 m("form[role='form']", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
-                    ProfileDetailsData.save();
+                    Store.save();
                   }
                 }, [
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "First Name"),
                       m("input.form-control[type='text'][placeholder='Jose']", {
-                        oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.forename = v }),
-                        value: ProfileDetailsData.forename
+                        oninput: m.withAttr("value", (v: string) => { Store.forename = v }),
+                        value: Store.forename
                       })
                     ]),
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "Last Name"),
                       m("input.form-control[type='text'][placeholder='Rizal']", {
-                        oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.surname = v }),
-                        value: ProfileDetailsData.surname
+                        oninput: m.withAttr("value", (v: string) => { Store.surname = v }),
+                        value: Store.surname
                       })
                     ]),
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Address 1"),
                     m("input.form-control[type='text'][placeholder='House/Lot No. and Street']", {
-                      oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.address1 = v }),
-                      value: ProfileDetailsData.address1
+                      oninput: m.withAttr("value", (v: string) => { Store.address1 = v }),
+                      value: Store.address1
                     })
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Address 2"),
                     m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']", {
-                      oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.address2 = v }),
-                      value: ProfileDetailsData.address2
+                      oninput: m.withAttr("value", (v: string) => { Store.address2 = v }),
+                      value: Store.address2
                     })
                   ]),
                   m("div.form-row", [
                     m("div.form-group.col-md-6", [
                       m("label.col-form-label", "City"),
                       m("input.form-control[type='text'][placeholder='City']", {
-                        oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.city = v }),
-                        value: ProfileDetailsData.city
+                        oninput: m.withAttr("value", (v: string) => { Store.city = v }),
+                        value: Store.city
                       })
                     ]),
                     m("div.form-group.col-md-4", [
                       m("label.col-form-label", "State"),
                       m("input.form-control[type='text'][placeholder='State']", {
-                        oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.state = v }),
-                        value: ProfileDetailsData.state
+                        oninput: m.withAttr("value", (v: string) => { Store.state = v }),
+                        value: Store.state
                       })
                     ]),
                     m("div.form-group.col-md-2", [
                       m("label.col-form-label", "Zip Code"),
                       m("input.form-control[type='text'][placeholder='Zip Code']", {
-                        oninput: m.withAttr("value", (v: string) => { ProfileDetailsData.zipCode = v }),
-                        value: ProfileDetailsData.zipCode
+                        oninput: m.withAttr("value", (v: string) => { Store.zipCode = v }),
+                        value: Store.zipCode
                       })
                     ]),
                   ]),
                   m("div.form-group", [
                     m("label.col-form-label", "Country"),
                     m("select.form-control", {
-                      onchange: m.withAttr("value", (v: string) => { ProfileDetailsData.country = v }),
-                    }, ProfileDetailsData.countries.map(function(v: any) {
+                      onchange: m.withAttr("value", (v: string) => { Store.country = v }),
+                    }, Store.countries.map(function(v: any) {
                       return m("option", { value: v.code }, v.name)
                     })),
                   ]),
                   m(".clearfix.text-right.mt-3",
                     m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
-                      disabled: !ProfileDetailsData.canSave()
+                      disabled: !Store.canSave()
                     }, "Submit")
                   )
                 ]),

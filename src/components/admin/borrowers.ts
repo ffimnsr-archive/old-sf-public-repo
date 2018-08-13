@@ -2,8 +2,6 @@ import m, { Vnode } from "mithril";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
-import updateStatus from "widgets/modal_admin_update_status";
-import updateAccountInfo from "widgets/modal_admin_update_account_info";
 
 import logo from "images/sf-logo.png";
 
@@ -14,11 +12,6 @@ import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 
 const Store = {
-  count: 0,
-  pendingInvestorsCount: 0,
-  pendingBorrowersCount: 0,
-  discardedCount: 0,
-
   load: function() {
 
   },
@@ -26,7 +19,7 @@ const Store = {
 
 export default {
   oninit(vnode: Vnode) {
-    Store.load();
+    AdminDashboardData.load();
   },
   oncreate(vnode: Vnode) {
     const token = localStorage.getItem("token")!;
@@ -40,15 +33,15 @@ export default {
             request.setRequestHeader("Authorization", `Token ${token}`);
           },
           dataSrc: function(json: any) {
-            Store.count = json.count;
-            Store.pendingInvestorsCount = json.pendingInvestorsCount;
-            Store.pendingBorrowersCount = json.pendingBorrowersCount;
-            Store.discardedCount = json.discardedCount;
+            AdminDashboardData.count = json.count;
+            AdminDashboardData.pendingInvestorsCount = json.pendingInvestorsCount;
+            AdminDashboardData.pendingBorrowersCount = json.pendingBorrowersCount;
+            AdminDashboardData.discardedCount = json.discardedCount;
             m.redraw();
 
             json.users.map((v: any) => {
               v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Account</a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">View Account</a>
               <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
               return v;
             });
@@ -83,44 +76,13 @@ export default {
                     m("li.breadcrumb-item",
                       m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                     ),
-                    m("li.breadcrumb-item.active", "Admin Dashboard")
+                    m("li.breadcrumb-item.active", "Investors")
                   ])
                 ),
-                m("h4.page-title", "Admin Dashboard")
+                m("h4.page-title", "Investors")
               ])
             )
           ),
-          m(".row.text-center", [
-            m(".col-sm-6.col-lg-6.col-xl-3",
-              m(".card-box.widget-flat.border-custom.bg-custom.text-white", [
-                m("i.fi-tag"),
-                m("h3.m-b-10", Store.count),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Total Registered Users")
-              ])
-            ),
-            m(".col-sm-6.col-lg-6.col-xl-3",
-              m(".card-box.bg-primary.widget-flat.border-primary.text-white", [
-                m("i.fi-archive"),
-                m("h3.m-b-10", Store.pendingInvestorsCount),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Investors")
-              ])
-            ),
-            m(".col-sm-6.col-lg-6.col-xl-3",
-              m(".card-box.widget-flat.border-success.bg-success.text-white", [
-                m("i.fi-help"),
-                m("h3.m-b-10", Store.pendingBorrowersCount),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Pending Borrowers")
-              ])
-            ),
-            m(".col-sm-6.col-lg-6.col-xl-3",
-              m(".card-box.bg-danger.widget-flat.border-danger.text-white", [
-                m("i.fi-delete"),
-                m("h3.m-b-10", Store.discardedCount),
-                m("p.text-uppercase.m-b-5.font-13.font-600", "Discarded Applicants")
-              ])
-            )
-          ]),
-
           m(".row",
             m(".col-12",
               m(".card-box.table-responsive", [
@@ -135,10 +97,6 @@ export default {
                       m("th", "Surname"),
                       m("th", "Username"),
                       m("th", "Email"),
-                      m("th", "Type"),
-                      m("th", "Documents"),
-                      m("th", "Verified"),
-                      m("th", "Status"),
                       m("th", "Action"),
                     ])
                   ),
@@ -148,10 +106,6 @@ export default {
                       m("th", "Surname"),
                       m("th", "Username"),
                       m("th", "Email"),
-                      m("th", "Type"),
-                      m("th", "Documents"),
-                      m("th", "Verified"),
-                      m("th", "Status"),
                       m("th", "Action"),
                     ]),
                   ])
@@ -162,8 +116,6 @@ export default {
         ])
       ),
       m(footer),
-      m(updateStatus),
-      m(updateAccountInfo),
     ]);
   }
 }

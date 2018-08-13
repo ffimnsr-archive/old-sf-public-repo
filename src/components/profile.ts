@@ -7,7 +7,7 @@ import footer from "widgets/footer";
 import { AppSettings } from "configs";
 import avatar from "images/users/avatar-1.jpg";
 
-const ProfileData = {
+const Store = {
   fullname: "",
   username: "",
   email: "",
@@ -43,7 +43,7 @@ const ProfileData = {
 
 export default {
   oninit(vnode: Vnode) {
-    ProfileData.load();
+    Store.load();
   },
   view(vnode: Vnode) {
     return m(".sf-root", [
@@ -72,8 +72,8 @@ export default {
                       m("img.thumb-lg.rounded-circle[alt='']", { src: avatar })
                     ),
                     m(".media-body.text-white", [
-                      m("h4.mt-1.mb-1.font-18", ProfileData.fullname),
-                      m("p.font-13.text-light", ProfileData.username),
+                      m("h4.mt-1.mb-1.font-18", Store.fullname),
+                      m("p.font-13.text-light", Store.username),
                       m("p.text-light.mb-0", "undefined")
                     ])
                   ]),
@@ -97,11 +97,11 @@ export default {
                   m(".text-left", [
                     m("p.text-muted.font-13", [
                       m("strong", "Full Name : "),
-                      m("span.m-l-15", ProfileData.fullname),
+                      m("span.m-l-15", Store.fullname),
                     ]),
                     m("p.text-muted.font-13", [
                       m("strong", "Email : "),
-                      m("span.m-l-15", ProfileData.email),
+                      m("span.m-l-15", Store.email),
                     ]),
                     m("p.text-muted.font-13", [
                       m("strong", "Location : "),
@@ -109,7 +109,7 @@ export default {
                     ]),
                     m("p.text-muted.font-13", [
                       m("strong", "Role : "),
-                      m("span.m-l-15", ProfileData.role),
+                      m("span.m-l-15", Store.role),
                     ])
                   ]),
                 ])

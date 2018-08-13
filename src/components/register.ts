@@ -5,7 +5,7 @@ import { Utils } from "../utils";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 
-const RegisterAccountData = {
+const Store = {
   username: "",
   email: "",
   password: "",
@@ -68,15 +68,15 @@ export default {
                 m("form.form-horizontal[method='post']", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
-                    RegisterAccountData.save();
+                    Store.save();
                   }
                 }, [
                   m(".form-group.row.m-b-20",
                     m(".col-12", [
                       m("label[for='username']", "Username"),
                       m("input.form-control[id='username'][placeholder='e.g. jrizal'][required][type='text']", {
-                        oninput: m.withAttr("value", (v: string) => { RegisterAccountData.username = v }),
-                        value: RegisterAccountData.username
+                        oninput: m.withAttr("value", (v: string) => { Store.username = v }),
+                        value: Store.username
                       })
                     ])
                   ),
@@ -84,8 +84,8 @@ export default {
                     m(".col-12", [
                       m("label[for='email']", "Email address"),
                       m("input.form-control[id='email'][placeholder='e.g. jose@rizal.com'][required][type='email']", {
-                        oninput: m.withAttr("value", (v: string) => { RegisterAccountData.email = v }),
-                        value: RegisterAccountData.email
+                        oninput: m.withAttr("value", (v: string) => { Store.email = v }),
+                        value: Store.email
                       })
                     ])
                   ),
@@ -93,8 +93,8 @@ export default {
                     m(".col-12", [
                       m("label[for='password']", "Password"),
                       m("input.form-control[id='password'][placeholder='Enter your password'][required][type='password']", {
-                        oninput: m.withAttr("value", (v: string) => { RegisterAccountData.password = v }),
-                        value: RegisterAccountData.password
+                        oninput: m.withAttr("value", (v: string) => { Store.password = v }),
+                        value: Store.password
                       })
                     ])
                   ),
@@ -112,7 +112,7 @@ export default {
                   m(".form-group.row.text-center.m-t-10",
                     m(".col-12",
                       m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
-                        disabled: !RegisterAccountData.canSave()
+                        disabled: !Store.canSave()
                       }, "Sign Up Free")
                     )
                   )

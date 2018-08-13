@@ -5,7 +5,7 @@ import { Auth } from "../auth";
 import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-1.jpg";
 
-const HeaderData = {
+const Store = {
   getEmail() {
     let email = localStorage.getItem("email")!;
     return email;
@@ -80,14 +80,14 @@ export default {
                     m("img.rounded-circle[alt='user']", { src: avatar }),
                     m("span.ml-1.pro-user-name", [
                       "  ",
-                      HeaderData.getUsername(),
+                      Store.getUsername(),
                       m("i.mdi.mdi-chevron-down")
                     ])
                   ]),
 
                   m(".dropdown-menu.dropdown-menu-right.profile-dropdown.", [
                     m(".dropdown-item.noti-title",
-                      m("h6.text-overflow.m-0", `Welcome ${HeaderData.getUsername()}!`)
+                      m("h6.text-overflow.m-0", `Welcome ${Store.getUsername()}!`)
                     ),
                     !Auth.checkIsRoleAdmin() ? m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
                       m("i.fi-head"),
@@ -128,35 +128,36 @@ export default {
               ),
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-eyeglass"),
                   "Investors"
                 ]),
                 m("ul.submenu", [
-                  m("li", m("a[href='/']", "New")),
-                  m("li", m("a[href='/']", "Pending")),
-                  m("li", m("a[href='/']", "Active")),
+                  m("li", m("a[href='/admin/investors/new']", "New")),
+                  m("li", m("a[href='/admin/investors/pending']", "Pending")),
+                  m("li", m("a[href='/admin/investors/active']", "Active")),
+                  m("li", m("a[href='/admin/investors/rejected']", "Rejected")),
                 ])
               ]) : null,
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-chemistry"),
                   "Borrowers"
                 ]),
                 m("ul.submenu", [
-                  m("li", m("a[href='/']", "New")),
-                  m("li", m("a[href='/']", "Pending")),
-                  m("li", m("a[href='/']", "Active")),
+                  m("li", m("a[href='/admin/borrowers/new']", "New")),
+                  m("li", m("a[href='/admin/borrowers/pending']", "Pending")),
+                  m("li", m("a[href='/admin/borrowers/active']", "Active")),
+                  m("li", m("a[href='/admin/borrowers/discarded']", "Rejected")),
                 ])
               ]) : null,
               Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                 m("a[href='javascript:;']", { oncreate: m.route.link }, [
-                  m("i.icon-mustache"),
                   "Control Panel"
                 ]),
                 m("ul.submenu", [
-                  m("li", m("a[href='/']", "New")),
-                  m("li", m("a[href='/']", "Pending")),
-                  m("li", m("a[href='/']", "Active")),
+                  m("li", m("a[href='/admin/power-users']", "Power Users")),
+                  m("li", m("a[href='/admin/view-log']", "View Log")),
+                  m("li", m("a[href='/admin/country-list']", "Country List")),
+                  m("li", m("a[href='/admin/company-revenue-list']", "Company Revenue List")),
+                  m("li", m("a[href='/admin/credit-rate-list']", "Credit Rate List")),
                 ])
               ]) : null,
             ])

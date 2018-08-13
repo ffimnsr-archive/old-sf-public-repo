@@ -7,7 +7,7 @@ import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 import avatar from "images/users/avatar-5.jpg";
 
-const LockScreenData = {
+const Store = {
   email: "",
   password: "",
 
@@ -16,7 +16,7 @@ const LockScreenData = {
     if (!email) {
       m.route.set("/server-error");
     }
-    LockScreenData.email = email;
+    Store.email = email;
   },
   canSave: function() {
 
@@ -31,7 +31,7 @@ export default {
     // Remove only the token and retain email so user don't need
     // to re-input it.
     localStorage.removeItem("token");
-    LockScreenData.getEmail();
+    Store.getEmail();
   },
   view(vnode: Vnode) {
     return m(".sf-root", [
@@ -62,22 +62,22 @@ export default {
                 m("form.form-horizontal", {
                   onsubmit: (e: Event) => {
                     e.preventDefault();
-                    LockScreenData.save();
+                    Store.save();
                   }
                 }, [
                   m(".form-group.row",
                     m(".col-12", [
                       m("label[for='password']", "Password"),
                       m("input.form-control[id='password'][placeholder='Enter your password'][required][type='password']", {
-                        oninput: m.withAttr("value", (v: string) => { LockScreenData.password = v }),
-                        value: LockScreenData.password
+                        oninput: m.withAttr("value", (v: string) => { Store.password = v }),
+                        value: Store.password
                       })
                     ])
                   ),
                   m(".form-group.row.text-center",
                     m(".col-12",
                       m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
-                        disabled: !LockScreenData.canSave()
+                        disabled: !Store.canSave()
                       }, "Log In")
                     )
                   )
