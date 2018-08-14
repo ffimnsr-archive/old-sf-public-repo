@@ -45,4 +45,3 @@ The production contains same development workflow / prerequisites but instead of
 
 `WALLET_WIF` must be generated for receiving funds through stealth addresses.
 
-
