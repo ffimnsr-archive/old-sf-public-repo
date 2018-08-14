@@ -27,13 +27,13 @@ const Store = {
 };
 
 export default {
-  oninit(vnode: Vnode) {
+  oninit(_vnode: Vnode) {
     // Remove only the token and retain email so user don't need
     // to re-input it.
     localStorage.removeItem("token");
     Store.getEmail();
   },
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {

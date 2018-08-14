@@ -9,7 +9,7 @@ export default {
     localStorage.removeItem("token");
     localStorage.removeItem("status");
   },
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {

@@ -14,7 +14,7 @@ const Store = {
 };
 
 export default {
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {

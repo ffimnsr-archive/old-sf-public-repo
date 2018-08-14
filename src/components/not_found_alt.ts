@@ -1,13 +1,9 @@
 import m, { Vnode } from "mithril";
-
-import header from "widgets/header";
 import footer from "widgets/footer";
-
-import bg from "images/bg-1.jpg";
-import logo from "images/sf-logo.png";
+import header from "widgets/header";
 
 export default {
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(header),
       m(".wrapper",

@@ -4,7 +4,7 @@ import header from "widgets/header";
 import footer from "widgets/footer";
 
 export default {
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(header),
       m(".wrapper",

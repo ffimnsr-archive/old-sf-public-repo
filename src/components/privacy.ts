@@ -91,7 +91,7 @@ const converter = new showdown.Converter();
 const page = converter.makeHtml(privacyPolicy);
 
 export default {
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {

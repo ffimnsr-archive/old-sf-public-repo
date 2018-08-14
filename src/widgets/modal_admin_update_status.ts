@@ -1,7 +1,7 @@
 import m, { Vnode } from "mithril";
 
 export default {
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m("div.modal#status[tabindex='-1'][role='dialog']",
       m("div.modal-dialog.modal-dialog-centered[role='document']",
         m("div.modal-content", [

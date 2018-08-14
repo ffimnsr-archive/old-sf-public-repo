@@ -4,7 +4,7 @@ import bg from "images/bg-1.jpg";
 import logo from "images/sf-logo.png";
 
 export default {
-  view(vnode: Vnode) {
+  view(_vnode: Vnode) {
     return m(".sf-root", [
       m(".accountbg", {
         style: {
