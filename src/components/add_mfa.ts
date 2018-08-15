@@ -12,7 +12,7 @@ const Store = {
 
     tokenInput: "",
 
-    reload: function() {
+    reload() {
         const token = localStorage.getItem("token")!;
 
         // TODO: save status to mongoose
@@ -43,10 +43,10 @@ const Store = {
             m.route.set("/server-error");
         });
     },
-    canSave: function() {
+    canSave() {
         return this.secretKey !== "";
     },
-    save: function() {
+    save() {
         const data = {
             user: {
                 status: "step5",
