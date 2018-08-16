@@ -1,24 +1,24 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
+import { default as User, UserModel } from "../../models/user";
 import { default as Log } from "../../models/log";
 import auth from "../auth";
 
 const router = Router();
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-  // User.findById((<any>req).payload.id).then((user: UserModel) => {
-  //   if (!user) {
-  //     return res.status(401).json({
-  //       success: false,
-  //       message: "unauthorized access",
-  //     });
-  //   }
-
-  //   return res.json({
-  //     success: true,
-  //     user: user.toAuthJSON()
-  //   });
-  // }).catch(next);
+    User.findById(req.payload.id).populate('address').then((user: UserModel) => {
+       if (!user) {
+         return res.status(401).json({
+           success: false,
+           message: "unauthorized access",
+         });
+       }
+       return res.json({
+         success: true,
+         user: user.toAuthJSON()
+       });
+   }).catch(next);
 
   return res.json({
     success: true,
