@@ -14,8 +14,7 @@ const Store = {
 
     reload() {
         const token = localStorage.getItem("token")!;
-
-        // TODO: save status to mongoose
+        const vm = this;
         m.request(AppSettings.API_BASE_URL + "/api/user/generate-mfa", {
             method: "GET",
             headers: {
@@ -25,22 +24,21 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                Store.secretKey = res.secretKey;
-                Store.otpUrl = res.otpUrl;
+                vm.secretKey = res.secretKey;
+                vm.otpUrl = res.otpUrl;
 
-                QRCode.toDataURL(Store.otpUrl, {
+                QRCode.toDataURL(vm.otpUrl, {
                     errorCorrectionLevel: "H",
                     version: 12,
                 }, function(_err: any, url: string) {
-                    Store.otpImage = url;
+                    vm.otpImage = url;
                     m.redraw();
                 });
             } else {
                 Utils.showSnackbar("Error on generating key code.");
             }
         }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
+            Utils.showSnackbar("Error on generating key code.");
         });
     },
     canSave() {
