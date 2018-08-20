@@ -101,7 +101,7 @@
     "@types/winston": "^2.3.9",
     "concurrently": "^3.6.0",
     "forever": "^0.15.3",
-    "newman": "^3.9.4",
+    "newman": "^4.0.2",
     "nodemon": "^1.17.5",
     "shelljs": "^0.8.2",
     "truffle": "^4.1.13",
