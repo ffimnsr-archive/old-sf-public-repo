@@ -27,7 +27,7 @@ winston.info(`redis ${redisUri}`);
 // MongoDB configuration
 mongoose.connect(mongoUri);
 if (isProduction) {
-  mongoose.set("debug", true);
+    mongoose.set("debug", false);
 }
 
 // AWS configuration
@@ -50,30 +50,30 @@ require("./config/passport");
 
 // Access control configuration
 function setRoles() {
-  const nodeAcl = new acl(new acl.memoryBackend());
+    const nodeAcl = new acl(new acl.memoryBackend());
 
-  nodeAcl.allow([
-    {
-      roles: "admin",
-      allows: [
-        { resources: "/admin", permissions: "*" }
-      ]
-    },
-    {
-      roles: "member",
-      allows: [
-        { resources: "/", permissions: "get" }
-      ]
-    },
-    {
-      roles: "guest",
-      allows: []
-    }
-  ]);
+    nodeAcl.allow([
+        {
+            roles: "admin",
+            allows: [
+                { resources: "/admin", permissions: "*" }
+            ]
+        },
+        {
+            roles: "member",
+            allows: [
+                { resources: "/", permissions: "get" }
+            ]
+        },
+        {
+            roles: "guest",
+            allows: []
+        }
+    ]);
 
-  // Role inheritance
-  nodeAcl.addRoleParents("user", "guest");
-  nodeAcl.addRoleParents("admin", "user");
+    // Role inheritance
+    nodeAcl.addRoleParents("user", "guest");
+    nodeAcl.addRoleParents("admin", "user");
 }
 
 // Load routes
@@ -81,48 +81,48 @@ app.use(routes);
 
 // Assign an identifier for every requests
 function assignId(req: Request, res: Response, next: NextFunction) {
-  (<any>req).id = uuid.v4();
-  next();
+    (<any>req).id = uuid.v4();
+    next();
 }
 
 app.use(assignId);
 
 // Log requests
 morgan.token("id", function(req: any) {
-  return req.id;
+    return req.id;
 });
 
 app.use(morgan(":id :method :url :response-time"));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const err = new Error("Not Found");
-  (<any>err).status = 404;
-  next(err);
+    const err = new Error("Not Found");
+    (<any>err).status = 404;
+    next(err);
 });
 
 if (!isProduction) {
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    winston.error(err.stack);
+    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+        winston.error(err.stack);
 
-    res.status((<any>err).status || 500);
+        res.status((<any>err).status || 500);
 
-    res.json({
-      errors: {
-        message: err.message,
-        error: err
-      }
+        res.json({
+            errors: {
+                message: err.message,
+                error: err
+            }
+        });
     });
-  });
 } else {
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status((<any>err).status || 500);
-    res.json({
-      errors: {
-        message: err.message,
-        error: {}
-      }
+    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+        res.status((<any>err).status || 500);
+        res.json({
+            errors: {
+                message: err.message,
+                error: {}
+            }
+        });
     });
-  });
 }
 
 export default app;

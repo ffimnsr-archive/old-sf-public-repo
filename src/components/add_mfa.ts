@@ -34,6 +34,8 @@ const Store = {
                     vm.otpImage = url;
                     m.redraw();
                 });
+
+                console.log("")
             } else {
                 Utils.showSnackbar("Error on generating key code.");
             }
