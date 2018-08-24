@@ -1,3 +1,4 @@
+
 import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
@@ -34,8 +35,6 @@ const Store = {
                     vm.otpImage = url;
                     m.redraw();
                 });
-
-                console.log("")
             } else {
                 Utils.showSnackbar("Error on generating key code.");
             }
@@ -117,7 +116,10 @@ export default {
                                         Store.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: Store.otpImage }) : null,
                                         m(".clearfix.text-center.mt-3", [
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
-                                                onclick: Store.reload,
+                                                onclick: (e: Event) => {
+                                                    Store.reload();
+                                                    e.preventDefault();
+                                                },
                                             }, "Click Here to Generate 2-Factor Authentication Key")
                                         ]),
                                         Store.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
