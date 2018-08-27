@@ -22,57 +22,57 @@ const docs = [
     },
     {
         username: "support45",
-        email: "support45@yopmail.com",
+        email: "support45@yopmail.net",
         password: "support45",
     },
     {
         username: "support46",
-        email: "support46@yopmail.com",
+        email: "support46@yopmail.net",
         password: "support46",
     },
     {
         username: "support47",
-        email: "support47@yopmail.com",
+        email: "support47@yopmail.net",
         password: "support47",
     },
     {
         username: "support48",
-        email: "support48@yopmail.com",
+        email: "support48@yopmail.net",
         password: "support48",
     },
     {
         username: "support49",
-        email: "support49@yopmail.com",
+        email: "support49@yopmail.net",
         password: "support49",
     },
     {
         username: "support50",
-        email: "support50@yopmail.com",
+        email: "support50@yopmail.net",
         password: "support50",
     },
     {
         username: "support51",
-        email: "support51@yopmail.com",
+        email: "support51@yopmail.net",
         password: "support51",
     },
     {
         username: "support52",
-        email: "support52@yopmail.com",
+        email: "support52@yopmail.net",
         password: "support52",
     },
     {
         username: "support53",
-        email: "support53@yopmail.com",
+        email: "support53@yopmail.net",
         password: "support53",
     },
     {
         username: "support54",
-        email: "support54@yopmail.com",
+        email: "support54@yopmail.net",
         password: "support54",
     },
     {
         username: "support55",
-        email: "support55@yopmail.com",
+        email: "support55@yopmail.net",
         password: "support55",
     }
 ];

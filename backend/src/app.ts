@@ -24,12 +24,6 @@ const app = express();
 winston.info(`mongo ${mongoUri}`);
 winston.info(`redis ${redisUri}`);
 
-// MongoDB configuration
-mongoose.connect(mongoUri);
-if (isProduction) {
-    mongoose.set("debug", false);
-}
-
 // AWS configuration
 AWS.config.loadFromPath("config.json");
 AWS.config.update({ region: "us-west-2" });
@@ -74,6 +68,19 @@ function setRoles() {
     // Role inheritance
     nodeAcl.addRoleParents("user", "guest");
     nodeAcl.addRoleParents("admin", "user");
+}
+1
+// MongoDB configuration
+mongoose.connect(mongoUri)
+    .then(function() {
+
+    })
+    .catch(function(err) {
+
+    });
+
+if (isProduction) {
+    mongoose.set("debug", false);
 }
 
 // Load routes

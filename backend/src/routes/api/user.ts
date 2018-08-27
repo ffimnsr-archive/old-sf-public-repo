@@ -16,7 +16,6 @@ const router = Router();
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.findById(req.payload.id)
         .populate("wallet")
-        .populate("address")
         .then((user: UserModel) => {
             if (!user) {
                 return res.status(401).json({
@@ -149,7 +148,8 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
 router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
     const secret = speakeasy.generateSecret();
     const url = speakeasy.otpauthURL({
-        secret: secret.ascii,
+        secret: secret.base32,
+        encoding: "base32",
         label: "SmartFunding",
         algorithm: "sha512",
     });
@@ -164,18 +164,14 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
 });
 
 router.put("/validate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    console.log("secret", req.body.user.secretKey);
-    console.log("token", req.body.user.tokenInput);
-
-    const verified = speakeasy.totp.verifyDelta({
+    // this has 60 second window time from token generation
+    const verified = speakeasy.totp.verify({
         secret: req.body.user.secretKey,
-        encoding: "base32",
         token: req.body.user.tokenInput,
-        window: 10,
-        step: 60,
+        encoding: "base32",
+        algorithm: "sha512",
+        window: 2,
     });
-
-    console.log("verified", verified);
 
     if (verified) {
         findById(req.payload.id, res, (user: UserModel) => {

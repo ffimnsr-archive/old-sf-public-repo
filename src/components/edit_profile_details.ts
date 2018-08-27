@@ -15,10 +15,30 @@ const Store = {
 
     countries: [] as string[],
 
-    load: function() {
+    load() {
         const vm = this;
 
         const token = localStorage.getItem("token")!;
+
+        m.request(AppSettings.API_BASE_URL + "/api/user/", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": `Token ${token}`,
+            }
+        }).then(function(res: any) {
+            if (res.success) {
+                console.log(res);
+            } else {
+                // TODO: add feedback so user would know he's been denied
+                m.route.set("/server-error");
+            }
+        }).catch(function(err) {
+            console.error("error", err);
+            m.route.set("/server-error");
+        });
+
 
         m.request(AppSettings.API_BASE_URL + "/api/country/list", {
             method: "GET",
@@ -39,7 +59,7 @@ const Store = {
             m.route.set("/server-error");
         });
     },
-    canSave: function() {
+    canSave() {
         return this.forename !== "" &&
             this.surname !== "" &&
             this.address1 !== "" &&
@@ -49,7 +69,7 @@ const Store = {
             this.zipCode !== "" &&
             this.country !== "";
     },
-    save: function() {
+    save() {
         const data = {
             user: {
                 forename: this.forename,

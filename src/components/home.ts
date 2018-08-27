@@ -5,6 +5,10 @@ import jwtDecode from "jwt-decode";
 import header from "widgets/header";
 import footer from "widgets/footer";
 import panelExchangePrices from "widgets/panel_exchange_prices";
+import modalBitcoin from "widgets/modal_user_get_bitcoin_address";
+import modalEthereum from "widgets/modal_user_get_ethereum_address";
+import modalStellar from "widgets/modal_user_get_stellar_address";
+
 
 const Store = {
     image: "",
@@ -99,7 +103,10 @@ export default {
                     ])
                 )
             ),
-            m(footer)
+            m(footer),
+            m(modalBitcoin),
+            m(modalEthereum),
+            m(modalStellar),
         ]);
     }
 } as m.Component;
