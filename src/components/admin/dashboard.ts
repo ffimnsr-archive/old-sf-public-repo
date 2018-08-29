@@ -44,9 +44,10 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#account" class="btn btn-custom">Update Account</a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>
-              <a href="javascript:;" data-toggle="modal" data-target="#balance" class="btn btn-custom">View Balance</a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#account" class="btn btn-custom"><i class="icon-note"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="icon-flag"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="icon-flag"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#balance" class="btn btn-custom"><i class="icon-tag"></i></a>`;
                             return v;
                         });
 
@@ -114,6 +115,19 @@ export default {
                                 m("i.fi-delete"),
                                 m("h3.m-b-10", Store.discardedCount),
                                 m("p.text-uppercase.m-b-5.font-13.font-600", "Discarded Applicants")
+                            ])
+                        )
+                    ]),
+
+                    m(".row", [
+                        m(".col-lg-6",
+                            m(".card-box", [
+                                m("h4.header-title", "User Registration Overview"),
+                            ])
+                        ),
+                        m(".col-lg-6",
+                            m(".card-box", [
+                                m("h4.header-title", "SmartFunding Wallet Transaction (Cash In)"),
                             ])
                         )
                     ]),

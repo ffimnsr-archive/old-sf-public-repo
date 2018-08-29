@@ -15,6 +15,7 @@ import recoverPasswordActivate from "components/recover_password_activate";
 
 import home from "components/home";
 import profile from "components/profile";
+import settings from "components/settings";
 import addProfileDetails from "components/add_profile_details";
 import addProfileType from "components/add_profile_type";
 import addProfilePicture from "components/add_profile_picture";
@@ -26,6 +27,10 @@ import noticePending from "components/notice_pending";
 import editProfileDetails from "components/edit_profile_details";
 
 import adminDashboard from "components/admin/dashboard";
+import adminViewLog from "components/admin/view_log";
+import adminViewInvestors from "components/admin/investors";
+import adminViewBorrowers from "components/admin/borrowers";
+import adminViewPowerUsers from "components/admin/investors";
 
 import siteMaintenance from "components/site_maintenance";
 import notFound from "components/not_found";
@@ -84,6 +89,12 @@ function SmartFundingRouter() {
                 else return profile;
             }
         },
+        "settings": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return settings;
+            }
+        },
         "/profile/edit": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
@@ -99,7 +110,16 @@ function SmartFundingRouter() {
                 }
             }
         },
-        "/admin/dashboard/investors/:type": {
+        "/admin/view-log": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewLog;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/investors/:type": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
@@ -108,7 +128,7 @@ function SmartFundingRouter() {
                 }
             }
         },
-        "/admin/dashboard/borrowers/:type": {
+        "/admin/borrowers/:type": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
@@ -157,12 +177,6 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else return logout;
-            }
-        },
-        "/settings": {
-            onmatch: function() {
-                if (Auth.checkTokenNone()) m.route.set("/login");
-                else return profile;
             }
         },
         "/lock-screen": {

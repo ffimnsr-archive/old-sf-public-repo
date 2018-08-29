@@ -45,6 +45,10 @@ const Store = {
     canSave() {
         return this.secretKey !== "";
     },
+    skip() {
+        localStorage.setItem("status", "pending");
+        m.route.set("/");
+    },
     save() {
         const data = {
             user: {
@@ -133,7 +137,7 @@ export default {
                                 ]),
                                 m(".col-md-12.clearfix.text-right.mt-3", [
                                     m("button.btn.btn-custom.waves-effect.waves-light.mr-2[type='button']", {
-                                        onclick: Store.save,
+                                        onclick: Store.skip,
                                     }, "Skip"),
                                     m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                                         onclick: Store.save,

@@ -127,37 +127,39 @@ export default {
                                 ])
                             ),
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='javascript:;']", { oncreate: m.route.link }, [
+                                m("a[href='/']", { oncreate: m.route.link }, [
                                     "Investors"
                                 ]),
                                 m("ul.submenu", [
-                                    m("li", m("a[href='/admin/investors/new']", "New")),
-                                    m("li", m("a[href='/admin/investors/pending']", "Pending")),
-                                    m("li", m("a[href='/admin/investors/active']", "Active")),
-                                    m("li", m("a[href='/admin/investors/rejected']", "Rejected")),
+                                    m("li", m("a[href='/admin/investors/new']", { oncreate: m.route.link }, "New")),
+                                    m("li", m("a[href='/admin/investors/pending']", { oncreate: m.route.link }, "Pending")),
+                                    m("li", m("a[href='/admin/investors/active']", { oncreate: m.route.link }, "Active")),
+                                    m("li", m("a[href='/admin/investors/rejected']", { oncreate: m.route.link }, "Rejected")),
                                 ])
                             ]) : null,
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='javascript:;']", { oncreate: m.route.link }, [
+                                m("a[href='/']", { oncreate: m.route.link }, [
                                     "Borrowers"
                                 ]),
                                 m("ul.submenu", [
-                                    m("li", m("a[href='/admin/borrowers/new']", "New")),
-                                    m("li", m("a[href='/admin/borrowers/pending']", "Pending")),
-                                    m("li", m("a[href='/admin/borrowers/active']", "Active")),
-                                    m("li", m("a[href='/admin/borrowers/discarded']", "Rejected")),
+                                    m("li", m("a[href='/admin/borrowers/new']", { oncreate: m.route.link }, "New")),
+                                    m("li", m("a[href='/admin/borrowers/pending']", { oncreate: m.route.link }, "Pending")),
+                                    m("li", m("a[href='/admin/borrowers/active']", { oncreate: m.route.link }, "Active")),
+                                    m("li", m("a[href='/admin/borrowers/discarded']", { oncreate: m.route.link }, "Rejected")),
                                 ])
                             ]) : null,
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='javascript:;']", { oncreate: m.route.link }, [
+                                m("a[href='']", { oncreate: m.route.link }, [
                                     "Control Panel"
                                 ]),
                                 m("ul.submenu", [
-                                    m("li", m("a[href='/admin/power-users']", "Power Users")),
-                                    m("li", m("a[href='/admin/view-log']", "View Log")),
-                                    m("li", m("a[href='/admin/country-list']", "Country List")),
-                                    m("li", m("a[href='/admin/company-revenue-list']", "Company Revenue List")),
-                                    m("li", m("a[href='/admin/credit-rate-list']", "Credit Rate List")),
+                                    m("li", m("a[href='/admin/power-users']", { oncreate: m.route.link }, "Power Users")),
+                                    m("li", m("a[href='/admin/view-log']", { oncreate: m.route.link }, "View Log")),
+                                    m("li", m("a[href='/admin/power-users']", { oncreate: m.route.link }, "Data Analytics")),
+                                    m("li", m("a[href='/admin/power-users']", { oncreate: m.route.link }, "Wallet Configurations")),
+                                    m("li", m("a[href='/admin/country-list']", { oncreate: m.route.link }, "Country List")),
+                                    m("li", m("a[href='/admin/company-revenue-list']", { oncreate: m.route.link }, "Company Revenue List")),
+                                    m("li", m("a[href='/admin/credit-rate-list']", { oncreate: m.route.link }, "Credit Rate List")),
                                 ])
                             ]) : null,
                         ])

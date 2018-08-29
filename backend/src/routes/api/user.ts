@@ -8,6 +8,7 @@ import auth from "../auth";
 import { default as User, UserModel } from "../../models/user";
 import { default as Address, AddressModel } from "../../models/address";
 import { default as Wallet, WalletModel } from "../../models/wallet";
+import { default as Company, CompanyModel } from "../../models/company";
 import { default as Log } from "../../models/log";
 import { walletWIF } from "../../config";
 
@@ -16,18 +17,20 @@ const router = Router();
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.findById(req.payload.id)
         .populate("wallet")
+        .populate("address")
         .then((user: UserModel) => {
+            console.log(user);
             if (!user) {
                 return res.status(401).json({
                     success: false,
                     message: "unauthorized access",
                 });
             }
-
             return res.json({
                 success: true,
                 user: user.toAuthJSON(),
                 wallet: user.wallet,
+                address: user.address,
             });
         }).catch(next);
 });
@@ -83,10 +86,11 @@ router.put("/details", auth.required, (req: Request, res: Response, next: NextFu
             city: req.body.user.city,
             stateProvince: req.body.user.stateProvince,
             postalCode: req.body.user.postalCode,
-            status: req.body.user.status,
             active: false,
         });
 
+        user.status = req.body.user.status;
+        user.address = address._id;
         user.save().then((t: UserModel) => {
             logAction(`User ${user.username} successfully updated account details`);
             address.save();
@@ -117,24 +121,36 @@ router.put("/image", auth.required, (req: Request, res: Response, next: NextFunc
 
 router.put("/type", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
-        if (typeof req.body.user.typeset !== "undefined") {
-            user.typeset = req.body.user.typeset;
+        let temp = req.body;
+        if (typeof temp.user.typeset !== "undefined") {
+            user.typeset = temp.user.typeset;
         }
 
-        // TODO: here is a callback hell
+        if (typeof temp.user.status !== "undefined") {
+            user.status = temp.user.status;
+        }
+
+        const company = new Company({
+            name: temp.user.company.name,
+            registrationNo: temp.user.company.registrationNo,
+        });
+
         const address = new Address({
-            user: user._id,
-            address1: req.body.user.address1,
-            address2: req.body.user.address2,
-            city: req.body.user.city,
-            stateProvince: req.body.user.stateProvince,
-            postalCode: req.body.user.postalCode,
-            status: req.body.user.status,
+            company: company._id,
+            address1: temp.user.company.address1,
+            address2: temp.user.company.address2,
+            city: temp.user.company.city,
+            stateProvince: temp.user.company.stateProvince,
+            postalCode: temp.user.postalCode,
             active: false,
         });
 
+        company.address = address._id;
+        user.company = company._id;
         user.save().then((t: UserModel) => {
             logAction(`User ${user.username} updated account type`);
+
+            company.save();
             address.save();
 
             return res.status(200).json({

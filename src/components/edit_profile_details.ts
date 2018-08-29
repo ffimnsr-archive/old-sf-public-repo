@@ -29,6 +29,14 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
+                vm.forename = res.user.forename;
+                vm.surname = res.user.surname;
+                vm.address1 = res.address.address1;
+                vm.address2 = res.address.address2;
+                vm.city = res.address.city;
+                vm.state = res.address.state;
+                vm.zipCode = res.address.zipCode;
+                vm.country = res.address.country;
                 console.log(res);
             } else {
                 // TODO: add feedback so user would know he's been denied
