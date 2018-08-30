@@ -28,9 +28,12 @@ import editProfileDetails from "components/edit_profile_details";
 
 import adminDashboard from "components/admin/dashboard";
 import adminViewLog from "components/admin/view_log";
-import adminViewInvestors from "components/admin/investors";
-import adminViewBorrowers from "components/admin/borrowers";
-import adminViewPowerUsers from "components/admin/investors";
+import adminViewCountryList from "components/admin/view_country_list";
+import adminViewCompanyRevenueList from "components/admin/view_company_revenue_list";
+import adminViewCreditRateList from "components/admin/view_credit_rate_list";
+import adminInvestors from "components/admin/investors";
+import adminBorrowers from "components/admin/borrowers";
+import adminPowerUsers from "components/admin/power_users";
 
 import siteMaintenance from "components/site_maintenance";
 import notFound from "components/not_found";
@@ -110,6 +113,33 @@ function SmartFundingRouter() {
                 }
             }
         },
+        "/admin/power-users": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/data-analytics": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewLog;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/wallet-configurations": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewLog;
+                    else m.route.set("/");
+                }
+            }
+        },
         "/admin/view-log": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
@@ -119,11 +149,38 @@ function SmartFundingRouter() {
                 }
             }
         },
+        "/admin/view-country-list": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewCountryList;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-company-revenue-list": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewCompanyRevenueList;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-credit-rate-list": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewCreditRateList;
+                    else m.route.set("/");
+                }
+            }
+        },
         "/admin/investors/:type": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    if (Auth.checkIsRoleAdmin()) return adminInvestors;
                     else m.route.set("/");
                 }
             }
@@ -132,7 +189,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    if (Auth.checkIsRoleAdmin()) return adminBorrowers;
                     else m.route.set("/");
                 }
             }

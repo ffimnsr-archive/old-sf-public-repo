@@ -114,7 +114,7 @@ export default {
                             m(".card-box.bg-danger.widget-flat.border-danger.text-white", [
                                 m("i.fi-delete"),
                                 m("h3.m-b-10", Store.discardedCount),
-                                m("p.text-uppercase.m-b-5.font-13.font-600", "Unprocessed Applicants")
+                                m("p.text-uppercase.m-b-5.font-13.font-600", "Discarded Applicants")
                             ])
                         )
                     ]),
