@@ -29,27 +29,12 @@ export default {
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
-
-                        json.users.map((v: any) => {
-                            v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">View Account</a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
-                            return v;
-                        });
-
                         return json.users;
                     }
                 },
                 columns: [
-                    { data: "forename" },
-                    { data: "surname" },
-                    { data: "username" },
-                    { data: "email" },
-                    { data: "typeset" },
-                    { data: "isDocumentsSubmitted" },
-                    { data: "isMailVerified" },
-                    { data: "status" },
-                    { data: "button" },
+                    { data: "date" },
+                    { data: "message" },
                 ]
             });
         });
@@ -67,37 +52,31 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Investors")
+                                        m("li.breadcrumb-item.active", "Logs Overview")
                                     ])
                                 ),
-                                m("h4.page-title", "Investors")
+                                m("h4.page-title", "Logs Overview")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Borrowers / Investors"),
+                                m("h4.m-t-0.header-title", "Logs Overview"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of all investors and borrowers."
+                                    "Logs generated from different transactions."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
-                                            m("th", "Username"),
-                                            m("th", "Email"),
-                                            m("th", "Action"),
+                                            m("th", "Date"),
+                                            m("th", "Message"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
-                                            m("th", "Username"),
-                                            m("th", "Email"),
-                                            m("th", "Action"),
+                                            m("th", "Date"),
+                                            m("th", "Message"),
                                         ]),
                                     ])
                                 ])

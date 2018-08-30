@@ -89,7 +89,7 @@ function SmartFundingRouter() {
                 else return profile;
             }
         },
-        "settings": {
+        "/settings": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else return settings;
