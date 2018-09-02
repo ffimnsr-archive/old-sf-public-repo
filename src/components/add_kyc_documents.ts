@@ -17,7 +17,7 @@ const Store = {
 
         const token = localStorage.getItem("token")!;
 
-        m.request(AppSettings.API_BASE_URL + "/api/user/type", {
+        m.request(AppSettings.API_BASE_URL + "/api/user/kyc-documents", {
             method: "PUT",
             data: data,
             headers: {

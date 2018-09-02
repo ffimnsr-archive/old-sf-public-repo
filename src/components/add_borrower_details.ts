@@ -165,8 +165,8 @@ export default {
                                             m("div.form-group.col-md-4", [
                                                 m("label.col-form-label", "State"),
                                                 m("input.form-control[type='text'][placeholder='State']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.city = v }),
-                                                    value: Store.city
+                                                    oninput: m.withAttr("value", (v: string) => { Store.state = v }),
+                                                    value: Store.state
                                                 })
                                             ]),
                                             m("div.form-group.col-md-2", [

@@ -119,6 +119,22 @@ router.put("/image", auth.required, (req: Request, res: Response, next: NextFunc
     }).catch(next);
 });
 
+router.put("/kyc-documents", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    findById(req.payload.id, res, (user: UserModel) => {
+        if (typeof req.body.user.image !== "undefined") {
+            user.forename = req.body.user.image;
+        }
+
+        user.save().then((t: UserModel) => {
+            logAction(`User ${user.username} updated account image`);
+            return res.status(200).json({
+                success: true,
+                user: t.toAuthJSON()
+            });
+        });
+    }).catch(next);
+});
+
 router.put("/type", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
         let temp = req.body;

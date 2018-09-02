@@ -102,18 +102,18 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Personal Details")
+                                        m("li.breadcrumb-item.active", "Change Password")
                                     ])
                                 ),
-                                m("h4.page-title", "Personal Details")
+                                m("h4.page-title", "Change Password"),
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box", [
-                                m("h4.header-title.m-t-0", "Personal Details"),
-                                m("p.text-muted.font-14.m-b-10", "Stores personal details."),
+                                m("h4.header-title.m-t-0", "Change Password"),
+                                m("p.text-muted.font-14.m-b-10", "Edit your security info."),
                                 m("form[role='form']", {
                                     onsubmit: (e: Event) => {
                                         e.preventDefault();
@@ -122,64 +122,19 @@ export default {
                                 }, [
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
-                                                m("label.col-form-label", "First Name"),
-                                                m("input.form-control[type='text'][placeholder='Jose']", {
+                                                m("label.col-form-label", "Password"),
+                                                m("input.form-control[type='password'][placeholder='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.forename = v }),
                                                     value: Store.forename
                                                 })
                                             ]),
                                             m("div.form-group.col-md-6", [
-                                                m("label.col-form-label", "Last Name"),
-                                                m("input.form-control[type='text'][placeholder='Rizal']", {
+                                                m("label.col-form-label", "Confirm Password"),
+                                                m("input.form-control[type='password'][placeholder='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.surname = v }),
                                                     value: Store.surname
                                                 })
                                             ]),
-                                        ]),
-                                        m("div.form-group", [
-                                            m("label.col-form-label", "Address 1"),
-                                            m("input.form-control[type='text'][placeholder='House/Lot No. and Street']", {
-                                                oninput: m.withAttr("value", (v: string) => { Store.address1 = v }),
-                                                value: Store.address1
-                                            })
-                                        ]),
-                                        m("div.form-group", [
-                                            m("label.col-form-label", "Address 2"),
-                                            m("input.form-control[type='text'][placeholder='Apartment/Studio/Floor No.']", {
-                                                oninput: m.withAttr("value", (v: string) => { Store.address2 = v }),
-                                                value: Store.address2
-                                            })
-                                        ]),
-                                        m("div.form-row", [
-                                            m("div.form-group.col-md-6", [
-                                                m("label.col-form-label", "City"),
-                                                m("input.form-control[type='text'][placeholder='City']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.city = v }),
-                                                    value: Store.city
-                                                })
-                                            ]),
-                                            m("div.form-group.col-md-4", [
-                                                m("label.col-form-label", "State"),
-                                                m("input.form-control[type='text'][placeholder='State']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.state = v }),
-                                                    value: Store.state
-                                                })
-                                            ]),
-                                            m("div.form-group.col-md-2", [
-                                                m("label.col-form-label", "Zip Code"),
-                                                m("input.form-control[type='text'][placeholder='Zip Code']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.zipCode = v }),
-                                                    value: Store.zipCode
-                                                })
-                                            ]),
-                                        ]),
-                                        m("div.form-group", [
-                                            m("label.col-form-label", "Country"),
-                                            m("select.form-control", {
-                                                onchange: m.withAttr("value", (v: string) => { Store.country = v }),
-                                            }, Store.countries.map(function(v: any) {
-                                                return m("option", { value: v.code }, v.name)
-                                            })),
                                         ]),
                                         m(".clearfix.text-right.mt-3",
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {

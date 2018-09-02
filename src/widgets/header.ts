@@ -95,7 +95,7 @@ export default {
                                     ]) : null,
                                     m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
                                         m("i.fi-cog"),
-                                        m("span", "Settings")
+                                        m("span", "Change Password")
                                     ]),
                                     !Auth.checkIsRoleAdmin() ? m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
                                         m("i.fi-help"),
