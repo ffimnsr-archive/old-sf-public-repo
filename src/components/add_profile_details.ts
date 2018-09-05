@@ -2,6 +2,7 @@ import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
+import { Utils } from "../utils";
 
 const Store = {
     forename: "",
@@ -9,8 +10,8 @@ const Store = {
     address1: "",
     address2: "",
     city: "",
-    state: "",
-    zipCode: "",
+    stateProvince: "",
+    postalCode: "",
     country: "",
 
     countries: [] as string[],
@@ -30,12 +31,10 @@ const Store = {
             if (res.success) {
                 vm.countries = res.countries;
             } else {
-                // TODO: add feedback so user would know he's been denied
-                m.route.set("/server-error");
+                Utils.showSnackbar(res.message);
             }
         }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
+            Utils.showSnackbar(err);
         });
     },
     canSave: function() {
@@ -51,8 +50,8 @@ const Store = {
                 address1: this.address1,
                 address2: this.address2,
                 city: this.city,
-                state: this.state,
-                zipCode: this.zipCode,
+                stateProvince: this.stateProvince,
+                postalCode: this.postalCode,
                 country: this.country,
                 status: "step1",
             }
@@ -73,11 +72,10 @@ const Store = {
                 localStorage.setItem("status", "step2");
                 m.route.set("/");
             } else {
-                // TODO: add feedback so user would know he's been denied
-                console.error("error", res);
+                Utils.showSnackbar(res.message);
             }
         }).catch(function(err) {
-            console.error("error", err);
+            Utils.showSnackbar(err);
         });
     }
 };
@@ -85,9 +83,6 @@ const Store = {
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
-    },
-    oncreate(_vnode: Vnode) {
-
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [
@@ -102,6 +97,7 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
+                                        m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Account Setup")),
                                         m("li.breadcrumb-item.active", "Personal Details")
                                     ])
                                 ),
@@ -113,7 +109,7 @@ export default {
                         m(".col-12",
                             m(".card-box", [
                                 m("h4.header-title.m-t-0", "Personal Details"),
-                                m("p.text-muted.font-14.m-b-10", "Stores personal details."),
+                                m("p.text-muted.font-14.m-b-10", "We would like to get more info about you to verify and personalize your account."),
                                 m("form[role='form']", {
                                     onsubmit: (e: Event) => {
                                         e.preventDefault();
@@ -123,14 +119,14 @@ export default {
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "First Name"),
-                                                m("input.form-control[type='text'][placeholder='Jose']", {
+                                                m("input.form-control[type='text'][placeholder='First Name (e.g. Jose)']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.forename = v }),
                                                     value: Store.forename
                                                 })
                                             ]),
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "Last Name"),
-                                                m("input.form-control[type='text'][placeholder='Rizal']", {
+                                                m("input.form-control[type='text'][placeholder='Last Name (e.g. Rizal)']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.surname = v }),
                                                     value: Store.surname
                                                 })
@@ -159,17 +155,17 @@ export default {
                                                 })
                                             ]),
                                             m("div.form-group.col-md-4", [
-                                                m("label.col-form-label", "State"),
-                                                m("input.form-control[type='text'][placeholder='State']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.state = v }),
-                                                    value: Store.state
+                                                m("label.col-form-label", "State / Province"),
+                                                m("input.form-control[type='text'][placeholder='State / Province']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.stateProvince = v }),
+                                                    value: Store.stateProvince
                                                 })
                                             ]),
                                             m("div.form-group.col-md-2", [
                                                 m("label.col-form-label", "Zip Code"),
-                                                m("input.form-control[type='text'][placeholder='Zip Code']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.zipCode = v }),
-                                                    value: Store.zipCode
+                                                m("input.form-control[type='text'][placeholder='Postal Code']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.postalCode = v }),
+                                                    value: Store.postalCode
                                                 })
                                             ]),
                                         ]),

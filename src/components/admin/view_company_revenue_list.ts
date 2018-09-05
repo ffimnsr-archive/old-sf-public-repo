@@ -8,7 +8,7 @@ import footer from "widgets/footer";
 import header from "widgets/header";
 
 const Store = {
-    load: function() {
+    load() {
 
     },
 };

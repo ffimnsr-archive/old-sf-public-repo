@@ -83,7 +83,7 @@ export default {
                                         m(".form-group.row.m-b-20",
                                             m(".col-12", [
                                                 m("label[for='email']", "Email address"),
-                                                m("input.form-control[id='email'][placeholder='e.g. jose@rizal.com'][required][type='email']", {
+                                                m("input.form-control[id='email'][placeholder='e.g. jose@smartfunding.io'][required][type='email']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.email = v }),
                                                     value: Store.email
                                                 })

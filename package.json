@@ -18,6 +18,7 @@
     "@types/clean-webpack-plugin": "^0.1.2",
     "@types/copy-webpack-plugin": "^4.4.2",
     "@types/datatables.net": "^1.10.13",
+    "@types/datatables.net-buttons": "^1.4.0",
     "@types/dropzone": "^5.0.4",
     "@types/html-webpack-plugin": "^2.30.4",
     "@types/jquery": "^3.3.6",

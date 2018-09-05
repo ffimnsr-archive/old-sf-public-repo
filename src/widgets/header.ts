@@ -4,7 +4,6 @@ import jwtDecode from "jwt-decode";
 import m, { Vnode } from "mithril";
 import { Auth } from "../auth";
 
-
 const Store = {
     getEmail() {
         let email = localStorage.getItem("email")!;
@@ -42,7 +41,6 @@ export default {
                 m(".container-fluid", [
                     m(".logo",
                         m("a.logo[href='/']", { oncreate: m.route.link }, [
-                            m("img.logo-small[alt=''][height='26'][src='assets/images/logo_sm.png']"),
                             m("img.logo-large[alt=''][height='22']", { src: logo })
                         ])
                     ),
@@ -122,8 +120,7 @@ export default {
                         m("ul.navigation-menu", [
                             m("li.has-submenu",
                                 m("a[href='/']", { oncreate: m.route.link }, [
-                                    m("i.icon-speedometer"),
-                                    "Dashboard"
+                                    Auth.checkIsAccountOkay() ? "Dashboard" : "Account Setup",
                                 ])
                             ),
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [

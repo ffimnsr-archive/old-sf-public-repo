@@ -15,12 +15,6 @@ const Store = {
 };
 
 export default {
-    oninit(_vnode: Vnode) {
-
-    },
-    oncreate(_vnode: Vnode) {
-
-    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -45,9 +39,9 @@ export default {
                     m(".row.justify-content-center",
                         m(".col-xl-10", [
                             m(".text-center", [
-                                m("h3.m-b-30.m-t-20", "Choose your account type"),
+                                m("h3.mb-30.mt-20", "What type of account you want to use?"),
                                 m("p.text-muted", [
-                                    ""
+                                    "Select the type of account you need, as this is a very critical phase as you won't have a chance to change this later."
                                 ])
                             ]),
                             m(".mt-3",
@@ -61,7 +55,7 @@ export default {
                                             ]),
                                             m("button.btn.btn-custom.waves-effect.waves-light.w-md", {
                                                 onclick: Store.setTypeInvestor,
-                                            }, "Select")
+                                            }, "I'll be an Investor")
                                         ])
                                     ),
                                     m(".col-md-6",
@@ -73,7 +67,7 @@ export default {
                                             ]),
                                             m("button.btn.btn-custom.w-md.waves-effect.waves-light", {
                                                 onclick: Store.setTypeBorrower,
-                                            }, "Select")
+                                            }, "I'll be a Borrower")
                                         ])
                                     ),
                                 ])

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import speakeasy from "speakeasy";
 import passport from "passport";
-// import ecc from "tiny-secp256k1";
+import ecc from "tiny-secp256k1";
 import bitcoin from "bitcoinjs-lib";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
@@ -86,6 +86,7 @@ router.put("/details", auth.required, (req: Request, res: Response, next: NextFu
             city: req.body.user.city,
             stateProvince: req.body.user.stateProvince,
             postalCode: req.body.user.postalCode,
+            country: req.body.user.country,
             active: false,
         });
 
@@ -177,6 +178,38 @@ router.put("/type", auth.required, (req: Request, res: Response, next: NextFunct
     }).catch(next);
 });
 
+router.put("/change-password", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    findById(req.payload.id, res, (user: UserModel) => {
+        let temp = req.body;
+
+        console.log(req.body.user);
+
+        if (!user.validPassword(temp.user.oldPassword)) {
+            return res.status(200).json({
+                success: false,
+                message: "Current password is not valid.",
+            });
+        }
+
+        if (temp.user.newPassword !== temp.user.confirmNewPassword) {
+            return res.status(200).json({
+                success: false,
+                message: "Please re-type new password.",
+            });
+        }
+
+        user.setPassword(temp.user.newPassword);
+        user.save().then((t: UserModel) => {
+            logAction(`User ${user.username} updated his/her password.`);
+
+            return res.status(200).json({
+                success: true,
+                message: "Successfully changed password."
+            });
+        });
+    }).catch(next);
+});
+
 router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: NextFunction) => {
     const secret = speakeasy.generateSecret();
     const url = speakeasy.otpauthURL({
@@ -186,7 +219,7 @@ router.get("/generate-mfa", auth.required, (req: Request, res: Response, next: N
         algorithm: "sha512",
     });
 
-    logAction(`User ${req.payload.username} generated multifactor auth code`);
+    logAction(`User ${req.payload.username} generated multifactor auth code.`);
 
     return res.json({
         success: true,
@@ -207,12 +240,12 @@ router.put("/validate-mfa", auth.required, (req: Request, res: Response, next: N
 
     if (verified) {
         findById(req.payload.id, res, (user: UserModel) => {
-            logAction(`User ${req.payload.username} validated successfully`);
+            logAction(`User ${req.payload.username} validated successfully.`);
 
             user.secretKey = req.body.user.secret;
             user.status = req.body.user.status;
             user.save().then((t: UserModel) => {
-                logAction(`User ${user.username} successfully updated account`);
+                logAction(`User ${user.username} successfully updated his/her account mfa details.`);
 
                 return res.status(200).json({
                     success: true,
@@ -232,13 +265,97 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
         const borrowersCount = t.filter((r: UserModel) => r.typeset == "borrowers" && r.status != "okay").length;
         const noTypeCount = t.filter((r: UserModel) => !r.typeset || r.typeset == "").length;
         if (Array.isArray(t)) {
-            logAction(`User ${req.payload.username} requested user list`);
+            logAction(`User ${req.payload.username} requested member user list`);
             return res.json({
                 success: true,
                 count: t.length,
                 pendingInvestorsCount: investorsCount,
                 pendingBorrowersCount: borrowersCount,
                 discardedCount: noTypeCount,
+                users: t.map((r: UserModel) => {
+                    if (!r.forename || r.forename == "") r.forename = "undefined";
+
+                    if (!r.surname || r.surname == "") r.surname = "undefined";
+
+                    if (!r.typeset || r.typeset == "") r.typeset = "undefined";
+
+                    r.hash = undefined;
+                    r.salt = undefined;
+                    r.__v = undefined;
+                    return r;
+                }),
+            });
+        }
+    }).catch(next);
+});
+
+function statusConvert(stat: string) {
+    switch (stat) {
+        case "new": return "step-1";
+        case "pending": return "pending";
+        case "active": return "okay";
+        case "rejected": return "deleted";
+        default: return "step-1";
+    }
+}
+
+router.get("/investors-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    let status = statusConvert(req.params.status);
+    User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
+        if (Array.isArray(t)) {
+            logAction(`User ${req.payload.username} requested member user list`);
+            return res.json({
+                success: true,
+                count: t.length,
+                users: t.map((r: UserModel) => {
+                    if (!r.forename || r.forename == "") r.forename = "undefined";
+
+                    if (!r.surname || r.surname == "") r.surname = "undefined";
+
+                    if (!r.typeset || r.typeset == "") r.typeset = "undefined";
+
+                    r.hash = undefined;
+                    r.salt = undefined;
+                    r.__v = undefined;
+                    return r;
+                }),
+            });
+        }
+    }).catch(next);
+});
+
+router.get("/borrowers-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    let status = statusConvert(req.params.status);
+    User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
+        if (Array.isArray(t)) {
+            logAction(`User ${req.payload.username} requested member user list`);
+            return res.json({
+                success: true,
+                count: t.length,
+                users: t.map((r: UserModel) => {
+                    if (!r.forename || r.forename == "") r.forename = "undefined";
+
+                    if (!r.surname || r.surname == "") r.surname = "undefined";
+
+                    if (!r.typeset || r.typeset == "") r.typeset = "undefined";
+
+                    r.hash = undefined;
+                    r.salt = undefined;
+                    r.__v = undefined;
+                    return r;
+                }),
+            });
+        }
+    }).catch(next);
+});
+
+router.get("/power-user-list", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    User.find({ role: { $not: /member/ } }).then((t: UserModel[]) => {
+        if (Array.isArray(t)) {
+            logAction(`User ${req.payload.username} requested power user list`);
+            return res.json({
+                success: true,
+                count: t.length,
                 users: t.map((r: UserModel) => {
                     if (!r.forename || r.forename == "") r.forename = "undefined";
 
@@ -278,13 +395,13 @@ router.get("/get-btc-address", auth.required, (req: Request, res: Response, next
 //   return bitcoin.payments.p2pkh({ pubkey: node.publicKey, network }).address
 // }
 
-// function btcStealthSend(e: any, Q: any) {
-//   const eQ = ecc.pointMultiply(Q, e, true);
-//   const c = bitcoin.crypto.sha256(eQ);
-//   const Qc = ecc.pointAddScalar(Q, c);
-//   const vG = bitcoin.ECPair.fromPublicKey(Qc);
+// function bitcoinStealthReceive(d: any, eG: any) {
+//     const eQ = ecc.pointMultiply(eG, d);
+//     const c = bitcoin.crypto.sha256(eQ);
+//     const dc = ecc.privateAdd(d, c);
 
-//   return vG;
+//     const v = bitcoin.ECPair.fromPrivateKey(dc);
+//     return v
 // }
 
 // function btcGenerateP2SHMultiSig() {

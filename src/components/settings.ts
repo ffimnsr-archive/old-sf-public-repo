@@ -2,93 +2,61 @@ import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
+import { Utils } from "../utils";
 
 const Store = {
-    forename: "",
-    surname: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
 
-    countries: [] as string[],
-
-    load: function() {
-        const token = localStorage.getItem("token")!;
-
-        const vm = this;
-        m.request(AppSettings.API_BASE_URL + "/api/country/list", {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json; charset=utf-8",
-                "Authorization": `Token ${token}`,
-            }
-        }).then(function(res: any) {
-            if (res.success) {
-                vm.countries = res.countries;
-            } else {
-                // TODO: add feedback so user would know he's been denied
-                m.route.set("/server-error");
-            }
-        }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
-        });
-    },
     canSave: function() {
-        return this.forename !== "" &&
-            this.surname !== "" &&
-            this.country !== "";
+        return this.oldPassword !== "" &&
+            this.newPassword !== "" &&
+            this.confirmNewPassword !== "";
     },
     save: function() {
         const data = {
             user: {
-                forename: this.forename,
-                surname: this.surname,
-                address1: this.address1,
-                address2: this.address2,
-                city: this.city,
-                state: this.state,
-                zipCode: this.zipCode,
-                country: this.country,
-                status: "step1",
+                oldPassword: this.oldPassword,
+                newPassword: this.newPassword,
+                confirmNewPassword: this.confirmNewPassword,
             }
         };
 
         const token = localStorage.getItem("token")!;
+        const vm = this;
 
-        m.request(AppSettings.API_BASE_URL + "/api/user/details", {
-            method: "PUT",
-            data: data,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json; charset=utf-8",
-                "Authorization": `Token ${token}`,
-            }
-        }).then(function(res: any) {
-            if (res.success) {
-                localStorage.setItem("status", "step2");
-                m.route.set("/");
-            } else {
-                // TODO: add feedback so user would know he's been denied
-                console.error("error", res);
-            }
-        }).catch(function(err) {
-            console.error("error", err);
-        });
+        if (this.newPassword !== this.confirmNewPassword) {
+            Utils.showSnackbar("New password and confirm password not equal.");
+        } else {
+            m.request(AppSettings.API_BASE_URL + "/api/user/change-password", {
+                method: "PUT",
+                data: data,
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": `Token ${token}`,
+                }
+            }).then(function(res: any) {
+                if (res.success) {
+                    vm.oldPassword = "";
+                    vm.newPassword = "";
+                    vm.confirmNewPassword = "";
+
+                    Utils.showSnackbar(res.message);
+                } else {
+                    vm.oldPassword = "";
+                    Utils.showSnackbar(res.message);
+                }
+            }).catch(function(err) {
+                vm.oldPassword = "";
+                Utils.showSnackbar(err);
+            });
+        }
     }
 };
 
 export default {
-    oninit(_vnode: Vnode) {
-        Store.load();
-    },
-    oncreate(_vnode: Vnode) {
-
-    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -122,25 +90,38 @@ export default {
                                 }, [
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
-                                                m("label.col-form-label", "Password"),
+                                                m("label.col-form-label", "Old Password"),
                                                 m("input.form-control[type='password'][placeholder='']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.forename = v }),
-                                                    value: Store.forename
-                                                })
-                                            ]),
-                                            m("div.form-group.col-md-6", [
-                                                m("label.col-form-label", "Confirm Password"),
-                                                m("input.form-control[type='password'][placeholder='']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.surname = v }),
-                                                    value: Store.surname
+                                                    oninput: m.withAttr("value", (v: string) => { Store.oldPassword = v }),
+                                                    value: Store.oldPassword
                                                 })
                                             ]),
                                         ]),
-                                        m(".clearfix.text-right.mt-3",
+                                        m("div.form-row", [
+                                            m("div.form-group.col-md-6", [
+                                                m("label.col-form-label", "New Password"),
+                                                m("input.form-control[type='password'][placeholder='']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.newPassword = v }),
+                                                    value: Store.newPassword
+                                                })
+                                            ]),
+                                            m("div.form-group.col-md-6", [
+                                                m("label.col-form-label", "Confirm New Password"),
+                                                m("input.form-control[type='password'][placeholder='']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.confirmNewPassword = v }),
+                                                    value: Store.confirmNewPassword
+                                                })
+                                            ]),
+                                        ]),
+                                        m(".clearfix.text-right.mt-3", [
+                                            m("a.btn.btn-custom.waves-effect.waves-light.mr-2[href='/']", {
+                                                oncreate: m.route.link,
+                                            }, "Go Back"),
+
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
                                                 disabled: !Store.canSave()
-                                            }, "Submit")
-                                        )
+                                            }, "Change Password")
+                                        ])
                                     ]),
                             ])
                         )

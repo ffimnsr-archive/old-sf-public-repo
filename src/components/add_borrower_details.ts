@@ -2,6 +2,7 @@ import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
+import { Utils } from "../utils";
 
 const Store = {
     name: "",
@@ -30,12 +31,10 @@ const Store = {
             if (res.success) {
                 vm.countries = res.countries;
             } else {
-                // TODO: add feedback so user would know he's been denied
-                m.route.set("/server-error");
+                Utils.showSnackbar(res.message);
             }
         }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
+            Utils.showSnackbar(err);
         });
     },
     canSave: function() {
@@ -77,13 +76,10 @@ const Store = {
                 localStorage.setItem("status", "step4");
                 m.route.set("/");
             } else {
-                // TODO: add feedback so user would know he's been denied
-                console.error("error", res);
-                m.route.set("/server-error");
+                Utils.showSnackbar(res.message);
             }
         }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
+            Utils.showSnackbar(err);
         });
     }
 };
@@ -91,9 +87,6 @@ const Store = {
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
-    },
-    oncreate(_vnode: Vnode) {
-
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [

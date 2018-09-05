@@ -1,9 +1,41 @@
+import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
+import { Utils } from "../utils";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
 
+const Store = {
+    countries: [] as string[],
+
+    load: function() {
+        const token = localStorage.getItem("token")!;
+
+        const vm = this;
+        m.request(AppSettings.API_BASE_URL + "/api/country/list", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": `Token ${token}`,
+            }
+        }).then(function(res: any) {
+            if (res.success) {
+                vm.countries = res.countries;
+            } else {
+                Utils.showSnackbar(res.message);
+            }
+        }).catch(function(err) {
+            Utils.showSnackbar(err);
+        });
+    },
+};
+
+
 export default {
+    oninit(_vnode: Vnode) {
+        Store.load();
+    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -17,10 +49,10 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "FAQ")
+                                        m("li.breadcrumb-item.active", "Frequently Ask Questions")
                                     ])
                                 ),
-                                m("h4.page-title", "FAQ")
+                                m("h4.page-title", "Frequently Ask Questions"),
                             ])
                         )
                     ),
@@ -103,7 +135,8 @@ export default {
                     ])
                 ])
             ),
-            m(footer)
+            m(footer),
+            m("div#snackbar"),
         ]);
     }
 } as m.Component;

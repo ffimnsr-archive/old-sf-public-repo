@@ -13,7 +13,7 @@ const Store = {
     pendingBorrowersCount: 0,
     discardedCount: 0,
 
-    load: function() {
+    load() {
 
     },
 };

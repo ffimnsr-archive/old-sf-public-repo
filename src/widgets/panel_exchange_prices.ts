@@ -48,7 +48,7 @@ export default {
             m(".card-box", [
                 m("h4.m-t-0.header-title", "Exchange Prices"),
                 m("div.table-responsive", [
-                    m("table.table.table-sm.table-dark", [
+                    m("table.table.table-sm", [
                         m("tbody", [
                             m("tr", [
                                 m("td", "Bitcoin (BTC)"),

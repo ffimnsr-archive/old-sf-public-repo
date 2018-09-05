@@ -15,7 +15,7 @@ const Store = {
     pendingBorrowersCount: 0,
     discardedCount: 0,
 
-    load: function() {
+    load() {
 
     },
 };
@@ -44,26 +44,31 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#account" class="btn btn-custom"><i class="icon-note"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="icon-flag"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="icon-flag"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#balance" class="btn btn-custom"><i class="icon-tag"></i></a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#account" class="btn btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#logs" class="btn btn-custom"><i class="fa fa-file-text"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#balance" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
                             return v;
                         });
 
                         return json.users;
                     }
                 },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "New Member",
+                        action: function(e: any, dt: any, node: any, config: any) {
+                        }
+                    },
+                ],
                 columns: [
-                    { data: "forename" },
-                    { data: "surname" },
                     { data: "username" },
                     { data: "email" },
                     { data: "typeset" },
                     { data: "isDocumentsSubmitted" },
-                    { data: "isMailVerified" },
                     { data: "status" },
-                    { data: "button" },
+                    { data: "button", width: "20%" },
                 ]
             });
         });
@@ -142,26 +147,20 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
                                             m("th", "Username"),
                                             m("th", "Email"),
                                             m("th", "Type"),
                                             m("th", "Documents"),
-                                            m("th", "Verified"),
                                             m("th", "Status"),
                                             m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
                                             m("th", "Username"),
                                             m("th", "Email"),
                                             m("th", "Type"),
                                             m("th", "Documents"),
-                                            m("th", "Verified"),
                                             m("th", "Status"),
                                             m("th", "Action"),
                                         ]),

@@ -7,17 +7,17 @@ mongoose.connect(mongoUri);
 const docs = [
     {
         username: "support42",
-        email: "support42@yopmail.com",
+        email: "support42@yopmail.net",
         password: "support42",
     },
     {
         username: "support43",
-        email: "support43@yopmail.com",
+        email: "support43@yopmail.net",
         password: "support43",
     },
     {
         username: "support44",
-        email: "support44@yopmail.com",
+        email: "support44@yopmail.net",
         password: "support44",
     },
     {
@@ -83,7 +83,7 @@ docs.forEach(function(doc) {
     user.username = doc.username;
     user.email = doc.email;
     user.isDocumentsSubmitted = false;
-    user.isMailVerified = false;
+    user.isMailVerified = true;
     user.setPassword(doc.password);
 
     user.save();

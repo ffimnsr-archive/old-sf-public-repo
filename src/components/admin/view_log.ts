@@ -3,12 +3,16 @@ import moment from "moment";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+import "datatables.net-buttons";
+import "datatables.net-buttons-bs4";
+import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
 
 const Store = {
-    load: function() {
+    load() {
 
     },
 };
@@ -39,6 +43,14 @@ export default {
                         return json.logs;
                     }
                 },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "Export to Excel",
+                        action: function(e: any, dt: any, node: any, config: any) {
+                        }
+                    },
+                ],
                 columns: [
                     { data: "date" },
                     { data: "message" },

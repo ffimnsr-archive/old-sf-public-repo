@@ -2,44 +2,30 @@ import { AppSettings } from "configs";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+import "datatables.net-buttons";
+import "datatables.net-buttons-bs4";
+import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
 
 const Store = {
-    load: function(type: string) {
-        m.request(AppSettings.API_BASE_URL + `/api/session/recover/${type}`, {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-            }
-        }).then(function(res: any) {
-            if (res.success) {
-                console.log("success");
-            } else {
-                // TODO: add feedback so user would know he's been denied
-                console.error("error", res);
-                m.route.set("/server-error");
-            }
-        }).catch(function(err: any) {
-            console.error("error", err);
-            m.route.set("/server-error");
-        });
-    },
+    status: "new",
+    setStatus(status: string) {
+        this.status = status;
+    }
 };
 
 export default {
-    oninit(_vnode: Vnode) {
-        const type = m.route.param("type");
-        Store.load(type);
-    },
-    oncreate(_vnode: Vnode) {
+    oncreate(vnode: Vnode) {
+        Store.setStatus(m.route.param("key"));
         const token = localStorage.getItem("token")!;
 
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/user/list",
+                    url: AppSettings.API_BASE_URL + `/api/user/investors-list/${Store.status}`,
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
@@ -49,20 +35,29 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">View Account</a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
                             return v;
                         });
 
                         return json.users;
                     }
                 },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "New Member",
+                        action: function(e: any, dt: any, node: any, config: any) {
+                        }
+                    },
+                ],
                 columns: [
                     { data: "forename" },
                     { data: "surname" },
                     { data: "username" },
                     { data: "email" },
-                    { data: "button" },
+                    { data: "button", width: "16%" },
                 ]
             });
         });
@@ -80,19 +75,20 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Admin Dashboard")
+                                        m("li.breadcrumb-item.active", "Investors"),
+                                        m("li.breadcrumb-item.active", { style: { textTransform: "capitalize" } }, `${Store.status}  Investors`)
                                     ])
                                 ),
-                                m("h4.page-title", "Admin Dashboard")
+                                m("h4.page-title", { style: { textTransform: "capitalize" } }, `${Store.status} Investors`)
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Borrowers / Investors"),
+                                m("h4.m-t-0.header-title", { style: { textTransform: "capitalize" } }, `${Store.status} Investors`),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of all investors and borrowers."
+                                    `List of all ${Store.status} investors.`
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
@@ -101,10 +97,6 @@ export default {
                                             m("th", "Surname"),
                                             m("th", "Username"),
                                             m("th", "Email"),
-                                            m("th", "Type"),
-                                            m("th", "Documents"),
-                                            m("th", "Verified"),
-                                            m("th", "Status"),
                                             m("th", "Action"),
                                         ])
                                     ),
@@ -114,10 +106,6 @@ export default {
                                             m("th", "Surname"),
                                             m("th", "Username"),
                                             m("th", "Email"),
-                                            m("th", "Type"),
-                                            m("th", "Documents"),
-                                            m("th", "Verified"),
-                                            m("th", "Status"),
                                             m("th", "Action"),
                                         ]),
                                     ])

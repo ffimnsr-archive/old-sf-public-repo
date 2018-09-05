@@ -9,8 +9,8 @@ const Store = {
     address1: "",
     address2: "",
     city: "",
-    state: "",
-    zipCode: "",
+    stateProvince: "",
+    postalCode: "",
     country: "",
 
     countries: [] as string[],
@@ -34,8 +34,8 @@ const Store = {
                 vm.address1 = res.address.address1;
                 vm.address2 = res.address.address2;
                 vm.city = res.address.city;
-                vm.state = res.address.state;
-                vm.zipCode = res.address.zipCode;
+                vm.stateProvince = res.address.stateProvince;
+                vm.postalCode = res.address.postalCode;
                 vm.country = res.address.country;
                 console.log(res);
             } else {
@@ -70,11 +70,6 @@ const Store = {
     canSave() {
         return this.forename !== "" &&
             this.surname !== "" &&
-            this.address1 !== "" &&
-            this.address2 !== "" &&
-            this.city !== "" &&
-            this.state !== "" &&
-            this.zipCode !== "" &&
             this.country !== "";
     },
     save() {
@@ -85,8 +80,8 @@ const Store = {
                 address1: this.address1,
                 address2: this.address2,
                 city: this.city,
-                state: this.state,
-                zipCode: this.zipCode,
+                stateProvince: this.stateProvince,
+                postalCode: this.postalCode,
                 country: this.country,
             }
         };
@@ -103,8 +98,7 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                localStorage.setItem("status", "step2");
-                m.route.set("/");
+                m.route.set("/profile");
             } else {
                 // TODO: add feedback so user would know he's been denied
                 console.error("error", res);
@@ -119,9 +113,6 @@ export default {
     oninit(_vnode: Vnode) {
         Store.load();
     },
-    oncreate(_vnode: Vnode) {
-
-    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -135,10 +126,10 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Personal Details")
+                                        m("li.breadcrumb-item.active", "Edit Personal Details")
                                     ])
                                 ),
-                                m("h4.page-title", "Personal Details")
+                                m("h4.page-title", "Edit Personal Details")
                             ])
                         )
                     ),
@@ -192,17 +183,17 @@ export default {
                                                 })
                                             ]),
                                             m("div.form-group.col-md-4", [
-                                                m("label.col-form-label", "State"),
-                                                m("input.form-control[type='text'][placeholder='State']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.state = v }),
-                                                    value: Store.state
+                                                m("label.col-form-label", "State / Province"),
+                                                m("input.form-control[type='text'][placeholder='State / Province']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.stateProvince = v }),
+                                                    value: Store.stateProvince
                                                 })
                                             ]),
                                             m("div.form-group.col-md-2", [
-                                                m("label.col-form-label", "Zip Code"),
-                                                m("input.form-control[type='text'][placeholder='Zip Code']", {
-                                                    oninput: m.withAttr("value", (v: string) => { Store.zipCode = v }),
-                                                    value: Store.zipCode
+                                                m("label.col-form-label", "Postal Code"),
+                                                m("input.form-control[type='text'][placeholder='Postal Code']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.postalCode = v }),
+                                                    value: Store.postalCode
                                                 })
                                             ]),
                                         ]),
@@ -211,7 +202,11 @@ export default {
                                             m("select.form-control", {
                                                 onchange: m.withAttr("value", (v: string) => { Store.country = v }),
                                             }, Store.countries.map(function(v: any) {
-                                                return m("option", { value: v.code }, v.name)
+                                                if (Store.country === v.code) {
+                                                    return m("option", { value: v.code, selected: "selected" }, v.name);
+                                                } else {
+                                                    return m("option", { value: v.code }, v.name);
+                                                }
                                             })),
                                         ]),
                                         m(".clearfix.text-right.mt-3",

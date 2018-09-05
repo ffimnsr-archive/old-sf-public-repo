@@ -132,12 +132,34 @@ export default {
                         m(".col-12",
                             m(".card-box", [
                                 m("h4.header-title.m-t-0", "KYC Documents"),
-                                m("p.text-muted.font-14.m-b-10", "Upload your KYC Documents (e.g. Government ID Cards, Proof of Billing)."),
-                                m("form.dropzone[id='dropzone']",
+                                m("p.text-muted.font-14.m-b-10", [
+                                    "Upload your KYC Documents (e.g. Government ID Cards, Proof of Billing).",
+                                    m("br"),
+                                    "Here are the complete list of documents you can submit."
+                                ]),
+                                m("p.text-muted.font-14", "Required Documents"),
+                                m("ul", [
+                                    m("li.text-muted.font-14", "Goverment Issued ID"),
+                                    m("li.text-muted.font-14", "Business Registration (Borrower's Only)"),
+                                    m("li.text-muted.font-14", "Proof of Investment / Bank Statement (Investor Only)"),
+                                ]),
+                                m("p.text-muted.font-14", "Supplementary Documents"),
+                                m("ul", [
+                                    m("li.text-muted.font-14", "Water / Electricity Bill"),
+                                    m("li.text-muted.font-14", "Secondary and Tertiary IDs (e.g. Company)"),
+                                    m("li.text-muted.font-14", "Lease Contract"),
+                                ]),
+                                m("p.text-muted.font-14", "Kindly, drag and drop all the required and 1 to 2 supplementary documents in the dropzone below."),
+                                m("form.dropzone.mb-3[id='dropzone']",
                                     m(".fallback",
                                         m("input[multiple][name='file'][type='file']")
                                     )
                                 ),
+                                m("p.text-muted.font-14", [
+                                    "By clicking ",
+                                    m("b", "\"submit\""),
+                                    ", you signify that all the documents you have submitted are valid."
+                                ]),
                                 m(".clearfix.text-right.mt-3",
                                     m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                                         onclick: Store.continue,

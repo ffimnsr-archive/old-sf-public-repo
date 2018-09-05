@@ -2,7 +2,9 @@ import m, { Vnode } from "mithril";
 import { AppSettings } from "configs";
 import { Utils } from "../utils";
 
-import bg from "images/bg-2.jpg";
+import bg1 from "images/bg-1.jpg";
+import bg2 from "images/bg-2.jpg";
+
 import logo from "images/sf-logo.png";
 
 const Store = {
@@ -46,12 +48,18 @@ const Store = {
     }
 };
 
+let background = bg1;
+
 export default {
+    oninit(_vnode: Vnode) {
+        let bgs = [bg1, bg2];
+        background = bgs[Math.random() * bgs.length | 0];
+    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(".accountbg", {
                 style: {
-                    "background": `url(${bg})`,
+                    "background": `url(${background})`,
                     "background-size": "cover"
                 }
             }),

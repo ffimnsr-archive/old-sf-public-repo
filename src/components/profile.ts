@@ -3,12 +3,15 @@ import avatar from "images/users/avatar-1.jpg";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
+import { Utils } from "../utils";
 
 const Store = {
     fullname: "",
     username: "",
     email: "",
     role: "",
+    typeset: "",
+    location: "",
 
     load: function() {
         const token = localStorage.getItem("token")!;
@@ -21,19 +24,19 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                console.log(res.user);
+                console.log(res);
                 vm.fullname = res.user.fullname;
                 vm.username = res.user.username;
                 vm.email = res.user.email;
                 vm.role = res.user.role;
+                vm.typeset = res.user.typeset;
+                let location = res.address.city + ", " + res.address.country;
+                vm.location = location;
             } else {
-                // TODO: add feedback so user would know he's been denied
-                console.error("error", res);
-                m.route.set("/server-error");
+                Utils.showSnackbar(res.message);
             }
         }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
+            Utils.showSnackbar(err);
         });
     },
 };
@@ -71,7 +74,7 @@ export default {
                                         m(".media-body.text-white", [
                                             m("h4.mt-1.mb-1.font-18", Store.fullname),
                                             m("p.font-13.text-light", Store.username),
-                                            m("p.text-light.mb-0", "undefined")
+                                            m("p.text-light.mb-0", { style: { textTransform: "capitalize" } }, Store.typeset),
                                         ])
                                     ]),
                                     m(".col-sm-6",
@@ -102,11 +105,11 @@ export default {
                                         ]),
                                         m("p.text-muted.font-13", [
                                             m("strong", "Location : "),
-                                            m("span.m-l-15", "undefined"),
+                                            m("span.m-l-15", { style: { textTransform: "capitalize" } }, Store.location),
                                         ]),
                                         m("p.text-muted.font-13", [
-                                            m("strong", "Role : "),
-                                            m("span.m-l-15", Store.role),
+                                            m("strong", "Account Type : "),
+                                            m("span.m-l-15", { style: { textTransform: "capitalize" } }, Store.typeset),
                                         ])
                                     ]),
                                 ])
@@ -149,7 +152,8 @@ export default {
                     ])
                 ])
             ),
-            m(footer)
+            m(footer),
+            m("div#snackbar"),
         ]);
     }
 } as m.Component;

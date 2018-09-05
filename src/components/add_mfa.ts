@@ -1,10 +1,10 @@
-
 import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
 import footer from "widgets/footer";
 import header from "widgets/header";
 import { Utils } from "../utils";
+import qrph from "images/click_button_below.png";
 
 const Store = {
     secretKey: "hello",
@@ -96,6 +96,7 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
+                                        m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Account Setup")),
                                         m("li.breadcrumb-item.active", "Additional Security Settings")
                                     ])
                                 ),
@@ -109,7 +110,7 @@ export default {
                                 m("h4.header-title.m-t-0", "Multi-factor Authentication"),
                                 m("div.row", [
                                     m("div.col-md-6", [
-                                        m("p", "To enable additional security multi-factor authentication:"),
+                                        m("p", "Additional Security: To enable a multi-factor authentication:"),
                                         m("ol", [
                                             m("li", "Download and install a multi-factor authentication app (e.g. Google Authenticator, Microsoft Authenticator, YaKey, Auth0, etc.)."),
                                             m("li", "Open and scan the qrcode that you see on the right side."),
@@ -117,7 +118,7 @@ export default {
                                         ]),
                                     ]),
                                     m("div.col-md-6", [
-                                        Store.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: Store.otpImage }) : null,
+                                        Store.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: Store.otpImage }) : m("img.mx-auto.d-block[width='292'][alt='mfa-key']", { src: qrph }),
                                         m(".clearfix.text-center.mt-3", [
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                                                 onclick: (e: Event) => {

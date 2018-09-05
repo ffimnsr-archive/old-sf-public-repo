@@ -2,27 +2,30 @@ import { AppSettings } from "configs";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+import "datatables.net-buttons";
+import "datatables.net-buttons-bs4";
+import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
 
 const Store = {
-    load: function() {
-
-    },
+    status: "new",
+    setStatus(status: string) {
+        this.status = status;
+    }
 };
 
 export default {
-    oninit(_vnode: Vnode) {
-        Store.load();
-    },
     oncreate(_vnode: Vnode) {
+        Store.setStatus(m.route.param("key"));
         const token = localStorage.getItem("token")!;
 
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/user/list",
+                    url: AppSettings.API_BASE_URL + `/api/user/borrowers-list/${Store.status}`,
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
@@ -32,24 +35,29 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">View Account</a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom">Update Status</a>`;
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
                             return v;
                         });
 
                         return json.users;
                     }
                 },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "New Member",
+                        action: function(e: any, dt: any, node: any, config: any) {
+                        }
+                    },
+                ],
                 columns: [
                     { data: "forename" },
                     { data: "surname" },
                     { data: "username" },
                     { data: "email" },
-                    { data: "typeset" },
-                    { data: "isDocumentsSubmitted" },
-                    { data: "isMailVerified" },
-                    { data: "status" },
-                    { data: "button" },
+                    { data: "button", width: "16%" },
                 ]
             });
         });
@@ -67,19 +75,20 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Investors")
+                                        m("li.breadcrumb-item.active", "Borrowers"),
+                                        m("li.breadcrumb-item.active", { style: { textTransform: "capitalize" } }, `${Store.status} Borrowers`),
                                     ])
                                 ),
-                                m("h4.page-title", "Investors")
+                                m("h4.page-title", { style: { textTransform: "capitalize" } }, `${Store.status} Borrowers`),
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Borrowers / Investors"),
+                                m("h4.m-t-0.header-title", { style: { textTransform: "capitalize" } }, `${Store.status} Borrowers`),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of all investors and borrowers."
+                                    `List of all ${Store.status} borrowers.`
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",

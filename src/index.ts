@@ -106,6 +106,8 @@ function SmartFundingRouter() {
         },
         "/admin/dashboard": {
             onmatch: function() {
+                // return siteMaintenance;
+
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
                     if (Auth.checkIsRoleAdmin()) return adminDashboard;
@@ -176,7 +178,7 @@ function SmartFundingRouter() {
                 }
             }
         },
-        "/admin/investors/:type": {
+        "/admin/investors/:key": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
@@ -185,7 +187,7 @@ function SmartFundingRouter() {
                 }
             }
         },
-        "/admin/borrowers/:type": {
+        "/admin/borrowers/:key": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
@@ -275,12 +277,15 @@ function SmartFundingRouter() {
         "/privacy": privacy,
         "/site-maintenance": siteMaintenance,
         "/server-error": serverError,
-        "/:any...": {
+        "/:404...": {
             onmatch: function() {
+                // return siteMaintenance;
+
                 if (Auth.checkTokenNone()) return notFound;
                 else return notFoundAlt;
             }
-        }
+        },
+        "/:any...": serverError,
     });
 }
 
