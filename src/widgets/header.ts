@@ -131,6 +131,7 @@ export default {
                                     m("li", m("a[href='/admin/investors/new']", { oncreate: m.route.link }, "New")),
                                     m("li", m("a[href='/admin/investors/pending']", { oncreate: m.route.link }, "Pending")),
                                     m("li", m("a[href='/admin/investors/active']", { oncreate: m.route.link }, "Active")),
+                                    m("li", m("a[href='/admin/investors/locked']", { oncreate: m.route.link }, "Locked")),
                                     m("li", m("a[href='/admin/investors/rejected']", { oncreate: m.route.link }, "Rejected")),
                                 ])
                             ]) : null,
@@ -142,6 +143,7 @@ export default {
                                     m("li", m("a[href='/admin/borrowers/new']", { oncreate: m.route.link }, "New")),
                                     m("li", m("a[href='/admin/borrowers/pending']", { oncreate: m.route.link }, "Pending")),
                                     m("li", m("a[href='/admin/borrowers/active']", { oncreate: m.route.link }, "Active")),
+                                    m("li", m("a[href='/admin/borrowers/locked']", { oncreate: m.route.link }, "Locked")),
                                     m("li", m("a[href='/admin/borrowers/discarded']", { oncreate: m.route.link }, "Rejected")),
                                 ])
                             ]) : null,

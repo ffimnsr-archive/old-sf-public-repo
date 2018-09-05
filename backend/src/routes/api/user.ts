@@ -291,17 +291,19 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
 
 function statusConvert(stat: string) {
     switch (stat) {
-        case "new": return "step-1";
+        case "new": return "step";
         case "pending": return "pending";
         case "active": return "okay";
+        case "locked": return "locked";
         case "rejected": return "deleted";
-        default: return "step-1";
+        default: return "step";
     }
 }
 
 router.get("/investors-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let status = statusConvert(req.params.status);
-    User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
+    console.log(status);
+    User.find({ role: { $not: /admin/ }, typeset: "investor", status: new RegExp(status, "i") }).then((t: UserModel[]) => {
         if (Array.isArray(t)) {
             logAction(`User ${req.payload.username} requested member user list`);
             return res.json({
@@ -326,7 +328,7 @@ router.get("/investors-list/:status", auth.required, (req: Request, res: Respons
 
 router.get("/borrowers-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let status = statusConvert(req.params.status);
-    User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
+    User.find({ role: { $not: /admin/ }, typeset: "borrower", status: new RegExp(status, "i") }).then((t: UserModel[]) => {
         if (Array.isArray(t)) {
             logAction(`User ${req.payload.username} requested member user list`);
             return res.json({

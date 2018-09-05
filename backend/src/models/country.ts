@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 
 export type CountryModel = mongoose.Document & {
-    name: string
+    code: string,
+    name: string,
     createdAt: Date,
     updatedAt: Date,
 };
 
 const CountrySchema = new mongoose.Schema({
+    code: String,
     name: String,
     createdAt: Date,
     updatedAt: Date,

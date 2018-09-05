@@ -3,7 +3,6 @@ import { Router, Request, Response, NextFunction } from "express";
 import { default as Log, LogModel } from "../../models/log";
 import auth from "../auth";
 
-
 const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
