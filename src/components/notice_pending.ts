@@ -1,9 +1,42 @@
+import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
+import { Utils } from "../utils";
 
+const Store = {
+    continue: function() {
+        const data = {
+            user: {
+                status: "pending",
+            }
+        };
+
+        const token = localStorage.getItem("token")!;
+
+        m.request(AppSettings.API_BASE_URL + "/api/user/set-status", {
+            method: "PUT",
+            data: data,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": `Token ${token}`,
+            }
+        }).then(function(res: any) {
+            if (!res.success) {
+                Utils.showSnackbar(res.message);
+            }
+        }).catch(function(err) {
+            Utils.showSnackbar(err);
+        });
+    }
+
+};
 
 export default {
+    oninit(_vnode: Vnode) {
+        Store.continue();
+    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -17,6 +50,7 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
+                                        m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Account Setup")),
                                         m("li.breadcrumb-item.active", "Pending Verification")
                                     ])
                                 ),
@@ -38,7 +72,8 @@ export default {
                     )
                 ])
             ),
-            m(footer)
+            m(footer),
+            m("div#snackbar"),
         ]);
     }
 } as m.Component;

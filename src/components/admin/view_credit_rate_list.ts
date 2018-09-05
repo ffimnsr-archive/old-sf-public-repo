@@ -8,40 +8,39 @@ import footer from "widgets/footer";
 import header from "widgets/header";
 
 const Store = {
-    load() {
+    save() {
 
     },
 };
 
 export default {
-    oninit(_vnode: Vnode) {
-        Store.load();
-    },
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
 
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/log/list",
+                    url: AppSettings.API_BASE_URL + "/api/country/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
-
-                        json.logs.map((v: any) => {
-                            v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-                            return v;
-                        });
-
-                        return json.logs;
+                        return json.countries;
                     }
                 },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "New Credit Rate Option",
+                        action: function(e: any, dt: any, node: any, config: any) {
+                        }
+                    },
+                ],
                 columns: [
-                    { data: "date" },
-                    { data: "message" },
+                    { data: "code" },
+                    { data: "status", width: "7%" },
                 ]
             });
         });
@@ -59,31 +58,32 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Logs Overview")
+                                        m("li.breadcrumb-item.active", "Control Panel"),
+                                        m("li.breadcrumb-item.active", "Credit Rate Option List"),
                                     ])
                                 ),
-                                m("h4.page-title", "Logs Overview")
+                                m("h4.page-title", "Credit Rate Option List"),
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Logs Overview"),
+                                m("h4.m-t-0.header-title", "Credit Rate Option List"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "Logs generated from different transactions."
+                                    "List of countries allowed to create account."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Revenue"),
+                                            m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Revenue"),
+                                            m("th", "Status"),
                                         ]),
                                     ])
                                 ])

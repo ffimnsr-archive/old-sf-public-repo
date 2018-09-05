@@ -70,6 +70,7 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
+                                        m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Account Setup")),
                                         m("li.breadcrumb-item.active", "Investor Details")
                                     ])
                                 ),

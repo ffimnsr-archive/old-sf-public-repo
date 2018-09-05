@@ -46,8 +46,33 @@ const Store = {
         return this.secretKey !== "";
     },
     skip() {
-        localStorage.setItem("status", "pending");
-        m.route.set("/");
+        const data = {
+            user: {
+                status: "step5",
+            }
+        };
+
+        const token = localStorage.getItem("token")!;
+
+        m.request(AppSettings.API_BASE_URL + "/api/user/set-status", {
+            method: "PUT",
+            data: data,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": `Token ${token}`,
+            }
+        }).then(function(res: any) {
+            if (res.success) {
+                localStorage.setItem("status", "pending");
+                m.route.set("/");
+            } else {
+                Utils.showSnackbar(res.message);
+            }
+        }).catch(function(err) {
+            Utils.showSnackbar(err);
+        });
+
     },
     save() {
         const data = {
@@ -76,8 +101,7 @@ const Store = {
                 Utils.showSnackbar("Invalid Key Code");
             }
         }).catch(function(err) {
-            console.error("error", err);
-            m.route.set("/server-error");
+            Utils.showSnackbar(err);
         });
     }
 };
@@ -125,7 +149,7 @@ export default {
                                                     Store.reload();
                                                     e.preventDefault();
                                                 },
-                                            }, "Click Here to Generate 2-Factor Authentication Key")
+                                            }, "Generate 2-Factor Authentication Key")
                                         ]),
                                         Store.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
                                             m("label.col-form-label", "Enter 6 digit token"),

@@ -52,18 +52,19 @@ export default {
                         m("tbody", [
                             m("tr", [
                                 m("td", "Bitcoin (BTC)"),
-                                m("td", Store.btcUsd, " USD"),
+                                m("td.text-right", Store.btcUsd, " USD"),
                             ]),
                             m("tr", [
                                 m("td", "Ethereum (ETH)"),
-                                m("td", Store.ethUsd, "USD"),
+                                m("td.text-right", Store.ethUsd, " USD"),
                             ]),
                             m("tr", [
                                 m("td", "Stellar (XRP)"),
-                                m("td", Store.xrpUsd, "USD"),
+                                m("td.text-right", Store.xrpUsd, " USD"),
                             ]),
                         ]),
                     ]),
+                    m("p", "")
                 ]),
             ])
         ]);

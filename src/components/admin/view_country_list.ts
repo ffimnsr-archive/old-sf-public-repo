@@ -39,8 +39,9 @@ export default {
                     },
                 ],
                 columns: [
-                    { data: "code" },
+                    { data: "code", width: "5%" },
                     { data: "name" },
+                    { data: "status", width: "7%" },
                 ]
             });
         });
@@ -78,12 +79,14 @@ export default {
                                         m("tr", [
                                             m("th", "Code"),
                                             m("th", "Country Name"),
+                                            m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
                                             m("th", "Code"),
                                             m("th", "Country Name"),
+                                            m("th", "Status"),
                                         ]),
                                     ])
                                 ])

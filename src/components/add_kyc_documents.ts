@@ -121,6 +121,7 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
+                                        m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Account Setup")),
                                         m("li.breadcrumb-item.active", "Upload Verification Documents")
                                     ])
                                 ),
@@ -137,11 +138,18 @@ export default {
                                     m("br"),
                                     "Here are the complete list of documents you can submit."
                                 ]),
-                                m("p.text-muted.font-14", "Required Documents"),
+                                m("p.text-muted.font-14", "Required Documents (Investor)"),
                                 m("ul", [
                                     m("li.text-muted.font-14", "Goverment Issued ID"),
-                                    m("li.text-muted.font-14", "Business Registration (Borrower's Only)"),
-                                    m("li.text-muted.font-14", "Proof of Investment / Bank Statement (Investor Only)"),
+                                    m("li.text-muted.font-14", "Proof of Investment / Bank Statements"),
+                                ]),
+                                m("p.text-muted.font-14", "Required Documents (Borrower)"),
+                                m("ul", [
+                                    m("li.text-muted.font-14", "Goverment Issued ID"),
+                                    m("li.text-muted.font-14", "NRIC"),
+                                    m("li.text-muted.font-14", "Bank Statements"),
+                                    m("li.text-muted.font-14", "Audited Accounts"),
+                                    m("li.text-muted.font-14", "Invoices"),
                                 ]),
                                 m("p.text-muted.font-14", "Supplementary Documents"),
                                 m("ul", [

@@ -126,8 +126,22 @@ router.put("/kyc-documents", auth.required, (req: Request, res: Response, next: 
             user.forename = req.body.user.image;
         }
 
+        user.status = req.body.user.status;
         user.save().then((t: UserModel) => {
-            logAction(`User ${user.username} updated account image`);
+            logAction(`User ${user.username} updated kyc documents`);
+            return res.status(200).json({
+                success: true,
+                user: t.toAuthJSON()
+            });
+        });
+    }).catch(next);
+});
+
+router.put("/set-status", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    findById(req.payload.id, res, (user: UserModel) => {
+        user.status = req.body.user.status;
+        user.save().then((t: UserModel) => {
+            logAction(`User ${user.username} updated account status`);
             return res.status(200).json({
                 success: true,
                 user: t.toAuthJSON()
@@ -261,8 +275,8 @@ router.put("/validate-mfa", auth.required, (req: Request, res: Response, next: N
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
-        const investorsCount = t.filter((r: UserModel) => r.typeset == "investors" && r.status != "okay").length;
-        const borrowersCount = t.filter((r: UserModel) => r.typeset == "borrowers" && r.status != "okay").length;
+        const investorsCount = t.filter((r: UserModel) => r.typeset === "investor" && r.status !== "okay").length;
+        const borrowersCount = t.filter((r: UserModel) => r.typeset === "borrower" && r.status !== "okay").length;
         const noTypeCount = t.filter((r: UserModel) => !r.typeset || r.typeset == "").length;
         if (Array.isArray(t)) {
             logAction(`User ${req.payload.username} requested member user list`);
@@ -328,6 +342,7 @@ router.get("/investors-list/:status", auth.required, (req: Request, res: Respons
 
 router.get("/borrowers-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let status = statusConvert(req.params.status);
+    console.log(status);
     User.find({ role: { $not: /admin/ }, typeset: "borrower", status: new RegExp(status, "i") }).then((t: UserModel[]) => {
         if (Array.isArray(t)) {
             logAction(`User ${req.payload.username} requested member user list`);

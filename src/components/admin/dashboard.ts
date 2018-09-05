@@ -44,10 +44,10 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#account" class="btn btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-edit"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#logs" class="btn btn-custom"><i class="fa fa-file-text"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#balance" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
+              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="/#!/admin/view-m-logs/${v._id}" class="btn btn-custom"><i class="fa fa-file-text"></i></a>
+              <a href="/#!/admin/view-m-wallet/${v._id}" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
                             return v;
                         });
 
@@ -59,6 +59,7 @@ export default {
                     {
                         text: "New Member",
                         action: function(e: any, dt: any, node: any, config: any) {
+                            m.route.set("/admin/new-account");
                         }
                     },
                 ],
@@ -67,7 +68,6 @@ export default {
                     { data: "email" },
                     { data: "typeset" },
                     { data: "isDocumentsSubmitted" },
-                    { data: "status" },
                     { data: "button", width: "20%" },
                 ]
             });
@@ -140,9 +140,9 @@ export default {
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Borrowers / Investors"),
+                                m("h4.m-t-0.header-title", "Members List"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of all investors and borrowers."
+                                    "List of all users in system."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
@@ -151,7 +151,6 @@ export default {
                                             m("th", "Email"),
                                             m("th", "Type"),
                                             m("th", "Documents"),
-                                            m("th", "Status"),
                                             m("th", "Action"),
                                         ])
                                     ),
@@ -161,7 +160,6 @@ export default {
                                             m("th", "Email"),
                                             m("th", "Type"),
                                             m("th", "Documents"),
-                                            m("th", "Status"),
                                             m("th", "Action"),
                                         ]),
                                     ])
@@ -172,8 +170,6 @@ export default {
                 ])
             ),
             m(footer),
-            m(updateStatus),
-            m(updateAccountInfo),
         ]);
     }
 }

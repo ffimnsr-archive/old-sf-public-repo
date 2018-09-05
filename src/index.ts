@@ -115,6 +115,33 @@ function SmartFundingRouter() {
                 }
             }
         },
+        "/admin/investments": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/collections": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/invoices": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    else m.route.set("/");
+                }
+            }
+        },
         "/admin/power-users": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
@@ -196,7 +223,7 @@ function SmartFundingRouter() {
                 }
             }
         },
-        "/admin/control/view-account/:id": {
+        "/admin/view-m-account/:id": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
@@ -205,7 +232,25 @@ function SmartFundingRouter() {
                 }
             }
         },
-        "/admin/control/update-status/:id": {
+        "/admin/view-m-status/:id": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-m-logs/:id": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-m-wallet/:id": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {

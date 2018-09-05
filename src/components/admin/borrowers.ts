@@ -35,9 +35,9 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-edit"></i></a>
-              <a href="javascript:;" data-toggle="modal" data-target="#status" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
+              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
                             return v;
                         });
 
@@ -49,12 +49,12 @@ export default {
                     {
                         text: "New Member",
                         action: function(e: any, dt: any, node: any, config: any) {
+                            m.route.set("/admin/new-account");
                         }
                     },
                 ],
                 columns: [
                     { data: "forename" },
-                    { data: "surname" },
                     { data: "username" },
                     { data: "email" },
                     { data: "button", width: "16%" },
@@ -93,19 +93,17 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
-                                            m("th", "Username"),
-                                            m("th", "Email"),
+                                            m("th", "Name"),
+                                            m("th", "Company"),
+                                            m("th", "Contact"),
                                             m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
-                                            m("th", "Username"),
-                                            m("th", "Email"),
+                                            m("th", "Name"),
+                                            m("th", "Company"),
+                                            m("th", "Contact"),
                                             m("th", "Action"),
                                         ]),
                                     ])
