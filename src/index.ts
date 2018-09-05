@@ -22,6 +22,7 @@ import addProfilePicture from "components/add_profile_picture";
 import addInvestorDetails from "components/add_investor_details";
 import addBorrowerDetails from "components/add_borrower_details";
 import addKycDocuments from "components/add_kyc_documents";
+import addCryptoWallets from "components/add_crypto_wallet";
 import addMfa from "components/add_mfa";
 import noticePending from "components/notice_pending";
 import editProfileDetails from "components/edit_profile_details";
@@ -72,6 +73,8 @@ function SmartFundingRouter() {
                             case "step4":
                                 return addKycDocuments;
                             case "step5":
+                                return addCryptoWallets;
+                            case "step6":
                                 return addMfa;
                             case "pending":
                                 return noticePending;

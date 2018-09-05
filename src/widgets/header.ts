@@ -123,6 +123,25 @@ export default {
                                     Auth.checkIsAccountOkay() ? "Dashboard" : "Account Setup",
                                 ])
                             ),
+
+                            !Auth.checkIsRoleAdmin() ? m("li.has-submenu",
+                                m("a[href='/']", { oncreate: m.route.link }, [
+                                    "My Wallet"
+                                ])
+                            ) : null,
+
+                            !Auth.checkIsRoleAdmin() ? m("li.has-submenu",
+                                m("a[href='/']", { oncreate: m.route.link }, [
+                                    "Portfolio"
+                                ])
+                            ) : null,
+
+                            !Auth.checkIsRoleAdmin() ? m("li.has-submenu",
+                                m("a[href='/']", { oncreate: m.route.link }, [
+                                    "Top-up"
+                                ])
+                            ) : null,
+
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "Investors"
@@ -135,6 +154,7 @@ export default {
                                     m("li", m("a[href='/admin/investors/rejected']", { oncreate: m.route.link }, "Rejected")),
                                 ])
                             ]) : null,
+
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "Borrowers"
@@ -147,6 +167,7 @@ export default {
                                     m("li", m("a[href='/admin/borrowers/rejected']", { oncreate: m.route.link }, "Rejected")),
                                 ])
                             ]) : null,
+
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "Investments & Collections"
@@ -157,6 +178,7 @@ export default {
                                     m("li", m("a[href='/admin/invoices']", { oncreate: m.route.link }, "Invoices")),
                                 ])
                             ]) : null,
+
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "Inquiries"
@@ -165,7 +187,9 @@ export default {
                                     m("li", m("a[href='/admin/inquiries/new']", { oncreate: m.route.link }, "New")),
                                     m("li", m("a[href='/admin/inquiries/closed']", { oncreate: m.route.link }, "Closed")),
                                 ])
-                            ]) : null, Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
+                            ]) : null,
+
+                            Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
                                 m("a[href='']", { oncreate: m.route.link }, [
                                     "Control Panel"
                                 ]),

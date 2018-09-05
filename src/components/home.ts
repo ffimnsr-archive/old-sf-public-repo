@@ -56,18 +56,7 @@ export default {
                     m(".row", [
                         m(".col-lg-8",
                             m(".card-box", [
-                                m("h4.header-title.mb-3", "Wallet Logs"),
-                                m("table.table.table-bordered[id='datatable']", [
-                                    m("thead",
-                                        m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Balance"),
-                                            m("th", "From / To"),
-                                            m("th", "Note"),
-                                            m("th", "Status"),
-                                        ])
-                                    ),
-                                ]),
+                                m("h4.header-title.mb-3", "Crypto Price Chart"),
                             ])
                         ),
                         m(".col-lg-4",
@@ -75,7 +64,7 @@ export default {
                                 m("h4.m-t-0.header-title", "Fund Your Account"),
                                 m("a.btn.btn-block.btn-custom[href='/']", "Ethereum"),
                                 m("a.btn.btn-block.btn-custom[href='/']", "Bitcoin"),
-                                m("a.btn.btn-block.btn-custom[href='/']", "Paypal"),
+                                m("a.btn.btn-block.btn-custom[href='/'][disabled]", "Paypal"),
                             ])
                         )
                     ]),
@@ -84,7 +73,7 @@ export default {
                             m(".card-box", [
                                 m("h4.header-title.mb-3", "Investment Options"),
                                 m("table.table.table-bordered[id='datatable']", [
-                                    m("thead",
+                                    m("thead", [
                                         m("tr", [
                                             m("th", "Invoice"),
                                             m("th", "Terms"),
@@ -95,7 +84,21 @@ export default {
                                             m("th", "Time Left"),
                                             m("th", "Actions"),
                                         ])
-                                    ),
+                                    ]),
+
+                                    m("tfoot", [
+                                        m("tr", [
+                                            m("th", "Invoice"),
+                                            m("th", "Terms"),
+                                            m("th", "Amount"),
+                                            m("th", "Appreciation"),
+                                            m("th", "Funded"),
+                                            m("th", "Available"),
+                                            m("th", "Time Left"),
+                                            m("th", "Actions"),
+                                        ]),
+                                    ])
+
                                 ])
                             ])
                         ),

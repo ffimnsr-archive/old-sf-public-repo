@@ -48,7 +48,7 @@ const Store = {
     skip() {
         const data = {
             user: {
-                status: "step5",
+                status: "step6",
             }
         };
 
@@ -77,7 +77,7 @@ const Store = {
     save() {
         const data = {
             user: {
-                status: "step5",
+                status: "step6",
                 secretKey: Store.secretKey,
                 tokenInput: Store.tokenInput,
             }
