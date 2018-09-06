@@ -129,9 +129,9 @@ export default {
                     )
                 ),
                 m(".m-t-40.text-center",
-                    m("p.account-copyright", [
+                    m("p.account-copyright.text-muted", [
                         "2018 © SmartFunding | ",
-                        m("a[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
+                        m("a.text-muted[href='/privacy']", { oncreate: m.route.link }, "Privacy Policy")
                     ])
                 )
             ]),

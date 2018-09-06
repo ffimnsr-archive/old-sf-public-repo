@@ -35,7 +35,7 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                Utils.showSnackbar("Successfully create new country. This will redirect after 3 seconds.");
+                Utils.showSnackbar("Successfully created new company revenue option. This will redirect after 3 seconds.");
                 setTimeout(function() {
                     m.route.set("/admin/view-country-list");
                 }, 3000);
@@ -63,10 +63,10 @@ export default {
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
                                         m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Control Panel")),
-                                        m("li.breadcrumb-item.active", "New Country")
+                                        m("li.breadcrumb-item.active", "New Company Revenue")
                                     ])
                                 ),
-                                m("h4.page-title", "New Country")
+                                m("h4.page-title", "New Company Revenue")
                             ])
                         )
                     ),

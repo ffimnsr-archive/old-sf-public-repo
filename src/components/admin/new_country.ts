@@ -35,7 +35,7 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                Utils.showSnackbar("Successfully create new country. This will redirect after 3 seconds.");
+                Utils.showSnackbar("Successfully created new country. This will redirect after 3 seconds.");
                 setTimeout(function() {
                     m.route.set("/admin/view-country-list");
                 }, 3000);

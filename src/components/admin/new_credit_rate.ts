@@ -5,27 +5,24 @@ import header from "widgets/header";
 import { Utils } from "../../utils";
 
 const Store = {
-    code: "",
-    name: "",
+    rate: "",
     status: "",
 
     canSave: function() {
-        return this.code !== "" &&
-            this.name !== "" &&
+        return this.rate !== "" &&
             this.status !== "";
     },
     save: function() {
         const data = {
             user: {
-                code: this.code,
-                name: this.name,
+                rate: this.rate,
                 status: this.status,
             }
         };
 
         const token = localStorage.getItem("token")!;
 
-        m.request(AppSettings.API_BASE_URL + "/api/country/", {
+        m.request(AppSettings.API_BASE_URL + "/api/credit-rate/", {
             method: "POST",
             data: data,
             headers: {
@@ -35,9 +32,9 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                Utils.showSnackbar("Successfully create new country. This will redirect after 3 seconds.");
+                Utils.showSnackbar("Successfully created new credit rate. This will redirect after 3 seconds.");
                 setTimeout(function() {
-                    m.route.set("/admin/view-country-list");
+                    m.route.set("/admin/view-credit-rate-list");
                 }, 3000);
             } else {
                 Utils.showSnackbar(res.message);
@@ -63,18 +60,18 @@ export default {
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
                                         m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Control Panel")),
-                                        m("li.breadcrumb-item.active", "New Country")
+                                        m("li.breadcrumb-item.active", "New Credit Rate")
                                     ])
                                 ),
-                                m("h4.page-title", "New Country")
+                                m("h4.page-title", "New Credit Rate")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box", [
-                                m("h4.header-title.m-t-0", "New Country"),
-                                m("p.text-muted.font-14.m-b-10", "Create a new country."),
+                                m("h4.header-title.m-t-0", "New Credit Rate"),
+                                m("p.text-muted.font-14.m-b-10", "Create a new credit rate."),
                                 m("form[role='form']", {
                                     onsubmit: (e: Event) => {
                                         e.preventDefault();
@@ -82,17 +79,10 @@ export default {
                                     }
                                 }, [
                                         m("div.form-group", [
-                                            m("label.col-form-label", "Country Code"),
-                                            m("input.form-control[type='text'][placeholder='e.g. SG']", {
-                                                oninput: m.withAttr("value", (v: string) => { Store.code = v }),
-                                                value: Store.code
-                                            })
-                                        ]),
-                                        m("div.form-group", [
-                                            m("label.col-form-label", "Country Name"),
-                                            m("input.form-control[type='text'][placeholder='e.g. Singapore']", {
-                                                oninput: m.withAttr("value", (v: string) => { Store.name = v }),
-                                                value: Store.name
+                                            m("label.col-form-label", "Credit Rate"),
+                                            m("input.form-control[type='text'][placeholder='e.g. A+']", {
+                                                oninput: m.withAttr("value", (v: string) => { Store.rate = v }),
+                                                value: Store.rate
                                             })
                                         ]),
                                         m("div.form-group", [

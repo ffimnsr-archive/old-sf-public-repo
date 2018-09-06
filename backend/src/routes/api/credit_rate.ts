@@ -1,32 +1,30 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { default as Country, CountryModel } from "../../models/country";
-import CountryList from "country-list";
+import { default as CreditRate, CreditRateModel } from "../../models/credit_rate";
 
 const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    Country.find({}).then((t: CountryModel[]) => {
+    CreditRate.find({}).then((t: CreditRateModel[]) => {
         return res.json({
             success: true,
-            countries: t,
+            creditRates: t,
         });
     }).catch(next);
 });
 
 router.post("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    const country = new Country();
+    const rate = new CreditRate();
 
-    country.code = req.body.user.code;
-    country.name = req.body.user.name;
-    country.status = req.body.user.status;
+    rate.rate = req.body.user.rate;
+    rate.status = req.body.user.status;
 
-    console.log(country);
-    country.save().then((t: CountryModel) => {
+    console.log(rate);
+    rate.save().then((t: CreditRateModel) => {
         return res.json({
             success: true,
-            user: t,
+            creditRate: t,
         });
     }).catch(next);
 });

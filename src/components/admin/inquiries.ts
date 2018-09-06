@@ -3,46 +3,57 @@ import moment from "moment";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+import "datatables.net-buttons";
+import "datatables.net-buttons-bs4";
+import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
 
 const Store = {
-    save() {
+    load() {
 
     },
 };
 
 export default {
+    oninit(_vnode: Vnode) {
+        Store.load();
+    },
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
 
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/country/list",
+                    url: AppSettings.API_BASE_URL + "/api/log/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
-                        return json.countries;
+
+                        json.logs.map((v: any) => {
+                            v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+                            return v;
+                        });
+
+                        return json.logs;
                     }
                 },
                 dom: "Bfrtip",
                 buttons: [
                     {
-                        text: "New Country",
+                        text: "Export to Excel",
                         action: function(e: any, dt: any, node: any, config: any) {
-                            m.route.set("/admin/new-country");
                         }
                     },
                 ],
                 columns: [
-                    { data: "code", width: "5%" },
-                    { data: "name" },
-                    { data: "status", width: "7%" },
+                    { data: "date", width: "20%" },
+                    { data: "message" },
                 ]
             });
         });
@@ -60,34 +71,34 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
-                                        m("li.breadcrumb-item.active", "Control Panel"),
-                                        m("li.breadcrumb-item.active", "Country List"),
+                                        m("li.breadcrumb-item",
+                                            m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
+                                        ),
+                                        m("li.breadcrumb-item.active", "Logs Overview")
                                     ])
                                 ),
-                                m("h4.page-title", "Country List"),
+                                m("h4.page-title", "Logs Overview")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Country List"),
+                                m("h4.m-t-0.header-title", "Logs Overview"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of countries allowed to create account."
+                                    "Logs generated from different transactions."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Code"),
-                                            m("th", "Country Name"),
-                                            m("th", "Status"),
+                                            m("th", "Date"),
+                                            m("th", "Message"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Code"),
-                                            m("th", "Country Name"),
-                                            m("th", "Status"),
+                                            m("th", "Date"),
+                                            m("th", "Message"),
                                         ]),
                                     ])
                                 ])

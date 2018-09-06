@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { default as Country, CountryModel } from "../../models/country";
+import { default as Inquiry, InquiryModel } from "../../models/inquiry";
 import CountryList from "country-list";
 
 const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    Country.find({}).then((t: CountryModel[]) => {
+    Inquiry.find({}).then((t: InquiryModel[]) => {
         return res.json({
             success: true,
             countries: t,
@@ -16,14 +16,10 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
 });
 
 router.post("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    const country = new Country();
+    const d = new Inquiry();
 
-    country.code = req.body.user.code;
-    country.name = req.body.user.name;
-    country.status = req.body.user.status;
-
-    console.log(country);
-    country.save().then((t: CountryModel) => {
+    d.status = req.body.user.status;
+    d.save().then((t: InquiryModel) => {
         return res.json({
             success: true,
             user: t,

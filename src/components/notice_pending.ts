@@ -37,6 +37,12 @@ export default {
     oninit(_vnode: Vnode) {
         Store.continue();
     },
+    oncreate(_vnode: Vnode) {
+        setTimeout(function() {
+            console.log("logout");
+            m.route.set("/logout");
+        }, 10000);
+    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -63,9 +69,10 @@ export default {
                             m(".text-center.mt-5", [
                                 m("h1.text-error", "Account Pending"),
                                 m("h4.text-uppercase.text-danger.mt-3", "Pending Verification"),
-                                m("p.text-muted.mt-3",
-                                    "We will be sending you an email notification, once your account has been validated. Kindly, comeback again once its done."
-                                ),
+                                m("p.text-muted.mt-3", [
+                                    "We will be sending you an email notification, once your account has been validated. Kindly, comeback again once its done. ",
+                                    m("b", "You'll automatically be logout after 10 seconds.")
+                                ]),
                                 m("a.btn.btn-md.btn-custom.waves-effect.waves-light.mt-3[href='/']", { oncreate: m.route.link }, "Return Home")
                             ])
                         )

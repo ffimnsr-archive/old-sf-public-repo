@@ -7,12 +7,6 @@ import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
 
-const Store = {
-    save() {
-
-    },
-};
-
 export default {
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
@@ -20,14 +14,14 @@ export default {
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/country/list",
+                    url: AppSettings.API_BASE_URL + "/api/credit-rate/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
-                        return json.countries;
+                        return json.creditRates;
                     }
                 },
                 dom: "Bfrtip",
@@ -35,11 +29,12 @@ export default {
                     {
                         text: "New Credit Rate Option",
                         action: function(e: any, dt: any, node: any, config: any) {
+                            m.route.set("/admin/new-credit-rate")
                         }
                     },
                 ],
                 columns: [
-                    { data: "code" },
+                    { data: "rate" },
                     { data: "status", width: "7%" },
                 ]
             });
@@ -71,18 +66,18 @@ export default {
                             m(".card-box.table-responsive", [
                                 m("h4.m-t-0.header-title", "Credit Rate Option List"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of countries allowed to create account."
+                                    "List of credit rate options."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Revenue"),
+                                            m("th", "Credit Rate"),
                                             m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Revenue"),
+                                            m("th", "Credit Rate"),
                                             m("th", "Status"),
                                         ]),
                                     ])

@@ -87,15 +87,15 @@ export default {
                                     m(".dropdown-item.noti-title",
                                         m("h6.text-overflow.m-0", `Welcome ${Store.getUsername()}!`)
                                     ),
-                                    !Auth.checkIsRoleAdmin() ? m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
+                                    !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("a.dropdown-item.notify-item[href='/profile']", { oncreate: m.route.link }, [
                                         m("i.fi-head"),
                                         m("span", "My Account")
                                     ]) : null,
-                                    m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
+                                    Auth.checkIsAccountOkay() ? m("a.dropdown-item.notify-item[href='/settings']", { oncreate: m.route.link }, [
                                         m("i.fi-cog"),
                                         m("span", "Change Password")
-                                    ]),
-                                    !Auth.checkIsRoleAdmin() ? m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
+                                    ]) : null,
+                                    !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("a.dropdown-item.notify-item[href='/frequently-ask']", { oncreate: m.route.link }, [
                                         m("i.fi-help"),
                                         m("span", "Support")
                                     ]) : null,
@@ -124,19 +124,19 @@ export default {
                                 ])
                             ),
 
-                            !Auth.checkIsRoleAdmin() ? m("li.has-submenu",
+                            !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "My Wallet"
                                 ])
                             ) : null,
 
-                            !Auth.checkIsRoleAdmin() ? m("li.has-submenu",
+                            !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "Portfolio"
                                 ])
                             ) : null,
 
-                            !Auth.checkIsRoleAdmin() ? m("li.has-submenu",
+                            !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
                                 m("a[href='/']", { oncreate: m.route.link }, [
                                     "Top-up"
                                 ])
@@ -201,6 +201,7 @@ export default {
                                     m("li", m("a[href='/admin/view-country-list']", { oncreate: m.route.link }, "Country List")),
                                     m("li", m("a[href='/admin/view-company-revenue-list']", { oncreate: m.route.link }, "Company Revenue Option List")),
                                     m("li", m("a[href='/admin/view-credit-rate-list']", { oncreate: m.route.link }, "Credit Rate Option List")),
+                                    m("li", m("a[href='/admin/view-frequently-ask-questions']", { oncreate: m.route.link }, "Frequently Ask Questions")),
                                 ])
                             ]) : null,
                         ])
