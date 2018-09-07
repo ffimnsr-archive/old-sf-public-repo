@@ -46,8 +46,9 @@ export default {
                 dom: "Bfrtip",
                 buttons: [
                     {
-                        text: "Export to Excel",
+                        text: "New Frequently Ask Question",
                         action: function(e: any, dt: any, node: any, config: any) {
+                            m.route.set("/admin/new-frequently-ask-question");
                         }
                     },
                 ],
@@ -74,19 +75,19 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Logs Overview")
+                                        m("li.breadcrumb-item.active", "Frequently Ask Questions")
                                     ])
                                 ),
-                                m("h4.page-title", "Logs Overview")
+                                m("h4.page-title", "Frequently Ask Questions")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Logs Overview"),
+                                m("h4.m-t-0.header-title", "Frequently Ask Questions"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "Logs generated from different transactions."
+                                    "Change the Frequently Ask Questions."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",

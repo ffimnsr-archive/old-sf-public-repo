@@ -5,24 +5,24 @@ import header from "widgets/header";
 import { Utils } from "../../utils";
 
 const Store = {
-    revenue: "",
+    name: "",
     status: "",
 
     canSave: function() {
-        return this.revenue !== "" &&
+        return this.name !== "" &&
             this.status !== "";
     },
     save: function() {
         const data = {
             user: {
-                revenue: this.revenue,
+                name: this.name,
                 status: this.status,
             }
         };
 
         const token = localStorage.getItem("token")!;
 
-        m.request(AppSettings.API_BASE_URL + "/api/company-revenue/", {
+        m.request(AppSettings.API_BASE_URL + "/api/loan-purpose/", {
             method: "POST",
             data: data,
             headers: {
@@ -32,9 +32,9 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                Utils.showSnackbar("Successfully created new company revenue option. This will redirect after 3 seconds.");
+                Utils.showSnackbar("Successfully created new loan purpose. This will redirect after 3 seconds.");
                 setTimeout(function() {
-                    m.route.set("/admin/view-company-revenue-list");
+                    m.route.set("/admin/view-loan-purpose-list");
                 }, 3000);
             } else {
                 Utils.showSnackbar(res.message);
@@ -60,18 +60,18 @@ export default {
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
                                         m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Control Panel")),
-                                        m("li.breadcrumb-item.active", "New Company Revenue")
+                                        m("li.breadcrumb-item.active", "New Loan Purpose")
                                     ])
                                 ),
-                                m("h4.page-title", "New Company Revenue")
+                                m("h4.page-title", "New Loan Purpose")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box", [
-                                m("h4.header-title.m-t-0", "New Company Revenue"),
-                                m("p.text-muted.font-14.m-b-10", "Create a new company revenue option."),
+                                m("h4.header-title.m-t-0", "New Loan Purpose"),
+                                m("p.text-muted.font-14.m-b-10", "Create a new loan purpose option."),
                                 m("form[role='form']", {
                                     onsubmit: (e: Event) => {
                                         e.preventDefault();
@@ -79,10 +79,10 @@ export default {
                                     }
                                 }, [
                                         m("div.form-group", [
-                                            m("label.col-form-label", "Revenue"),
-                                            m("input.form-control[type='text'][placeholder='e.g. 1 - 1000']", {
-                                                oninput: m.withAttr("value", (v: string) => { Store.revenue = v }),
-                                                value: Store.revenue
+                                            m("label.col-form-label", "Loan Purpose"),
+                                            m("input.form-control[type='text'][placeholder='e.g. Startup Business']", {
+                                                oninput: m.withAttr("value", (v: string) => { Store.name = v }),
+                                                value: Store.name
                                             })
                                         ]),
                                         m("div.form-group", [

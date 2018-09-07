@@ -62,9 +62,10 @@ export default {
                         m(".col-lg-4",
                             m(".card-box", [
                                 m("h4.m-t-0.header-title", "Fund Your Account"),
-                                m("a.btn.btn-block.btn-custom[href='/']", "Ethereum"),
-                                m("a.btn.btn-block.btn-custom[href='/']", "Bitcoin"),
-                                m("a.btn.btn-block.btn-custom[href='/'][disabled]", "Paypal"),
+                                m("a.btn.btn-block.btn-custom.btn-primary[href='/']", "Ethereum"),
+                                m("a.btn.btn-block.btn-custom.btn-warning[href='/']", "Bitcoin"),
+                                m("a.btn.btn-block.btn-custom[href='/top-up'][disabled='true']", { oncreate: m.route.link }, "Cash Top-up"),
+                                m("a.btn.btn-block.btn-custom[href='/top-up'][disabled='true']", { oncreate: m.route.link }, "Paypal"),
                             ])
                         )
                     ]),

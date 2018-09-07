@@ -1,29 +1,31 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { default as Country, CountryModel } from "../../models/country";
-import CountryList from "country-list";
+import { default as CompanyRevenue, CompanyRevenueModel } from "../../models/company_revenue";
 
 const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    Country.find({}).then((t: CountryModel[]) => {
+    CompanyRevenue.find({}).then((t: CompanyRevenueModel[]) => {
+        t.forEach(function(v: CompanyRevenueModel) {
+            if (v.revenue === "" || !v.revenue) {
+                v.revenue = "Wrong Option";
+            }
+        });
         return res.json({
             success: true,
-            countries: t,
+            companyRevenues: t,
         });
     }).catch(next);
 });
 
 router.post("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    const country = new Country();
+    const d = new CompanyRevenue();
 
-    country.code = req.body.user.code;
-    country.name = req.body.user.name;
-    country.status = req.body.user.status;
+    d.revenue = req.body.user.revenue;
+    d.status = req.body.user.status;
 
-    console.log(country);
-    country.save().then((t: CountryModel) => {
+    d.save().then((t: CompanyRevenueModel) => {
         return res.json({
             success: true,
             user: t,

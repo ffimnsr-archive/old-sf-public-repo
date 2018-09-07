@@ -1,4 +1,5 @@
-import investorAvatar from "images/investor.png";
+import investorAvatar from "images/investor.jpg";
+import borrowerAvatar from "images/borrower.jpg";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
@@ -61,7 +62,7 @@ export default {
                                     m(".col-md-6",
                                         m(".price_card.text-center", [
                                             m(".pricing-header.bg-custom", [
-                                                m("img.img-fluid[alt='borrower']", { src: investorAvatar }),
+                                                m("img.img-fluid[alt='borrower']", { src: borrowerAvatar }),
                                                 m("span.price", "Borrower"),
                                                 m("span.name", "For people who needs to borrow money")
                                             ]),

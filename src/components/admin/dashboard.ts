@@ -43,6 +43,8 @@ export default {
                         m.redraw();
 
                         json.users.map((v: any) => {
+                            v._id = v._id.toUpperCase();
+                            v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
                             v.button = `
               <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-custom"><i class="fa fa-eye"></i></a>
               <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-edit"></i></a>
@@ -64,10 +66,10 @@ export default {
                     },
                 ],
                 columns: [
+                    { data: "_id", width: "20%" },
                     { data: "username" },
                     { data: "email" },
                     { data: "typeset" },
-                    { data: "isDocumentsSubmitted" },
                     { data: "button", width: "20%" },
                 ]
             });
@@ -147,19 +149,19 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Username"),
                                             m("th", "Email"),
                                             m("th", "Type"),
-                                            m("th", "Documents"),
                                             m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Username"),
                                             m("th", "Email"),
                                             m("th", "Type"),
-                                            m("th", "Documents"),
                                             m("th", "Action"),
                                         ]),
                                     ])

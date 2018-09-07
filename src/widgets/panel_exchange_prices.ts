@@ -46,21 +46,21 @@ export default {
     view(vnode: Vnode) {
         return m(".col-lg-4", [
             m(".card-box", [
-                m("h4.m-t-0.header-title", "Exchange Prices"),
+                m("h4.m-t-0.header-title", "Exchange Price Ticker"),
                 m("div.table-responsive", [
-                    m("table.table.table-sm", [
+                    m("table.table.table-sm.table-borderless", [
                         m("tbody", [
                             m("tr", [
-                                m("td", "Bitcoin (BTC)"),
-                                m("td.text-right", Store.btcUsd, " USD"),
+                                m("td.text-warning", "Bitcoin (BTC)"),
+                                m("td.text-right.text-warning", Store.btcUsd, " USD"),
                             ]),
                             m("tr", [
-                                m("td", "Ethereum (ETH)"),
-                                m("td.text-right", Store.ethUsd, " USD"),
+                                m("td.text-primary", "Ethereum (ETH)"),
+                                m("td.text-right.text-primary", Store.ethUsd, " USD"),
                             ]),
                             m("tr", [
-                                m("td", "Stellar (XRP)"),
-                                m("td.text-right", Store.xrpUsd, " USD"),
+                                m("td.text-muted", "Stellar (XRP)"),
+                                m("td.text-right.text-muted", Store.xrpUsd, " USD"),
                             ]),
                         ]),
                     ]),

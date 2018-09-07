@@ -125,19 +125,19 @@ export default {
                             ),
 
                             !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='/my-wallet']", { oncreate: m.route.link }, [
                                     "My Wallet"
                                 ])
                             ) : null,
 
                             !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='/portfolio']", { oncreate: m.route.link }, [
                                     "Portfolio"
                                 ])
                             ) : null,
 
                             !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='/top-up']", { oncreate: m.route.link }, [
                                     "Top-up"
                                 ])
                             ) : null,
@@ -198,6 +198,7 @@ export default {
                                     m("li", m("a[href='/admin/view-log']", { oncreate: m.route.link }, "View Log")),
                                     m("li", m("a[href='/admin/data-analytics']", { oncreate: m.route.link }, "Data Analytics")),
                                     m("li", m("a[href='/admin/wallet-configurations']", { oncreate: m.route.link }, "Wallet Configurations")),
+                                    m("li", m("a[href='/admin/view-loan-purpose-list']", { oncreate: m.route.link }, "Loan Purpose List")),
                                     m("li", m("a[href='/admin/view-country-list']", { oncreate: m.route.link }, "Country List")),
                                     m("li", m("a[href='/admin/view-company-revenue-list']", { oncreate: m.route.link }, "Company Revenue Option List")),
                                     m("li", m("a[href='/admin/view-credit-rate-list']", { oncreate: m.route.link }, "Credit Rate Option List")),

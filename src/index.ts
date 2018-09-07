@@ -14,7 +14,10 @@ import recoverPassword from "components/recover_password";
 import recoverPasswordActivate from "components/recover_password_activate";
 
 import home from "components/home";
+import topUp from "components/top_up";
+import wallet from "components/wallet";
 import profile from "components/profile";
+import portfolio from "components/portfolio";
 import settings from "components/settings";
 import addProfileDetails from "components/add_profile_details";
 import addProfileType from "components/add_profile_type";
@@ -32,6 +35,7 @@ import adminViewLog from "components/admin/view_log";
 import adminViewCountryList from "components/admin/view_country_list";
 import adminViewCompanyRevenueList from "components/admin/view_company_revenue_list";
 import adminViewCreditRateList from "components/admin/view_credit_rate_list";
+import adminViewLoanPurposeList from "components/admin/view_loan_purposes";
 import adminViewFrequentlyAskQuestions from "components/admin/view_frequently_ask_questions";
 import adminInvestors from "components/admin/investors";
 import adminBorrowers from "components/admin/borrowers";
@@ -39,6 +43,8 @@ import adminPowerUsers from "components/admin/power_users";
 import adminInquiries from "components/admin/inquiries";
 import adminNewCountry from "components/admin/new_country";
 import adminNewCreditRate from "components/admin/new_credit_rate";
+import adminNewCompanyRevenue from "components/admin/new_company_revenue";
+import adminNewLoanPurpose from "components/admin/new_loan_purpose";
 
 import siteMaintenance from "components/site_maintenance";
 import notFound from "components/not_found";
@@ -103,6 +109,24 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else return settings;
+            }
+        },
+        "/top-up": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return topUp;
+            }
+        },
+        "/my-wallet": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return wallet;
+            }
+        },
+        "/portfolio": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return portfolio;
             }
         },
         "/profile/edit": {
@@ -212,11 +236,29 @@ function SmartFundingRouter() {
                 }
             }
         },
+        "/admin/new-loan-purpose": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminNewLoanPurpose;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-loan-purpose-list": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewLoanPurposeList;
+                    else m.route.set("/");
+                }
+            }
+        },
         "/admin/new-company-revenue": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminNewCreditRate;
+                    if (Auth.checkIsRoleAdmin()) return adminNewCompanyRevenue;
                     else m.route.set("/");
                 }
             }
