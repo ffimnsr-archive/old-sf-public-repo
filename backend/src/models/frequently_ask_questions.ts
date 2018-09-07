@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export type FrequentlyAskQuestionModel = mongoose.Document & {
     question: string,
     answer: string,
+    status: string,
     createdAt: Date,
     updatedAt: Date,
 };
@@ -10,6 +11,7 @@ export type FrequentlyAskQuestionModel = mongoose.Document & {
 const FrequentlyAskQuestionSchema = new mongoose.Schema({
     question: String,
     answer: String,
+    status: String,
     createdAt: Date,
     updatedAt: Date,
 }, { timestamps: true });

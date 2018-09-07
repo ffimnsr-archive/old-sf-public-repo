@@ -8,6 +8,7 @@ import auth from "../auth";
 import { default as User, UserModel } from "../../models/user";
 import { default as Address, AddressModel } from "../../models/address";
 import { default as Wallet, WalletModel } from "../../models/wallet";
+import { default as KycInvestorQuestion, KycInvestorQuestionModel } from "../../models/kyc_investor_question";
 import { default as Company, CompanyModel } from "../../models/company";
 import { default as Log } from "../../models/log";
 import { walletWIF } from "../../config";
@@ -150,9 +151,39 @@ router.put("/set-status", auth.required, (req: Request, res: Response, next: Nex
     }).catch(next);
 });
 
-router.put("/type", auth.required, (req: Request, res: Response, next: NextFunction) => {
+router.put("/type-i", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
         let temp = req.body;
+
+        if (typeof temp.user.typeset !== "undefined") {
+            user.typeset = temp.user.typeset;
+        }
+
+        if (typeof temp.user.status !== "undefined") {
+            user.status = temp.user.status;
+        }
+
+        let kiq = new KycInvestorQuestion();
+        kiq.questionBool = temp.user.questionBool;
+        kiq.questionString = temp.user.questionString;
+        kiq.user = user._id;
+
+        user.save().then((t: UserModel) => {
+            logAction(`User ${user.username} updated account type`);
+            kiq.save();
+
+            return res.status(200).json({
+                success: true,
+                user: t.toAuthJSON()
+            });
+        });
+    }).catch(next);
+});
+
+router.put("/type-b", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    findById(req.payload.id, res, (user: UserModel) => {
+        let temp = req.body;
+
         if (typeof temp.user.typeset !== "undefined") {
             user.typeset = temp.user.typeset;
         }

@@ -5,7 +5,7 @@ import header from "widgets/header";
 import { Utils } from "../utils";
 
 const Store = {
-    q: Array(11).fill(false),
+    q: Array(11).fill(0),
     qs: Array(6).fill(""),
     sourceOfWealth: [
         { name: "Employment", code: 0 },
@@ -30,7 +30,7 @@ const Store = {
 
         const token = localStorage.getItem("token")!;
 
-        m.request(AppSettings.API_BASE_URL + "/api/user/type", {
+        m.request(AppSettings.API_BASE_URL + "/api/user/type-i", {
             method: "PUT",
             data: data,
             headers: {
@@ -51,7 +51,6 @@ const Store = {
     }
 };
 
-// TODO: convert the questions to array and pass it to foreach and iterate.
 export default {
     view(_vnode: Vnode) {
         return m(".sf-root", [

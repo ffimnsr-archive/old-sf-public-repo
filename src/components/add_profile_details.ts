@@ -173,9 +173,13 @@ export default {
                                             m("label.col-form-label", "Country"),
                                             m("select.form-control", {
                                                 onchange: m.withAttr("value", (v: string) => { Store.country = v }),
-                                            }, Store.countries.map(function(v: any) {
-                                                return m("option", { value: v.code }, v.name)
-                                            })),
+                                            }, function() {
+                                                let countries = Store.countries.map(function(v: any) {
+                                                    return m("option", { value: v.code }, v.name)
+                                                });
+                                                countries.unshift(m("option[disabled][selected]", "Choose country of origin..."));
+                                                return countries;
+                                            }()),
                                         ]),
                                         m(".clearfix.text-right.mt-3",
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {

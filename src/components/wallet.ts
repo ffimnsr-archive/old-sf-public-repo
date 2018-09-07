@@ -1,3 +1,12 @@
+import { AppSettings } from "configs";
+import moment from "moment";
+import "datatables.net";
+import "datatables.net-bs4";
+import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+import "datatables.net-buttons";
+import "datatables.net-buttons-bs4";
+import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
 import jwtDecode from "jwt-decode";
@@ -6,6 +15,41 @@ import header from "widgets/header";
 import footer from "widgets/footer";
 
 export default {
+    oncreate(_vnode: Vnode) {
+        const token = localStorage.getItem("token")!;
+
+        $("#datatable").DataTable({
+            ajax: {
+                url: AppSettings.API_BASE_URL + "/api/log/list",
+                type: "GET",
+                beforeSend: function(request: any) {
+                    request.setRequestHeader("Authorization", `Token ${token}`);
+                },
+                dataSrc: function(json: any) {
+                    m.redraw();
+
+                    json.logs.map((v: any) => {
+                        v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+                        return v;
+                    });
+
+                    return json.logs;
+                }
+            },
+            dom: "Bfrtip",
+            buttons: [
+                {
+                    text: "Export to Excel",
+                    action: function(e: any, dt: any, node: any, config: any) {
+                    }
+                },
+            ],
+            columns: [
+                { data: "date", width: "20%" },
+                { data: "message" },
+            ]
+        });
+    },
     view(_vnode: Vnode) {
         return m(".sf-root", [
             m(header),
@@ -28,10 +72,24 @@ export default {
                     ),
 
                     m(".row", [
-                        m(".col-lg-8",
+                        m(".col-lg-12",
                             m(".card-box", [
-                                m("h4.header-title.mb-3", "My Wallet"),
+                                m("h4.header-title.mb-3", "Transaction Wallet Logs"),
                                 m("p.text-muted.font-14", "View your previous wallet transaction and biddings."),
+                                m("table.table.table-bordered[id='datatable']", [
+                                    m("thead",
+                                        m("tr", [
+                                            m("th", "Date"),
+                                            m("th", "Message"),
+                                        ])
+                                    ),
+                                    m("tfoot", [
+                                        m("tr", [
+                                            m("th", "Date"),
+                                            m("th", "Message"),
+                                        ]),
+                                    ])
+                                ])
                             ])
                         ),
                     ])

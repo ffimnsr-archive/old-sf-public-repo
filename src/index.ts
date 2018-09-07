@@ -43,6 +43,7 @@ import adminPowerUsers from "components/admin/power_users";
 import adminInquiries from "components/admin/inquiries";
 import adminNewCountry from "components/admin/new_country";
 import adminNewCreditRate from "components/admin/new_credit_rate";
+import adminNewMember from "components/admin/new_member";
 import adminNewCompanyRevenue from "components/admin/new_company_revenue";
 import adminNewLoanPurpose from "components/admin/new_loan_purpose";
 
@@ -169,6 +170,15 @@ function SmartFundingRouter() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
                     if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/new-account": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminNewMember;
                     else m.route.set("/");
                 }
             }

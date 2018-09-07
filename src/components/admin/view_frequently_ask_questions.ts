@@ -27,7 +27,7 @@ export default {
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/log/list",
+                    url: AppSettings.API_BASE_URL + "/api/frequently-ask-question/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
@@ -40,7 +40,7 @@ export default {
                             return v;
                         });
 
-                        return json.logs;
+                        return json.faqs;
                     }
                 },
                 dom: "Bfrtip",
@@ -53,8 +53,9 @@ export default {
                     },
                 ],
                 columns: [
-                    { data: "date", width: "20%" },
-                    { data: "message" },
+                    { data: "question", width: "20%" },
+                    { data: "answer" },
+                    { data: "status", width: "16%" },
                 ]
             });
         });
@@ -92,14 +93,16 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Question"),
+                                            m("th", "Answer"),
+                                            m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Question"),
+                                            m("th", "Answer"),
+                                            m("th", "Status"),
                                         ]),
                                     ])
                                 ])

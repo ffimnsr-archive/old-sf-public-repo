@@ -24,38 +24,36 @@ export default {
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
 
-        $(document).ready(function() {
-            $("#datatable").DataTable({
-                ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/log/list",
-                    type: "GET",
-                    beforeSend: function(request: any) {
-                        request.setRequestHeader("Authorization", `Token ${token}`);
-                    },
-                    dataSrc: function(json: any) {
-                        m.redraw();
+        $("#datatable").DataTable({
+            ajax: {
+                url: AppSettings.API_BASE_URL + "/api/log/list",
+                type: "GET",
+                beforeSend: function(request: any) {
+                    request.setRequestHeader("Authorization", `Token ${token}`);
+                },
+                dataSrc: function(json: any) {
+                    m.redraw();
 
-                        json.logs.map((v: any) => {
-                            v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-                            return v;
-                        });
+                    json.logs.map((v: any) => {
+                        v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+                        return v;
+                    });
 
-                        return json.logs;
+                    return json.logs;
+                }
+            },
+            dom: "Bfrtip",
+            buttons: [
+                {
+                    text: "Export to Excel",
+                    action: function(e: any, dt: any, node: any, config: any) {
                     }
                 },
-                dom: "Bfrtip",
-                buttons: [
-                    {
-                        text: "Export to Excel",
-                        action: function(e: any, dt: any, node: any, config: any) {
-                        }
-                    },
-                ],
-                columns: [
-                    { data: "date", width: "20%" },
-                    { data: "message" },
-                ]
-            });
+            ],
+            columns: [
+                { data: "date", width: "20%" },
+                { data: "message" },
+            ]
         });
     },
     view(_vnode: Vnode) {

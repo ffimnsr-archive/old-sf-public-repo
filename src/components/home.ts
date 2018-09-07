@@ -1,6 +1,8 @@
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
 import jwtDecode from "jwt-decode";
+import Chartist from "chartist";
+import "chartist/dist/chartist.css";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
@@ -29,8 +31,28 @@ const Store = {
 };
 
 export default {
-    oninit() {
+    oninit(_vnode: Vnode) {
         Store.load();
+    },
+    oncreate(_vnode: Vnode) {
+        let data: Chartist.IChartistData = {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+            series: [
+                [12, 9, 7, 8, 5, 4, 6, 2, 3, 3, 4, 6],
+                [4, 5, 3, 7, 3, 5, 5, 3, 4, 4, 5, 5],
+                [5, 3, 4, 5, 6, 3, 3, 4, 5, 6, 3, 4],
+            ]
+        };
+
+        let options: Chartist.ILineChartOptions = {
+            axisX: {
+                labelInterpolationFnc: function(value) {
+                    return '09 ' + value;
+                }
+            }
+        };
+
+        new Chartist.Line('.ct-chart', data, options);
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [
@@ -57,6 +79,7 @@ export default {
                         m(".col-lg-8",
                             m(".card-box", [
                                 m("h4.header-title.mb-3", "Crypto Price Chart"),
+                                m("div.ct-chart.ct-major-eleventh"),
                             ])
                         ),
                         m(".col-lg-4",

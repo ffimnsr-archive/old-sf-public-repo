@@ -1,32 +1,31 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { default as Country, CountryModel } from "../../models/country";
-import CountryList from "country-list";
+import { default as FrequentlyAskQuestion, FrequentlyAskQuestionModel } from "../../models/frequently_ask_questions";
 
 const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    Country.find({}).then((t: CountryModel[]) => {
+    FrequentlyAskQuestion.find({}).then((t: FrequentlyAskQuestionModel[]) => {
         return res.json({
             success: true,
-            countries: t,
+            faqs: t,
         });
     }).catch(next);
 });
 
 router.post("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    const country = new Country();
+    const d = new FrequentlyAskQuestion();
 
-    country.code = req.body.user.code;
-    country.name = req.body.user.name;
-    country.status = req.body.user.status;
+    d.question = req.body.user.question;
+    d.answer = req.body.user.answer;
+    d.status = req.body.user.status;
 
-    console.log(country);
-    country.save().then((t: CountryModel) => {
+    console.log(d);
+    d.save().then((t: FrequentlyAskQuestionModel) => {
         return res.json({
             success: true,
-            user: t,
+            faq: t,
         });
     }).catch(next);
 });
