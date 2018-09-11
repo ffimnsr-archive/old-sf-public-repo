@@ -1,5 +1,5 @@
 import logo from "images/sf-logo.png";
-import avatar from "images/users/avatar-1.jpg";
+import avatar from "images/users/avatar-1.png";
 import jwtDecode from "jwt-decode";
 import m, { Vnode } from "mithril";
 import { Auth } from "../auth";
@@ -143,7 +143,7 @@ export default {
                             ) : null,
 
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='javascript:;']", [
                                     "Investors"
                                 ]),
                                 m("ul.submenu", [
@@ -156,7 +156,7 @@ export default {
                             ]) : null,
 
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='javascript:;']", [
                                     "Borrowers"
                                 ]),
                                 m("ul.submenu", [
@@ -169,7 +169,7 @@ export default {
                             ]) : null,
 
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='javascript:;']", [
                                     "Investments & Collections"
                                 ]),
                                 m("ul.submenu", [
@@ -180,7 +180,7 @@ export default {
                             ]) : null,
 
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='/']", { oncreate: m.route.link }, [
+                                m("a[href='javascript:;']", [
                                     "Inquiries"
                                 ]),
                                 m("ul.submenu", [
@@ -190,7 +190,7 @@ export default {
                             ]) : null,
 
                             Auth.checkIsRoleAdmin() ? m("li.has-submenu", [
-                                m("a[href='']", { oncreate: m.route.link }, [
+                                m("a[href='javascript:;']", [
                                     "Control Panel"
                                 ]),
                                 m("ul.submenu", [

@@ -1,5 +1,6 @@
 import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
+import Swal from "sweetalert2";
 import footer from "widgets/footer";
 import header from "widgets/header";
 import { Utils } from "../utils";
@@ -43,7 +44,12 @@ const Store = {
                     vm.newPassword = "";
                     vm.confirmNewPassword = "";
 
-                    Utils.showSnackbar(res.message);
+                    Swal({
+                        title: "Success!",
+                        text: "You have successfully changed your password!",
+                        type: "success",
+                        confirmButtonClass: "btn btn-confirm mt-2"
+                    });
                 } else {
                     vm.oldPassword = "";
                     Utils.showSnackbar(res.message);

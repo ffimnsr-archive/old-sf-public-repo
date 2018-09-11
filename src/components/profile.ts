@@ -1,5 +1,5 @@
 import { AppSettings } from "configs";
-import avatar from "images/users/avatar-1.jpg";
+import avatar from "images/users/avatar-1.png";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
@@ -13,7 +13,7 @@ const Store = {
     typeset: "",
     location: "",
 
-    load: function() {
+    load() {
         const token = localStorage.getItem("token")!;
         const vm = this;
         m.request(AppSettings.API_BASE_URL + "/api/user/", {
@@ -39,6 +39,11 @@ const Store = {
             Utils.showSnackbar(err);
         });
     },
+
+    getTypeSet() {
+        if (this.typeset == ) {
+        }
+    }
 };
 
 export default {
@@ -94,6 +99,7 @@ export default {
                             m(".card-box", [
                                 m("h4.header-title.mt-0.m-b-20", "Personal Information"),
                                 m(".panel-body", [
+                                    m("hr"),
                                     m(".text-left", [
                                         m("p.text-muted.font-13", [
                                             m("strong", "Full Name : "),

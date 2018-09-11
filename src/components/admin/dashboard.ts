@@ -24,6 +24,21 @@ const Store = {
     },
 };
 
+function statusConvert(stat: string) {
+    switch (stat) {
+        case "pending":
+            return `<span class="badge badge-purple">Pending</span>`;
+        case "okay":
+            return `<span class="badge badge-success">Active</span>`;
+        case "locked":
+            return `<span class="badge badge-warning">Inactive</span>`;
+        case "deleted":
+            return `<span class="badge badge-warning">Rejected</span>`;
+        default:
+            return `<span class="badge badge-info">Fill-up</span>`;
+    }
+}
+
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
@@ -73,6 +88,7 @@ export default {
                     json.users.map((v: any) => {
                         v._id = v._id.toUpperCase();
                         v.uid = v._id.slice(-6);
+                        v.status = statusConvert(v.status);
                         v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
                         v.button = `
               <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-eye"></i></a>
@@ -98,7 +114,8 @@ export default {
                 { data: "uid", width: "8%" },
                 { data: "username" },
                 { data: "email" },
-                { data: "typeset" },
+                { data: "typeset", width: "9%" },
+                { data: "status", width: "6%" },
                 { data: "button", width: "20%" },
             ]
         });
@@ -180,19 +197,21 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Identifier"),
+                                            m("th", "ID"),
                                             m("th", "Username"),
                                             m("th", "Email"),
                                             m("th", "Type"),
+                                            m("th", "Status"),
                                             m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Identifier"),
+                                            m("th", "ID"),
                                             m("th", "Username"),
                                             m("th", "Email"),
                                             m("th", "Type"),
+                                            m("th", "Status"),
                                             m("th", "Action"),
                                         ]),
                                     ])
