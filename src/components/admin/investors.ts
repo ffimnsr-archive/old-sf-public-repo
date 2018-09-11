@@ -35,9 +35,9 @@ export default {
 
                         json.users.map((v: any) => {
                             v.button = `
-              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-edit"></i></a>
-              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
+              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="/#!/admin/view-m-wallet/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-money"></i></a>`;
                             return v;
                         });
 

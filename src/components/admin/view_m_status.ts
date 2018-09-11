@@ -74,38 +74,20 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Inquiries")
+                                        m("li.breadcrumb-item.active", "Member Status")
                                     ])
                                 ),
-                                m("h4.page-title", "Inquiries")
+                                m("h4.page-title", "Member Status")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Inquiries"),
+                                m("h4.m-t-0.header-title", "Member Status"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of all generated inquiries."
+                                    "Member's account status."
                                 ]),
-                                m("table.table.table-bordered[id='datatable']", [
-                                    m("thead",
-                                        m("tr", [
-                                            m("th", "Full Name"),
-                                            m("th", "Message"),
-                                            m("th", "Submitted Date"),
-                                            m("th", "Action"),
-                                        ])
-                                    ),
-                                    m("tfoot", [
-                                        m("tr", [
-                                            m("th", "Full Name"),
-                                            m("th", "Message"),
-                                            m("th", "Submitted Date"),
-                                            m("th", "Action"),
-                                        ]),
-                                    ])
-                                ])
                             ])
                         )
                     )

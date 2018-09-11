@@ -40,20 +40,17 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Collections")
+                                        m("li.breadcrumb-item.active", "Member Activity")
                                     ])
                                 ),
-                                m("h4.page-title", "Collections")
+                                m("h4.page-title", "Member Activity")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Collections"),
-                                m("p.text-muted.font-14.m-b-30", [
-                                    "Search through all collections."
-                                ]),
+                                m("h4.m-t-0.header-title", "Member Activity"),
                             ])
                         )
                     )

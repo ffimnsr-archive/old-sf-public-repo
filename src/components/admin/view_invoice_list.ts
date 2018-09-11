@@ -74,31 +74,39 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Logs Overview")
+                                        m("li.breadcrumb-item.active", "Invoices")
                                     ])
                                 ),
-                                m("h4.page-title", "Logs Overview")
+                                m("h4.page-title", "Invoices")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Logs Overview"),
+                                m("h4.m-t-0.header-title", "Invoices"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "Logs generated from different transactions."
+                                    "List of all active and inactive invoices."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Invoice"),
+                                            m("th", "Invoice Seller"),
+                                            m("th", "Invoice Details"),
+                                            m("th", "Info"),
+                                            m("th", "Created Date"),
+                                            m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Invoice"),
+                                            m("th", "Invoice Seller"),
+                                            m("th", "Invoice Details"),
+                                            m("th", "Info"),
+                                            m("th", "Created Date"),
+                                            m("th", "Action"),
                                         ]),
                                     ])
                                 ])

@@ -56,7 +56,7 @@ export default {
             ]
         }, options);
 
-        $("#Datatable").DataTable({
+        $("#datatable").DataTable({
             ajax: {
                 url: AppSettings.API_BASE_URL + "/api/user/list",
                 type: "GET",
@@ -72,12 +72,13 @@ export default {
 
                     json.users.map((v: any) => {
                         v._id = v._id.toUpperCase();
+                        v.uid = v._id.slice(-6);
                         v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
                         v.button = `
-              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-edit"></i></a>
-              <a href="/#!/admin/view-m-logs/${v._id}" class="btn btn-custom"><i class="fa fa-file-text"></i></a>
-              <a href="/#!/admin/view-m-wallet/${v._id}" class="btn btn-custom"><i class="fa fa-money"></i></a>`;
+              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-edit"></i></a>
+              <a href="/#!/admin/view-m-logs/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-file-text"></i></a>
+              <a href="/#!/admin/view-m-wallet/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-money"></i></a>`;
                         return v;
                     });
 
@@ -94,7 +95,7 @@ export default {
                 },
             ],
             columns: [
-                { data: "_id", width: "20%" },
+                { data: "uid", width: "8%" },
                 { data: "username" },
                 { data: "email" },
                 { data: "typeset" },

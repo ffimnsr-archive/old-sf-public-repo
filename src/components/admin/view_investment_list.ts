@@ -74,31 +74,43 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Logs Overview")
+                                        m("li.breadcrumb-item.active", "Investments")
                                     ])
                                 ),
-                                m("h4.page-title", "Logs Overview")
+                                m("h4.page-title", "Investments")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Logs Overview"),
+                                m("h4.m-t-0.header-title", "Investments"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "Logs generated from different transactions."
+                                    "All running investments."
                                 ]),
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Invoice"),
+                                            m("th", "Investor"),
+                                            m("th", "Amount"),
+                                            m("th", "Status"),
+                                            m("th", "Confirmed By"),
+                                            m("th", "Confirmed Date"),
+                                            m("th", "Created Date"),
+                                            m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
+                                            m("th", "Invoice"),
+                                            m("th", "Investor"),
+                                            m("th", "Amount"),
+                                            m("th", "Status"),
+                                            m("th", "Confirmed By"),
+                                            m("th", "Confirmed Date"),
+                                            m("th", "Created Date"),
+                                            m("th", "Action"),
                                         ]),
                                     ])
                                 ])

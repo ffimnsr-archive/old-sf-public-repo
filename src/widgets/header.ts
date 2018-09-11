@@ -196,7 +196,7 @@ export default {
                                 m("ul.submenu", [
                                     m("li", m("a[href='/admin/power-users']", { oncreate: m.route.link }, "Power Users")),
                                     m("li", m("a[href='/admin/view-log']", { oncreate: m.route.link }, "View Log")),
-                                    m("li", m("a[href='/admin/data-analytics']", { oncreate: m.route.link }, "Data Analytics")),
+                                    // m("li", m("a[href='/admin/data-analytics']", { oncreate: m.route.link }, "Data Analytics")),
                                     m("li", m("a[href='/admin/wallet-configurations']", { oncreate: m.route.link }, "Wallet Configurations")),
                                     m("li", m("a[href='/admin/view-loan-purpose-list']", { oncreate: m.route.link }, "Loan Purpose List")),
                                     m("li", m("a[href='/admin/view-country-list']", { oncreate: m.route.link }, "Country List")),

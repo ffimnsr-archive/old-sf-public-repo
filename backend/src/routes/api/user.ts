@@ -3,6 +3,8 @@ import speakeasy from "speakeasy";
 import passport from "passport";
 import ecc from "tiny-secp256k1";
 import bitcoin from "bitcoinjs-lib";
+import fs from "fs";
+import AWS from "aws-sdk";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
 import { default as User, UserModel } from "../../models/user";
@@ -11,7 +13,7 @@ import { default as Wallet, WalletModel } from "../../models/wallet";
 import { default as KycInvestorQuestion, KycInvestorQuestionModel } from "../../models/kyc_investor_question";
 import { default as Company, CompanyModel } from "../../models/company";
 import { default as Log } from "../../models/log";
-import { walletWIF } from "../../config";
+import { baseUri, walletWIF } from "../../config";
 
 const router = Router();
 
@@ -339,6 +341,7 @@ function statusConvert(stat: string) {
         case "new": return "step";
         case "pending": return "pending";
         case "active": return "okay";
+        case "inactive": return "locked";
         case "locked": return "locked";
         case "rejected": return "deleted";
         default: return "step";
@@ -396,6 +399,136 @@ router.get("/borrowers-list/:status", auth.required, (req: Request, res: Respons
         }
     }).catch(next);
 });
+
+router.post("/new-power-user", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    const user = new User();
+
+    user.username = req.body.user.username;
+    user.email = req.body.user.email;
+    user.status = statusConvert(req.body.user.status);
+    user.role = req.body.user.role;
+    user.isMailVerified = true;
+
+    const randomString = Math.random().toString(36).slice(-8);
+    user.setPassword(randomString);
+
+    const verificationToken = Math.random().toString(36).substring(7);
+    let content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
+    content = content.replace(/base_url/g, baseUri);
+    content = content.replace(/sf_verification_code/g, verificationToken);
+
+    const params = {
+        Destination: {
+            ToAddresses: [user.email]
+        },
+        Message: {
+            Body: {
+                Html: {
+                    Charset: "UTF-8",
+                    Data: content
+                },
+            },
+            Subject: {
+                Charset: "UTF-8",
+                Data: "SmartFunding Registration"
+            }
+        },
+        Source: "noreply@ses.smartfunding.io"
+    };
+
+    User.findOne({ "email": user.email }).then((u: UserModel) => {
+        if (u) {
+            return res.status(422).json({
+                success: false,
+                message: "email is already registered"
+            });
+        }
+
+        user.save().then((t: UserModel) => {
+            AWS.config.update({ region: "us-west-2" });
+            const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+                .sendEmail(params)
+                .promise();
+
+            sendPromise
+                .then(data => console.log(data))
+                .catch(err => console.error(err));
+
+            return res.json({
+                success: true,
+                user: t.toAuthJSON(),
+            });
+        }).catch(next);
+
+    }).catch(next);
+});
+
+router.post("/new-account", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    const user = new User();
+
+    user.username = req.body.user.username;
+    user.email = req.body.user.email;
+    user.typeset = req.body.user.typeset;
+    user.status = statusConvert(req.body.user.status);
+    if (user.status == "step") {
+        user.status = user.status + "1";
+    }
+    user.isMailVerified = true;
+
+    const randomString = Math.random().toString(36).slice(-8);
+    user.setPassword(randomString);
+
+    const verificationToken = Math.random().toString(36).substring(7);
+    let content = fs.readFileSync("./templates/email/confirm_mail_register.html", "utf8");
+    content = content.replace(/base_url/g, baseUri);
+    content = content.replace(/sf_verification_code/g, verificationToken);
+
+    const params = {
+        Destination: {
+            ToAddresses: [user.email]
+        },
+        Message: {
+            Body: {
+                Html: {
+                    Charset: "UTF-8",
+                    Data: content
+                },
+            },
+            Subject: {
+                Charset: "UTF-8",
+                Data: "SmartFunding Registration"
+            }
+        },
+        Source: "noreply@ses.smartfunding.io"
+    };
+
+    User.findOne({ "email": user.email }).then((u: UserModel) => {
+        if (u) {
+            return res.status(422).json({
+                success: false,
+                message: "email is already registered"
+            });
+        }
+
+        user.save().then((t: UserModel) => {
+            AWS.config.update({ region: "us-west-2" });
+            const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+                .sendEmail(params)
+                .promise();
+
+            sendPromise
+                .then(data => console.log(data))
+                .catch(err => console.error(err));
+
+            return res.json({
+                success: true,
+                user: t.toAuthJSON(),
+            });
+        }).catch(next);
+
+    }).catch(next);
+});
+
 
 router.get("/power-user-list", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.find({ role: { $not: /member/ } }).then((t: UserModel[]) => {

@@ -37,6 +37,15 @@ import adminViewCompanyRevenueList from "components/admin/view_company_revenue_l
 import adminViewCreditRateList from "components/admin/view_credit_rate_list";
 import adminViewLoanPurposeList from "components/admin/view_loan_purposes";
 import adminViewFrequentlyAskQuestions from "components/admin/view_frequently_ask_questions";
+import adminViewInvestmentList from "components/admin/view_investment_list";
+import adminViewCollectionList from "components/admin/view_collection_list";
+import adminViewInvoiceList from "components/admin/view_invoice_list";
+import adminViewMemberAccount from "components/admin/view_m_account";
+import adminViewMemberBorrowerAccount from "components/admin/view_m_b_account";
+import adminViewMemberStatus from "components/admin/view_m_status";
+import adminViewMemberLog from "components/admin/view_m_log";
+import adminViewMemberWallet from "components/admin/view_m_log";
+
 import adminInvestors from "components/admin/investors";
 import adminBorrowers from "components/admin/borrowers";
 import adminPowerUsers from "components/admin/power_users";
@@ -44,6 +53,7 @@ import adminInquiries from "components/admin/inquiries";
 import adminNewCountry from "components/admin/new_country";
 import adminNewCreditRate from "components/admin/new_credit_rate";
 import adminNewMember from "components/admin/new_member";
+import adminNewPowerUser from "components/admin/new_power_user";
 import adminNewCompanyRevenue from "components/admin/new_company_revenue";
 import adminNewLoanPurpose from "components/admin/new_loan_purpose";
 
@@ -151,7 +161,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    if (Auth.checkIsRoleAdmin()) return adminViewInvestmentList;
                     else m.route.set("/");
                 }
             }
@@ -160,7 +170,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    if (Auth.checkIsRoleAdmin()) return adminViewCollectionList;
                     else m.route.set("/");
                 }
             }
@@ -169,7 +179,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminPowerUsers;
+                    if (Auth.checkIsRoleAdmin()) return adminViewInvoiceList;
                     else m.route.set("/");
                 }
             }
@@ -179,6 +189,15 @@ function SmartFundingRouter() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
                     if (Auth.checkIsRoleAdmin()) return adminNewMember;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/new-power-user": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminNewPowerUser;
                     else m.route.set("/");
                 }
             }
@@ -331,7 +350,16 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberAccount;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-m-b-account/:id": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberBorrowerAccount;
                     else m.route.set("/");
                 }
             }
@@ -340,7 +368,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberStatus;
                     else m.route.set("/");
                 }
             }
@@ -349,7 +377,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberLog;
                     else m.route.set("/");
                 }
             }
@@ -358,7 +386,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminDashboard;
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberWallet;
                     else m.route.set("/");
                 }
             }

@@ -27,6 +27,10 @@ export default {
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
+                        json.countries.map(function(v) {
+                            v._id = v._id.toUpperCase();
+                        });
+
                         return json.countries;
                     }
                 },
@@ -40,6 +44,7 @@ export default {
                     },
                 ],
                 columns: [
+                    { data: "_id", width: "20%" },
                     { data: "code", width: "5%" },
                     { data: "name" },
                     { data: "status", width: "7%" },
@@ -78,6 +83,7 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Code"),
                                             m("th", "Country Name"),
                                             m("th", "Status"),
@@ -85,6 +91,7 @@ export default {
                                     ),
                                     m("tfoot", [
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Code"),
                                             m("th", "Country Name"),
                                             m("th", "Status"),

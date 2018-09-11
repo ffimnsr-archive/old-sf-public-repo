@@ -36,6 +36,7 @@ export default {
                         m.redraw();
 
                         json.logs.map((v: any) => {
+                            v._id = v._id.toUpperCase();
                             v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
                             return v;
                         });
@@ -53,6 +54,7 @@ export default {
                     },
                 ],
                 columns: [
+                    { data: "_id", width: "20%" },
                     { data: "question", width: "20%" },
                     { data: "answer" },
                     { data: "status", width: "16%" },
@@ -93,6 +95,7 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Question"),
                                             m("th", "Answer"),
                                             m("th", "Status"),
@@ -100,6 +103,7 @@ export default {
                                     ),
                                     m("tfoot", [
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Question"),
                                             m("th", "Answer"),
                                             m("th", "Status"),

@@ -81,12 +81,16 @@ export default {
                                         m("tr", [
                                             m("th", "Date"),
                                             m("th", "Message"),
+                                            m("th", "Menu"),
+                                            m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
                                             m("th", "Date"),
                                             m("th", "Message"),
+                                            m("th", "Menu"),
+                                            m("th", "Action"),
                                         ]),
                                     ])
                                 ])

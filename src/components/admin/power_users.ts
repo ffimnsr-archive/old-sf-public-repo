@@ -19,6 +19,15 @@ const Store = {
     },
 };
 
+function statusConvert(s: string) {
+    switch (s) {
+        case "okay":
+            return `<span class="badge badge-success">Active</span>`;
+        case "locked":
+            return `<span class="badge badge-warning">Inactive</span>`;
+    }
+}
+
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
@@ -38,9 +47,10 @@ export default {
                         m.redraw();
 
                         json.users.map((v: any) => {
+                            v.status = statusConvert(v.status);
                             v.button = `
-              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-custom"><i class="fa fa-edit"></i></a>`;
+              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-eye"></i></a>
+              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-edit"></i></a>`;
                             return v;
                         });
 
@@ -59,7 +69,7 @@ export default {
                 columns: [
                     { data: "username" },
                     { data: "email" },
-                    { data: "status" },
+                    { data: "status", width: "5%" },
                     { data: "button", width: "16%" },
                 ]
             });

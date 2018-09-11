@@ -36,6 +36,8 @@ export default {
 
                     json.logs.map((v: any) => {
                         v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+                        v.user = "Support";
+                        v.record = "Support User";
                         return v;
                     });
 
@@ -53,6 +55,8 @@ export default {
             columns: [
                 { data: "date", width: "20%" },
                 { data: "message" },
+                { data: "user" },
+                { data: "record" },
             ]
         });
     },
@@ -91,12 +95,16 @@ export default {
                                         m("tr", [
                                             m("th", "Date"),
                                             m("th", "Message"),
+                                            m("th", "User"),
+                                            m("th", "Record"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
                                             m("th", "Date"),
                                             m("th", "Message"),
+                                            m("th", "User"),
+                                            m("th", "Record"),
                                         ]),
                                     ])
                                 ])

@@ -21,6 +21,10 @@ export default {
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
+                        json.creditRates.map(function(v) {
+                            v._id = v._id.toUpperCase();
+                        });
+
                         return json.creditRates;
                     }
                 },
@@ -34,6 +38,7 @@ export default {
                     },
                 ],
                 columns: [
+                    { data: "_id", width: "20%" },
                     { data: "rate" },
                     { data: "status", width: "7%" },
                 ]
@@ -71,12 +76,14 @@ export default {
                                 m("table.table.table-bordered[id='datatable']", [
                                     m("thead",
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Credit Rate"),
                                             m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
+                                            m("th", "Identifier"),
                                             m("th", "Credit Rate"),
                                             m("th", "Status"),
                                         ]),
