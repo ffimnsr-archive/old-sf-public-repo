@@ -8,6 +8,13 @@ import "datatables.net-buttons-bs4";
 import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
 
 import m, { Vnode } from "mithril";
+import tabProfile from "widgets/tab_profile";
+import tabFinancial from "widgets/tab_financial";
+import tabInvestment from "widgets/tab_investment";
+import tabDocuments from "widgets/tab_documents";
+import tabKycDetails from "widgets/tab_kyc_details";
+import tabSummary from "widgets/tab_summary";
+
 import footer from "widgets/footer";
 import header from "widgets/header";
 
@@ -54,49 +61,49 @@ export default {
                                 m("ul.nav.nav-tabs.tabs-bordered.nav-justified",
                                     [
                                         m("li.nav-item",
-                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#home-b2']",
+                                            m("a.nav-link.active.show[aria-expanded='true'][data-toggle='tab'][href='#profile-b2']",
                                                 [
-                                                    m("i.fi-monitor.mr-2"),
+                                                    m("i.fi-head.mr-2"),
                                                     "Personal Information"
                                                 ]
                                             )
                                         ),
                                         m("li.nav-item",
-                                            m("a.nav-link[aria-expanded='true'][data-toggle='tab'][href='#profile-b2']",
+                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#financial-b2']",
                                                 [
-                                                    m("i.fi-head.mr-2"),
+                                                    m("i.fi-monitor.mr-2"),
                                                     "Financial Information"
                                                 ]
                                             )
                                         ),
                                         m("li.nav-item",
-                                            m("a.nav-link.active.show[aria-expanded='false'][data-toggle='tab'][href='#messages-b2']",
+                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#investment-b2']",
                                                 [
-                                                    m("i.fi-mail.mr-2"),
+                                                    m("i.fi-bar-graph-2.mr-2"),
                                                     "Investment Details"
                                                 ]
                                             )
                                         ),
                                         m("li.nav-item",
-                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#settings-b2']",
+                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#documents-b2']",
                                                 [
-                                                    m("i.fi-cog.mr-2"),
+                                                    m("i.fi-paper-clip.mr-2"),
                                                     "Documents"
                                                 ]
                                             )
                                         ),
                                         m("li.nav-item",
-                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#settings-b2']",
+                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#kyc-details-b2']",
                                                 [
-                                                    m("i.fi-cog.mr-2"),
+                                                    m("i.fi-paper.mr-2"),
                                                     "KYC Details"
                                                 ]
                                             )
                                         ),
                                         m("li.nav-item",
-                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#settings-b2']",
+                                            m("a.nav-link[aria-expanded='false'][data-toggle='tab'][href='#summary-b2']",
                                                 [
-                                                    m("i.fi-cog.mr-2"),
+                                                    m("i.fi-layers.mr-2"),
                                                     "Summary"
                                                 ]
                                             )
@@ -105,26 +112,12 @@ export default {
                                 ),
                                 m(".tab-content",
                                     [
-                                        m(".tab-pane[id='home-b2']",
-                                            [
-
-                                            ]
-                                        ),
-                                        m(".tab-pane[id='profile-b2']",
-                                            [
-
-                                            ]
-                                        ),
-                                        m(".tab-pane.active.show[id='messages-b2']",
-                                            [
-
-                                            ]
-                                        ),
-                                        m(".tab-pane[id='settings-b2']",
-                                            [
-
-                                            ]
-                                        )
+                                        m(tabProfile),
+                                        m(tabFinancial),
+                                        m(tabInvestment),
+                                        m(tabDocuments),
+                                        m(tabKycDetails),
+                                        m(tabSummary),
                                     ]
                                 )
                             ])

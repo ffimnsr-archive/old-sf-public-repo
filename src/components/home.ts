@@ -105,7 +105,7 @@ export default {
                         m(".col-lg-8",
                             m(".card-box", [
                                 m("h4.header-title.mb-3", "Investment Options"),
-                                m("table.table.table-bordered[id='datatable']", [
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead", [
                                         m("tr", [
                                             m("th", "Invoice"),

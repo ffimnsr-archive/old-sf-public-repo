@@ -19,7 +19,7 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
     Comment.find({}).then((t: CommentModel[]) => {
         return res.json({
             success: true,
-            countries: t,
+            comments: t,
         });
     }).catch(next);
 });

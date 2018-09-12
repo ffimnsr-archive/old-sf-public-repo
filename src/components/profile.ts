@@ -41,7 +41,8 @@ const Store = {
     },
 
     getTypeSet() {
-        if (this.typeset == ) {
+        if (this.typeset === "") {
+
         }
     }
 };

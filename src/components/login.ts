@@ -1,4 +1,5 @@
 import m, { Vnode } from "mithril";
+import Swal from "sweetalert2";
 import { AppSettings } from "configs";
 import { Utils } from "../utils";
 
@@ -40,10 +41,18 @@ const Store = {
                 localStorage.setItem("status", res.user.status);
                 m.route.set("/");
             } else {
-                Utils.showSnackbar(res.message);
+                Swal({
+                    title: "Error Occurred!",
+                    type: "error",
+                    text: res.message,
+                });
             }
         }).catch(function(err) {
-            Utils.showSnackbar(err);
+            Swal({
+                title: "Error Occurred!",
+                type: "error",
+                text: err,
+            });
         });
     }
 };

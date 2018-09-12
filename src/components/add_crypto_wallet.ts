@@ -89,7 +89,11 @@ export default {
                                             m("input.form-control[type='text'][placeholder='e.g. 15a3JRVLot7dVgBqa1GcXwC7wx3yf4dw1P']", {
                                                 oninput: m.withAttr("value", (v: string) => { Store.ethAddress = v }),
                                                 value: Store.ethAddress
-                                            })
+                                            }),
+                                            m("p.text-muted.m-t-5", [
+                                                m("b", "NOTE : "),
+                                                "This will auto-detect address if you have MetaMask installed and unlocked."
+                                            ])
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Bitcoin Wallet Address"),

@@ -1,27 +1,27 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { default as InvestorPortfolio, InvestorPortfolioModel } from "../../models/investor_portfolio";
+import { default as WalletLog, WalletLogModel } from "../../models/wallet_log";
 
 const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    InvestorPortfolio.find({}).then((t: InvestorPortfolioModel[]) => {
+    WalletLog.find({}).then((t: WalletLogModel[]) => {
         return res.json({
             success: true,
-            investorPortfolios: t,
+            walletLogs: t,
         });
     }).catch(next);
 });
 
 router.post("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    const d = new InvestorPortfolio();
+    const d = new WalletLog();
 
     console.log(d);
-    d.save().then((t: InvestorPortfolioModel) => {
+    d.save().then((t: WalletLogModel) => {
         return res.json({
             success: true,
-            investorPortfolios: t,
+            walletLog: t,
         });
     }).catch(next);
 });

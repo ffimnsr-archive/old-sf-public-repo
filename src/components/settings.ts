@@ -120,7 +120,7 @@ export default {
                                             ]),
                                         ]),
                                         m(".clearfix.text-right.mt-3", [
-                                            m("a.btn.btn-custom.waves-effect.waves-light.mr-2[href='/']", {
+                                            m("a.btn.btn-light.waves-effect.waves-light.mr-2[href='/']", {
                                                 oncreate: m.route.link,
                                             }, "Go Back"),
 

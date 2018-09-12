@@ -90,6 +90,7 @@
     "jwt-decode": "^2.2.0",
     "mithril": "^1.1.6",
     "moment": "^2.22.2",
+    "node-waves": "^0.7.6",
     "pdfmake": "^0.1.37",
     "popper.js": "^1.14.4",
     "qrcode": "^1.2.2",

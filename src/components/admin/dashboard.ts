@@ -91,10 +91,13 @@ export default {
                         v.status = statusConvert(v.status);
                         v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
                         v.button = `
-              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-edit"></i></a>
-              <a href="/#!/admin/view-m-logs/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-file-text"></i></a>
-              <a href="/#!/admin/view-m-wallet/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-money"></i></a>`;
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/admin/view-m-account/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Account</a>
+<a href="/#!/admin/view-m-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+</div>
+</div>`;
                         return v;
                     });
 
@@ -116,7 +119,7 @@ export default {
                 { data: "email" },
                 { data: "typeset", width: "9%" },
                 { data: "status", width: "6%" },
-                { data: "button", width: "20%" },
+                { data: "button", width: "5%" },
             ]
         });
     },
@@ -189,12 +192,12 @@ export default {
 
                     m(".row",
                         m(".col-12",
-                            m(".card-box.table-responsive", [
+                            m(".card-box", [
                                 m("h4.m-t-0.header-title", "Members List"),
                                 m("p.text-muted.font-14.m-b-30", [
                                     "List of all users in system."
                                 ]),
-                                m("table.table.table-bordered[id='datatable']", [
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
                                             m("th", "ID"),

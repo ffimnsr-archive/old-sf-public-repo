@@ -47,6 +47,8 @@ export default {
             columns: [
                 { data: "date", width: "20%" },
                 { data: "message" },
+                { data: "message" },
+                { data: "message" },
             ]
         });
     },
@@ -76,7 +78,7 @@ export default {
                             m(".card-box", [
                                 m("h4.header-title.mb-3", "Transaction Wallet Logs"),
                                 m("p.text-muted.font-14", "View your previous wallet transaction and biddings."),
-                                m("table.table.table-bordered[id='datatable']", [
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
                                             m("th", "Date"),

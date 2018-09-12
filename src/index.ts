@@ -42,6 +42,7 @@ import adminViewCollectionList from "components/admin/view_collection_list";
 import adminViewInvoiceList from "components/admin/view_invoice_list";
 import adminViewMemberAccount from "components/admin/view_m_account";
 import adminViewMemberBorrowerAccount from "components/admin/view_m_b_account";
+import adminViewMemberPowerAccount from "components/admin/view_m_p_account";
 import adminViewMemberStatus from "components/admin/view_m_status";
 import adminViewMemberLog from "components/admin/view_m_log";
 import adminViewMemberWallet from "components/admin/view_m_log";
@@ -63,6 +64,8 @@ import notFoundAlt from "components/not_found_alt";
 import serverError from "components/server_error";
 
 import { Auth } from "./auth";
+
+import Waves from "node-waves";
 
 import "bootstrap";
 import "jquery-slimscroll";
@@ -364,6 +367,15 @@ function SmartFundingRouter() {
                 }
             }
         },
+        "/admin/view-m-p-account/:id": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberPowerAccount;
+                    else m.route.set("/");
+                }
+            }
+        },
         "/admin/view-m-status/:id": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
@@ -470,3 +482,5 @@ Raven.config("https://06889627b92a49189983e5dc8da83d4f@sentry.io/1227866").insta
 Raven.context(function() {
     SmartFundingRouter();
 });
+
+Waves.init();

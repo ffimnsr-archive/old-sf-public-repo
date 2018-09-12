@@ -2,6 +2,7 @@ import { AppSettings } from "configs";
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
 import m, { Vnode } from "mithril";
+import Swal from "sweetalert2";
 import { Utils } from "../utils";
 
 
@@ -38,10 +39,18 @@ const Store = {
                     sessionStorage.setItem("verify_email", vm.email);
                     m.route.set("/confirm-mail/register");
                 } else {
-                    Utils.showSnackbar(res.message);
+                    Swal({
+                        title: "Error Occurred!",
+                        type: "error",
+                        text: res.message,
+                    });
                 }
             }).catch(function(err) {
-                Utils.showSnackbar(err);
+                Swal({
+                    title: "Error Occurred!",
+                    type: "error",
+                    text: err,
+                });
             });
     },
 };

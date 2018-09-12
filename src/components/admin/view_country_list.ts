@@ -80,7 +80,7 @@ export default {
                                 m("p.text-muted.font-14.m-b-30", [
                                     "List of countries allowed to create account."
                                 ]),
-                                m("table.table.table-bordered[id='datatable']", [
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
                                             m("th", "Identifier"),

@@ -101,6 +101,7 @@ UserSchema.methods.toAuthJSON = function() {
         isMailVerified: this.isMailVerified,
         isDocumentsSubmitted: this.isDocumentsSubmitted,
         status: this.status,
+        createdAt: this.createdAt,
     };
 };
 

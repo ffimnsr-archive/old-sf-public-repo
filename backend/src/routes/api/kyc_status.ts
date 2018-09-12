@@ -16,7 +16,7 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
     KycStatus.find({}).then((t: KycStatusModel[]) => {
         return res.json({
             success: true,
-            countries: t,
+            kycStatuses: t,
         });
     }).catch(next);
 });
@@ -30,7 +30,7 @@ router.post("/", auth.required, (req: Request, res: Response, next: NextFunction
     kyc.save().then((t: KycStatusModel) => {
         return res.json({
             success: true,
-            user: t,
+            kycStatus: t,
         });
     }).catch(next);
 });

@@ -38,6 +38,30 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
         }).catch(next);
 });
 
+router.get("/get-user/:uid", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.params);
+    let uid = req.params.uid;
+    console.log(uid);
+    User.findById(uid)
+        .populate("wallet")
+        .populate("address")
+        .then((user: UserModel) => {
+            console.log(user);
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    message: "unauthorized access",
+                });
+            }
+            return res.json({
+                success: true,
+                user: user.toAuthJSON(),
+                wallet: user.wallet,
+                address: user.address,
+            });
+        }).catch(next);
+});
+
 router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
 

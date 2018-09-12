@@ -32,7 +32,6 @@ function statusConvert(stat: string) {
     }
 }
 
-
 export default {
     oncreate(vnode: Vnode) {
         Store.setStatus(m.route.param("key"));
@@ -52,11 +51,16 @@ export default {
                         json.users.map((v: any) => {
                             v._id = v._id.toUpperCase();
                             v.uid = v._id.slice(-6);
+                            v.name = v.forename && v.forename !== "undefined" ? v.forename + " " + v.surname : "None";
                             v.status = statusConvert(v.status);
                             v.button = `
-              <a href="/#!/admin/view-m-account/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-eye"></i></a>
-              <a href="/#!/admin/view-m-status/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-edit"></i></a>
-              <a href="/#!/admin/view-m-wallet/${v._id}" class="btn btn-sm btn-custom"><i class="fa fa-money"></i></a>`;
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/admin/view-m-account/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Account</a>
+<a href="/#!/admin/view-m-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+</div>
+</div>`;
                             return v;
                         });
 
@@ -74,12 +78,12 @@ export default {
                 ],
                 columns: [
                     { data: "uid", width: "8%" },
-                    { data: "forename" },
-                    { data: "surname" },
+                    { data: "name" },
                     { data: "username" },
                     { data: "email" },
+                    { data: "surname" },
                     { data: "status", width: "6%" },
-                    { data: "button", width: "16%" },
+                    { data: "button", width: "5%" },
                 ]
             });
         });
@@ -112,14 +116,14 @@ export default {
                                 m("p.text-muted.font-14.m-b-30", [
                                     `List of all ${Store.status} investors.`
                                 ]),
-                                m("table.table.table-bordered[id='datatable']", [
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
                                             m("th", "ID"),
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
+                                            m("th", "Name"),
                                             m("th", "Username"),
                                             m("th", "Email"),
+                                            m("th", "Surname"),
                                             m("th", "Status"),
                                             m("th", "Action"),
                                         ])
@@ -127,10 +131,10 @@ export default {
                                     m("tfoot", [
                                         m("tr", [
                                             m("th", "ID"),
-                                            m("th", "Forename"),
-                                            m("th", "Surname"),
+                                            m("th", "Name"),
                                             m("th", "Username"),
                                             m("th", "Email"),
+                                            m("th", "Surname"),
                                             m("th", "Status"),
                                             m("th", "Action"),
                                         ]),

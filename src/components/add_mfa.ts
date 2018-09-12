@@ -1,6 +1,7 @@
 import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
+import Swal from "sweetalert2";
 import footer from "widgets/footer";
 import header from "widgets/header";
 import { Utils } from "../utils";
@@ -33,7 +34,42 @@ const Store = {
                     version: 12,
                 }, function(_err: any, url: string) {
                     vm.otpImage = url;
-                    m.redraw();
+
+                    let steps = [
+                        {
+                            title: "Scan Multi-factor QRcode",
+                            html: `Scan the QRcode using your phone to enable 2FA.<br/><img src='${vm.otpImage}' alt="otp" /><br/>Secret Key: ${vm.secretKey}`,
+                        },
+                        {
+                            title: "Input Generated 2FA Key",
+                            html: `Enter the 2FA generated key that can be found in your phone.<br/>` +
+                                `<input id="swal-input1" type="text" class="swal2-input">`,
+                            preConfirm: function() {
+                                return new Promise(function(resolve) {
+                                    resolve([
+                                        (<HTMLInputElement>document!.getElementById("swal-input1")).value,
+                                    ]);
+                                });
+                            }
+                        }
+                    ];
+
+                    Swal.mixin({
+                        confirmButtonText: "Next",
+                        showCancelButton: true,
+                        progressSteps: ["1", "2"]
+                    }).queue(steps).then(function(result) {
+                        if (result.value) {
+                            Store.tokenInput = result.value[1][0];
+                            Swal({
+                                type: "success",
+                                title: "All done!",
+                                html: "Now all you need is to click <b>SUBMIT</b> to enable 2FA in your account.",
+                                confirmButtonText: "Lovely!",
+                                showCancelButton: false
+                            });
+                        }
+                    }).catch(Swal.noop);
                 });
             } else {
                 Utils.showSnackbar("Error on generating key code.");
@@ -44,6 +80,9 @@ const Store = {
     },
     canSave() {
         return this.secretKey !== "";
+    },
+    cold() {
+        console.log("hello");
     },
     skip() {
         const data = {
@@ -67,10 +106,18 @@ const Store = {
                 localStorage.setItem("status", "pending");
                 m.route.set("/");
             } else {
-                Utils.showSnackbar(res.message);
+                Swal({
+                    title: "Error Occurred!",
+                    type: "error",
+                    text: res.message,
+                });
             }
         }).catch(function(err) {
-            Utils.showSnackbar(err);
+            Swal({
+                title: "Error Occurred!",
+                type: "error",
+                text: err,
+            });
         });
 
     },
@@ -98,10 +145,18 @@ const Store = {
                 localStorage.setItem("status", "pending");
                 m.route.set("/");
             } else {
-                Utils.showSnackbar("Invalid Key Code");
+                Swal({
+                    title: "Error Occurred!",
+                    type: "error",
+                    text: "You've entered an invalid key code.",
+                });
             }
         }).catch(function(err) {
-            Utils.showSnackbar(err);
+            Swal({
+                title: "Error Occurred!",
+                type: "error",
+                text: err,
+            });
         });
     }
 };
@@ -133,35 +188,31 @@ export default {
                             m(".card-box", [
                                 m("h4.header-title.m-t-0", "Multi-factor Authentication"),
                                 m("div.row", [
-                                    m("div.col-md-6", [
-                                        m("p", "Additional Security: To enable a multi-factor authentication:"),
+                                    m("div.col-12", [
+                                        m("p", [
+                                            m("b", "Additional Security : "),
+                                            "To enable a multi-factor authentication:"
+                                        ]),
                                         m("ol", [
                                             m("li", "Download and install a multi-factor authentication app (e.g. Google Authenticator, Microsoft Authenticator, YaKey, Auth0, etc.)."),
                                             m("li", "Open and scan the qrcode that you see on the right side."),
                                             m("li", "Then, enter the 6 digit code generated on the input box."),
                                         ]),
+                                        m("p", "Click below to generate 2FA keys."),
                                     ]),
-                                    m("div.col-md-6", [
-                                        Store.otpImage !== "" ? m("img.mx-auto.d-block[alt='mfa-key']", { src: Store.otpImage }) : m("img.mx-auto.d-block[width='292'][alt='mfa-key']", { src: qrph }),
-                                        m(".clearfix.text-center.mt-3", [
+                                    m("div.col-12", [
+                                        m(".clearfix.mt-3", [
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
                                                 onclick: (e: Event) => {
                                                     Store.reload();
                                                     e.preventDefault();
                                                 },
-                                            }, "Generate 2-Factor Authentication Key")
+                                            }, "Generate Two-Factor Authentication Key")
                                         ]),
-                                        Store.secretKey !== "" ? m("div.form-group.col-md-12.mt-4", [
-                                            m("label.col-form-label", "Enter 6 digit token"),
-                                            m("input.form-control[type='text'][placeholder='Token']", {
-                                                oninput: m.withAttr("value", (v: string) => { Store.tokenInput = v }),
-                                                value: Store.tokenInput
-                                            })
-                                        ]) : null,
                                     ]),
                                 ]),
                                 m(".col-md-12.clearfix.text-right.mt-3", [
-                                    m("button.btn.btn-custom.waves-effect.waves-light.mr-2[type='button']", {
+                                    m("button.btn.waves-effect.waves-light.mr-2[type='button']", {
                                         onclick: Store.skip,
                                     }, "Skip"),
                                     m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {

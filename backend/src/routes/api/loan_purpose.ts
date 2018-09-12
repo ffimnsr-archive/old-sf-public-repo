@@ -23,7 +23,7 @@ router.post("/", auth.required, (req: Request, res: Response, next: NextFunction
     d.save().then((t: LoanPurposeModel) => {
         return res.json({
             success: true,
-            loanPurposes: t,
+            loanPurpose: t,
         });
     }).catch(next);
 });

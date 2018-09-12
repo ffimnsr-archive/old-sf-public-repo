@@ -80,7 +80,7 @@ export default {
                             m(".card-box", [
                                 m("h4.header-title.mb-3", "Porfolio"),
                                 m("p.text-muted.font-14", "Check all your invoice deeds."),
-                                m("table.table.table-bordered[id='datatable']", [
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
                                             m("th", "Identifier"),
