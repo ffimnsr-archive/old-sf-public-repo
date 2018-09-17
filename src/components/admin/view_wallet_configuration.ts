@@ -23,39 +23,6 @@ export default {
     },
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
-
-        $(document).ready(function() {
-            $("#datatable").DataTable({
-                ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/log/list",
-                    type: "GET",
-                    beforeSend: function(request: any) {
-                        request.setRequestHeader("Authorization", `Token ${token}`);
-                    },
-                    dataSrc: function(json: any) {
-                        m.redraw();
-                        return [];
-                    }
-                },
-                dom: "Bfrtip",
-                buttons: [
-                    {
-                        text: "Export to Excel",
-                        action: function(e: any, dt: any, node: any, config: any) {
-
-                        }
-                    },
-                ],
-                columns: [
-                    { data: "invoice", width: "20%" },
-                    { data: "invoiceSeller" },
-                    { data: "invoiceDetails" },
-                    { data: "info" },
-                    { data: "createdAt" },
-                    { data: "button" },
-                ]
-            });
-        });
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [
@@ -73,39 +40,35 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Invoices")
+                                        m("li.breadcrumb-item.active", "Logs Overview")
                                     ])
                                 ),
-                                m("h4.page-title", "Invoices")
+                                m("h4.page-title", "Logs Overview")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Invoices"),
+                                m("h4.m-t-0.header-title", "Logs Overview"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "List of all active and inactive invoices."
+                                    "Logs generated from different transactions."
                                 ]),
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Invoice"),
-                                            m("th", "Invoice Seller"),
-                                            m("th", "Invoice Details"),
-                                            m("th", "Info"),
-                                            m("th", "Created Date"),
-                                            m("th", "Action"),
+                                            m("th", "Date"),
+                                            m("th", "Message"),
+                                            m("th", "User"),
+                                            m("th", "Record"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Invoice"),
-                                            m("th", "Invoice Seller"),
-                                            m("th", "Invoice Details"),
-                                            m("th", "Info"),
-                                            m("th", "Created Date"),
-                                            m("th", "Action"),
+                                            m("th", "Date"),
+                                            m("th", "Message"),
+                                            m("th", "User"),
+                                            m("th", "Record"),
                                         ]),
                                     ])
                                 ])

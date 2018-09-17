@@ -17,6 +17,12 @@ export class Auth {
         return data.role === "admin";
     }
 
+    public static checkIsTypesetBorrower() {
+        let token = localStorage.getItem("token")!;
+        let data = jwtDecode<any>(token);
+        return data.typeset === "borrower";
+    }
+
     public static checkIsMailVerified() {
         let token = localStorage.getItem("token")!;
         let data = jwtDecode<any>(token);

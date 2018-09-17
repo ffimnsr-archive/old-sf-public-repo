@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 export type CommentModel = mongoose.Document & {
-    user: string,
-    company: string,
+    user: mongoose.Schema.Types.ObjectId,
+    company: mongoose.Schema.Types.ObjectId,
     message: string,
-    createdBy: string,
+    createdBy: mongoose.Schema.Types.ObjectId,
     createdAt: Date,
 };
 
@@ -12,14 +12,14 @@ const CommentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
     message: String,
-    createdBy: String,
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     createdAt: Date,
 }, { timestamps: true });
 
 CommentSchema.methods.toJSONFor = function(user: any) {
     return {
         id: this._id,
-        user: this.user.toProfileJSONFor(user),
+        user: this.user.toProfileJSONFor(),
         message: this.message,
         createdBy: this.createdBy,
         createdAt: this.createdAt

@@ -14,6 +14,41 @@ export default {
     },
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
+        $(document).ready(function() {
+            $("#datatable").DataTable({
+                ajax: {
+                    url: AppSettings.API_BASE_URL + "/api/log/list",
+                    type: "GET",
+                    beforeSend: function(request: any) {
+                        request.setRequestHeader("Authorization", `Token ${token}`);
+                    },
+                    dataSrc: function(json: any) {
+                        m.redraw();
+                        return [];
+                    }
+                },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "Export to Excel",
+                        action: function(e: any, dt: any, node: any, config: any) {
+
+                        }
+                    },
+                ],
+                columns: [
+                    { data: "investment", width: "20%" },
+                    { data: "application" },
+                    { data: "amount" },
+                    { data: "status" },
+                    { data: "remarks" },
+                    { data: "confirmedBy" },
+                    { data: "confirmedDate" },
+                    { data: "createdAt" },
+                    { data: "button" },
+                ]
+            });
+        });
     },
     view(_vnode: Vnode) {
         return m(".tab-pane[id='investment-b2']",
@@ -34,8 +69,8 @@ export default {
                     ),
                     m("tfoot", [
                         m("tr", [
-                            m("th", "Invoice"),
-                            m("th", "Investor"),
+                            m("th", "Investment ID"),
+                            m("th", "Application ID"),
                             m("th", "Amount"),
                             m("th", "Status"),
                             m("th", "Remarks"),

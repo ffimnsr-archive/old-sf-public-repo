@@ -17,6 +17,17 @@ const Store = {
     },
 };
 
+function statusConvert(stat: string) {
+    switch (stat) {
+        case "active":
+            return `<span class="badge badge-success">Active</span>`;
+        case "inactive":
+            return `<span class="badge badge-warning">Inactive</span>`;
+        case "deleted":
+            return `<span class="badge badge-warning">Deleted</span>`;
+    }
+}
+
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
@@ -36,6 +47,8 @@ export default {
                         m.redraw();
                         json.loanPurposes.map(function(v) {
                             v._id = v._id.toUpperCase();
+                            v.uid = v._id.slice(-6);
+                            v.status = statusConvert(v.status);
                         });
                         return json.loanPurposes;
                     }
@@ -50,9 +63,9 @@ export default {
                     },
                 ],
                 columns: [
-                    { data: "_id", width: "20%" },
+                    { data: "uid", width: "6%" },
                     { data: "name" },
-                    { data: "status", width: "16%" },
+                    { data: "status", width: "7%" },
                 ]
             });
         });
@@ -90,14 +103,14 @@ export default {
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Identifier"),
+                                            m("th", "ID"),
                                             m("th", "Name"),
                                             m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Identifier"),
+                                            m("th", "ID"),
                                             m("th", "Name"),
                                             m("th", "Status"),
                                         ]),

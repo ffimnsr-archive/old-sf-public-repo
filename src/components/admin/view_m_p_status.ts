@@ -64,20 +64,14 @@ const Store = {
 };
 
 let options = [
-    "Newly Submitted",
-    "Pending",
     "Active",
-    "Locked",
-    "Rejected",
+    "Inactive",
 ];
 
 function statusConvert(v: string) {
     switch (v) {
-        case "Newly Submitted": return "step1";
-        case "Pending": return "pending";
         case "Active": return "okay";
-        case "Locked": return "locked";
-        case "Rejected": return "locked";
+        case "Inactive": return "locked";
         default: return "okay";
     }
 }
@@ -107,19 +101,19 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Member Status")
+                                        m("li.breadcrumb-item.active", "Power User Status")
                                     ])
                                 ),
-                                m("h4.page-title", "Member Status")
+                                m("h4.page-title", "Power User Status")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Member Status"),
+                                m("h4.m-t-0.header-title", "Power User Status"),
                                 m("p.text-muted.font-14.m-b-30", [
-                                    "Change members account status."
+                                    "Change power user account status."
                                 ]),
 
                                 m("form[role='form']", {
@@ -133,7 +127,7 @@ export default {
                                             m("p.text-muted", [
                                                 `Changing status for account ID `,
                                                 m("a", {
-                                                    href: `/admin/view-m-account/${Store.uid}`,
+                                                    href: `/admin/view-m-p-account/${Store.uid}`,
                                                     oncreate: m.route.link
                                                 }, m("b", `${Store.uid.slice(-6)}.`)),
                                             ]),

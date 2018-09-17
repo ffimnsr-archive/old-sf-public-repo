@@ -27,13 +27,7 @@ export default {
                 },
                 dataSrc: function(json: any) {
                     m.redraw();
-
-                    json.logs.map((v: any) => {
-                        v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-                        return v;
-                    });
-
-                    return json.logs;
+                    return [];
                 }
             },
             dom: "Bfrtip",

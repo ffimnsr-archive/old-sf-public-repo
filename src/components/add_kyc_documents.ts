@@ -8,7 +8,11 @@ import header from "widgets/header";
 import "../../node_modules/dropzone/dist/dropzone.css";
 
 const Store = {
-    continue: function() {
+
+    load() {
+
+    },
+    continue() {
         const data = {
             user: {
                 status: "step4",
@@ -43,69 +47,19 @@ const Store = {
 
 export default {
     oninit(_vnode: Vnode) {
-        $(".navbar-toggle").on("click", function(_e: Event) {
-            $(this).toggleClass("open");
-            $("#navigation").slideToggle(400);
-        });
-
-        $(".navigation-menu>li").slice(-2).addClass("last-elements");
-
-        $(".navigation-menu li.has-submenu a[href='#']").on("click", function(e: Event) {
-            if ($(window).width()! < 992) {
-                e.preventDefault();
-                $(this).parent("li").toggleClass("open").find(".submenu:first").toggleClass("open");
-            }
-        });
-
-        $(".slimscroll").slimScroll({
-            height: "auto",
-            position: "right",
-            size: "8px",
-            color: "#9ea5ab"
-        });
-
+        Store.load();
         Dropzone.autoDiscover = false;
     },
     oncreate(_vnode: Vnode) {
         const dropzone = new Dropzone("form#dropzone", {
-            url: "#",
+            url: AppSettings.API_BASE_URL + "/api/uploader",
             dictDefaultMessage: "Drag n drop or tap here",
-            method: "PUT",
-            parallelUploads: 3,
-            uploadMultiple: false,
-            paramName: "file",
-            maxFiles: 5,
+            method: "POST",
+            parallelUploads: 4,
+            addRemoveLinks: true,
+            paramName: "documents",
+            maxFiles: 16,
             autoProcessQueue: true,
-
-            sending(file: Dropzone.DropzoneFile, xhr: XMLHttpRequest) {
-                let _send = xhr.send;
-                xhr.send = function() {
-                    _send.call(xhr, file);
-                };
-            },
-            accept(file: Dropzone.DropzoneFile, done: (error?: string) => void) {
-                const params = {
-                    filename: file.name,
-                    filetype: file.type,
-                };
-
-                $.getJSON(AppSettings.API_BASE_URL + "/api/uploader", params)
-                    .done(function(data: any) {
-                        if (!data.signedRequest) {
-                            return done("failed to receive an upload url");
-                        }
-
-                        (<any>file).signedRequest = data.signedRequest,
-                            (<any>file).finalURL = data.downloadURL;
-                        done();
-                    }).fail(function() {
-                        return done("failed to receive an upload url");
-                    });
-            },
-        });
-
-        dropzone.on("processing", function(file: Dropzone.DropzoneFile) {
-            (<any>dropzone).options.url = (<any>file!).signedRequest;
         });
     },
     view(_vnode: Vnode) {
@@ -158,9 +112,9 @@ export default {
                                     m("li.text-muted.font-14", "Lease Contract"),
                                 ]),
                                 m("p.text-muted.font-14", "Kindly, drag and drop all the required and 1 to 2 supplementary documents in the dropzone below."),
-                                m("form.dropzone.mb-3[id='dropzone']",
+                                m("form.dropzone.mb-3[id='dropzone'][method='post'][enctype='multipart/form-data']",
                                     m(".fallback",
-                                        m("input[multiple][name='file'][type='file']")
+                                        m("input[multiple][name='documents'][type='file']")
                                     )
                                 ),
                                 m("p.text-muted.font-14", [

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export type CollectionModel = mongoose.Document & {
-    bid: string,
+    bid: mongoose.Schema.Types.ObjectId,
     outstandingPrincipal: string,
     monthlyRepayment: string,
     principalPortion: string,
@@ -24,7 +24,7 @@ export type CollectionModel = mongoose.Document & {
 };
 
 const CollectionSchema = new mongoose.Schema({
-    bid: String,
+    bid: { type: mongoose.Schema.Types.ObjectId, ref: "Bid" },
     outstandingPrincipal: String,
     monthlyRepayment: String,
     principalPortion: String,

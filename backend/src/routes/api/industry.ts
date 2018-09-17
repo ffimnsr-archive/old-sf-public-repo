@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
-import { default as Industry, IndustryModel } from "../../models/inquiry";
+import { default as Industry, IndustryModel } from "../../models/industry";
 
 const router = Router();
 

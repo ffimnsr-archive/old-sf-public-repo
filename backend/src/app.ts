@@ -6,6 +6,7 @@ import cors from "cors";
 import passport from "passport";
 import helmet from "helmet";
 import compression from "compression";
+import mutler from "multer";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
 import acl from "acl";

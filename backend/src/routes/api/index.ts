@@ -1,9 +1,11 @@
 import AWS from "aws-sdk";
 import { NextFunction, Request, Response, Router } from "express";
+import path from "path";
 import redis from "redis";
 import request from "request";
 import uuidv4 from "uuid/v4";
 import winston from "winston";
+import multer from "multer";
 import { redisUri } from "../../config";
 import { default as address } from "./address";
 import { default as comment } from "./comment";
@@ -13,6 +15,7 @@ import { default as country } from "./country";
 import { default as creditRate } from "./credit_rate";
 import { default as frequentlyAskQuestion } from "./frequently_ask_question";
 import { default as loanPurpose } from "./loan_purpose";
+import { default as inquiry } from "./inquiry";
 import { default as investorPortfolio } from "./investor_portfolio";
 import { default as kycDocument } from "./kyc_document";
 import { default as kycDocumentType } from "./kyc_document_type";
@@ -24,6 +27,16 @@ import { default as wallet } from "./wallet";
 
 const router = Router();
 const client = redis.createClient(redisUri);
+const storage = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, "/tmp/uploads/")
+    },
+    filename(req, file, cb) {
+        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
     return res.json({
@@ -33,41 +46,52 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.get("/uploader", (req: Request, res: Response, next: NextFunction) => {
-    const prefix = "KYC_";
-    const newFileName = prefix + uuidv4();
+    // const prefix = "KYC_";
+    // const newFileName = prefix + uuidv4();
 
-    const bucketName = "bucket.smartfunding.io";
+    // const bucketName = "bucket.smartfunding.io";
 
-    AWS.config.loadFromPath("config.json");
-    AWS.config.update({ region: "ap-southeast-1" });
+    // AWS.config.loadFromPath("config.json");
+    // AWS.config.update({ region: "ap-southeast-1" });
 
-    const s3 = new AWS.S3({
-        apiVersion: "2006-03-01",
-    });
-    const s3Params = {
-        Bucket: bucketName,
-        Key: newFileName,
-        Expires: 1200,
-        ContentType: req.query.fileType,
-        ACL: "public-read",
-    };
+    // const s3 = new AWS.S3({
+    //     apiVersion: "2006-03-01",
+    // });
+    // const s3Params = {
+    //     Bucket: bucketName,
+    //     Key: newFileName,
+    //     Expires: 1200,
+    //     ContentType: req.query.fileType,
+    //     ACL: "public-read",
+    // };
 
-    s3.getSignedUrl("putObject", s3Params, function(err: Error, url: string) {
-        if (err) {
-            return res.status(400).json({
-                success: false,
-                message: "error happened while getting signed url",
-            });
-        } else {
-            const returnData = {
-                signedRequest: url,
-                uploadURL: `http://${bucketName}.s3.amazonaws.com/${newFileName}`,
-                downloadURL: `https://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
-            };
+    // s3.getSignedUrl("putObject", s3Params, function(err: Error, url: string) {
+    //     if (err) {
+    //         return res.status(400).json({
+    //             success: false,
+    //             message: "error happened while getting signed url",
+    //         });
+    //     } else {
+    //         const returnData = {
+    //             signedRequest: url,
+    //             uploadURL: `http://${bucketName}.s3.amazonaws.com/${newFileName}`,
+    //             downloadURL: `https://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
+    //         };
 
-            res.json(returnData);
-        }
-    });
+    //         res.json(returnData);
+    //     }
+    // });
+});
+
+router.post("/uploader", upload.array("documents"), (req: Request, res: Response, next: NextFunction) => {
+    let files = (<any>req.files).file;
+    if (Array.isArray(files)) {
+        console.log(`Got ${files.length} files`);
+    } else {
+        console.log(`Got one file`);
+    }
+
+    res.sendStatus(200);
 });
 
 router.get("/exchange-prices", (req: Request, res: Response, next: NextFunction) => {
@@ -85,6 +109,7 @@ router.use("/country", country);
 router.use("/credit-rate", creditRate);
 router.use("/frequently-ask-question", frequentlyAskQuestion);
 router.use("/loan-purpose", loanPurpose);
+router.use("/inquiry", inquiry);
 router.use("/investor-portfolio", investorPortfolio);
 router.use("/kyc-document-type", kycDocumentType);
 router.use("/kyc-document", kycDocument);

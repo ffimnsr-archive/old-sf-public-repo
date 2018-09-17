@@ -27,7 +27,7 @@ export default {
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/log/list",
+                    url: AppSettings.API_BASE_URL + "/api/inquiry/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
@@ -35,12 +35,20 @@ export default {
                     dataSrc: function(json: any) {
                         m.redraw();
 
-                        json.logs.map((v: any) => {
+                        console.log(json.inquiries);
+                        json.inquiries.map((v: any) => {
                             v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+                            v.button = `
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/admin/change-inquiry-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+</div>
+</div>`;
                             return v;
                         });
 
-                        return json.logs;
+                        return json.inquiries;
                     }
                 },
                 dom: "Bfrtip",
@@ -52,8 +60,10 @@ export default {
                     },
                 ],
                 columns: [
+                    { data: "name" },
+                    { data: "description" },
                     { data: "date", width: "20%" },
-                    { data: "message" },
+                    { data: "button", width: "5%" },
                 ]
             });
         });

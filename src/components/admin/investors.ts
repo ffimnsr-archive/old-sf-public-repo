@@ -9,6 +9,7 @@ import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
 import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
+import avatar from "images/investor.png";
 
 const Store = {
     status: "new",
@@ -51,8 +52,15 @@ export default {
                         json.users.map((v: any) => {
                             v._id = v._id.toUpperCase();
                             v.uid = v._id.slice(-6);
+                            v.username = `
+<a href="/#!/admin/view-m-account/${v._id}">
+<img src="${avatar}" width="32" alt="contact-img" class="rounded-circle">
+<span class="ml-2">${v.username}</span>
+</a>`;
+
                             v.name = v.forename && v.forename !== "undefined" ? v.forename + " " + v.surname : "None";
                             v.status = statusConvert(v.status);
+                            v.remarks = "None";
                             v.button = `
 <div class="btn-group dropdown">
 <a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
@@ -81,7 +89,7 @@ export default {
                     { data: "name" },
                     { data: "username" },
                     { data: "email" },
-                    { data: "surname" },
+                    { data: "remarks" },
                     { data: "status", width: "6%" },
                     { data: "button", width: "5%" },
                 ]
@@ -123,7 +131,7 @@ export default {
                                             m("th", "Name"),
                                             m("th", "Username"),
                                             m("th", "Email"),
-                                            m("th", "Surname"),
+                                            m("th", "Remarks"),
                                             m("th", "Status"),
                                             m("th", "Action"),
                                         ])
@@ -134,7 +142,7 @@ export default {
                                             m("th", "Name"),
                                             m("th", "Username"),
                                             m("th", "Email"),
-                                            m("th", "Surname"),
+                                            m("th", "Remarks"),
                                             m("th", "Status"),
                                             m("th", "Action"),
                                         ]),

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export type BidModel = mongoose.Document & {
     code: string,
     loan: string,
-    user: string,
+    user: mongoose.Schema.Types.ObjectId,
     amount: string,
     status: string,
     remarks: string,
@@ -16,7 +16,7 @@ export type BidModel = mongoose.Document & {
 const BidSchema = new mongoose.Schema({
     code: String,
     loan: String,
-    user: String,
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     amount: String,
     status: String,
     remarks: String,

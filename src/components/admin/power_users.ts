@@ -55,7 +55,7 @@ export default {
 <a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
 <div class="dropdown-menu dropdown-menu-right">
 <a href="/#!/admin/view-m-p-account/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Account</a>
-<a href="/#!/admin/view-m-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+<a href="/#!/admin/view-m-p-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
 </div>
 </div>`;
                             return v;

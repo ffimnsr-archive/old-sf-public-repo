@@ -137,6 +137,13 @@ export default {
                             ) : null,
 
                             !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
+                                m("a[href='/deals']", { oncreate: m.route.link }, [
+                                    "Deals"
+                                ])
+                            ) : null,
+
+
+                            !Auth.checkIsRoleAdmin() && Auth.checkIsAccountOkay() ? m("li.has-submenu",
                                 m("a[href='/top-up']", { oncreate: m.route.link }, [
                                     "Top-up"
                                 ])
@@ -174,8 +181,8 @@ export default {
                                 ]),
                                 m("ul.submenu", [
                                     m("li", m("a[href='/admin/investments']", { oncreate: m.route.link }, "Investments")),
-                                    m("li", m("a[href='/admin/collections']", { oncreate: m.route.link }, "Collections")),
                                     m("li", m("a[href='/admin/invoices']", { oncreate: m.route.link }, "Invoices")),
+                                    m("li", m("a[href='/admin/collections']", { oncreate: m.route.link }, "Collections")),
                                 ])
                             ]) : null,
 

@@ -7,6 +7,7 @@ export type KycStatusLogModel = mongoose.Document & {
 
 const KycStatusLogSchema = new mongoose.Schema({
     message: String,
+
     createdAt: Date,
 }, { timestamps: true });
 

@@ -34,13 +34,7 @@ export default {
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
-
-                        json.logs.map((v: any) => {
-                            v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-                            return v;
-                        });
-
-                        return json.logs;
+                        return [];
                     }
                 },
                 dom: "Bfrtip",
@@ -48,12 +42,19 @@ export default {
                     {
                         text: "Export to Excel",
                         action: function(e: any, dt: any, node: any, config: any) {
+
                         }
                     },
                 ],
                 columns: [
-                    { data: "date", width: "20%" },
-                    { data: "message" },
+                    { data: "invoice", width: "20%" },
+                    { data: "investor" },
+                    { data: "amount" },
+                    { data: "status" },
+                    { data: "confirmedBy" },
+                    { data: "confirmedDate" },
+                    { data: "createdAt" },
+                    { data: "button" },
                 ]
             });
         });

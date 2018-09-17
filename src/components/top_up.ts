@@ -83,8 +83,9 @@ export default {
                                             m("input.default[type='file']")
                                         ]),
                                         m("br"),
-                                        m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", "Submit Payment Proof"),
-                                        m("br"),
+                                        m("div.form-group", [
+                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", "Submit Payment Proof"),
+                                        ]),
                                     ]),
                                     m("h5", "Step 3: We Match Your Transaction"),
                                     m("hr"),

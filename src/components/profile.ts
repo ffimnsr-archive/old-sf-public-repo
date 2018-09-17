@@ -25,12 +25,13 @@ const Store = {
         }).then(function(res: any) {
             if (res.success) {
                 console.log(res);
-                vm.fullname = res.user.fullname;
-                vm.username = res.user.username;
-                vm.email = res.user.email;
-                vm.role = res.user.role;
-                vm.typeset = res.user.typeset;
-                let location = res.address.city + ", " + res.address.country;
+                const u = res.user;
+                vm.fullname = u.forename + " " + u.surname;
+                vm.username = u.username;
+                vm.email = u.email;
+                vm.role = u.role;
+                vm.typeset = u.typeset;
+                let location = u.address.city + ", " + u.address.country;
                 vm.location = location;
             } else {
                 Utils.showSnackbar(res.message);

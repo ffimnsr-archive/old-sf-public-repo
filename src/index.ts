@@ -19,6 +19,8 @@ import wallet from "components/wallet";
 import profile from "components/profile";
 import portfolio from "components/portfolio";
 import settings from "components/settings";
+import deals from "components/deals";
+import sellInvoice from "components/add_sell_invoice";
 import addProfileDetails from "components/add_profile_details";
 import addProfileType from "components/add_profile_type";
 import addProfilePicture from "components/add_profile_picture";
@@ -44,6 +46,7 @@ import adminViewMemberAccount from "components/admin/view_m_account";
 import adminViewMemberBorrowerAccount from "components/admin/view_m_b_account";
 import adminViewMemberPowerAccount from "components/admin/view_m_p_account";
 import adminViewMemberStatus from "components/admin/view_m_status";
+import adminViewMemberPowerStatus from "components/admin/view_m_p_status";
 import adminViewMemberLog from "components/admin/view_m_log";
 import adminViewMemberWallet from "components/admin/view_m_log";
 
@@ -68,6 +71,7 @@ import { Auth } from "./auth";
 import Waves from "node-waves";
 
 import "bootstrap";
+import "bootstrap-datepicker";
 import "jquery-slimscroll";
 
 import "styles/app";
@@ -137,10 +141,22 @@ function SmartFundingRouter() {
                 else return wallet;
             }
         },
+        "/deals": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return deals;
+            }
+        },
         "/portfolio": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else return portfolio;
+            }
+        },
+        "/sell-invoice": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return sellInvoice;
             }
         },
         "/profile/edit": {
@@ -381,6 +397,15 @@ function SmartFundingRouter() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
                     if (Auth.checkIsRoleAdmin()) return adminViewMemberStatus;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/view-m-p-status/:id": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewMemberPowerStatus;
                     else m.route.set("/");
                 }
             }

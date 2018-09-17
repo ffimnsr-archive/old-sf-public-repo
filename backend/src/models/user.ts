@@ -52,7 +52,13 @@ const UserSchema = new mongoose.Schema({
     wallet: { type: mongoose.Schema.Types.ObjectId, ref: "Wallet" },
     company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
     remarks: String,
-    status: { type: String, enum: ["step1", "step2", "step3-1", "step3-2", "step4", "step5", "step6", "pending", "deleted", "locked", "okay"], default: "step1" },
+    status: {
+        type: String,
+        enum: ["step1", "step2", "step3-1", "step3-2", "step4",
+            "step5", "step6", "pending", "deleted", "locked",
+            "okay"],
+        default: "step1"
+    },
     createdAt: Date,
     updatedAt: Date
 }, { timestamps: true });

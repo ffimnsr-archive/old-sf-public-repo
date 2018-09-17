@@ -86,7 +86,7 @@ export default {
                                 }, [
                                         m("div.form-group", [
                                             m("label.col-form-label", "Ethereum Wallet Address"),
-                                            m("input.form-control[type='text'][placeholder='e.g. 15a3JRVLot7dVgBqa1GcXwC7wx3yf4dw1P']", {
+                                            m("input.form-control[type='text'][placeholder='e.g. 0x90155f691b50da9b3ac32dd4f43b80c22aad7999']", {
                                                 oninput: m.withAttr("value", (v: string) => { Store.ethAddress = v }),
                                                 value: Store.ethAddress
                                             }),
@@ -104,7 +104,7 @@ export default {
                                         ]),
                                         m(".clearfix.text-right.mt-3",
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", "Submit")
-                                        )
+                                        ),
                                     ]),
                             ])
                         )

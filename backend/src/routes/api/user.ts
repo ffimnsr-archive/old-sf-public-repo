@@ -21,7 +21,7 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
     User.findById(req.payload.id)
         .populate("wallet")
         .populate("address")
-        .then((user: UserModel) => {
+        .then((user: any) => {
             console.log(user);
             if (!user) {
                 return res.status(401).json({
@@ -29,11 +29,10 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
                     message: "unauthorized access",
                 });
             }
+
             return res.json({
                 success: true,
-                user: user.toAuthJSON(),
-                wallet: user.wallet,
-                address: user.address,
+                user: user,
             });
         }).catch(next);
 });
@@ -61,6 +60,30 @@ router.get("/get-user/:uid", auth.required, (req: Request, res: Response, next: 
             });
         }).catch(next);
 });
+
+router.put("/change-status/:uid", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    let uid = req.params.uid;
+
+    User.findById(uid)
+        .then((user: UserModel) => {
+            user.status = req.body.user.status;
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    message: "unauthorized access",
+                });
+            }
+
+            user.save().then((t: UserModel) => {
+                return res.status(200).json({
+                    success: true,
+                    user: t.toAuthJSON()
+                });
+            });
+
+        }).catch(next);
+});
+
 
 router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
@@ -129,6 +152,14 @@ router.put("/details", auth.required, (req: Request, res: Response, next: NextFu
             });
         });
     }).catch(next);
+});
+
+router.put("/crypto-wallet", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    Wallet.findOneAndUpdate(
+        { user: req.payload.id },
+        { $set: { "ethAddress": req.body.user.ethAddress, "btcAddress": req.body.user.btcAddress } },
+        { upsert: true }
+    ).catch(next);
 });
 
 router.put("/image", auth.required, (req: Request, res: Response, next: NextFunction) => {
@@ -401,27 +432,36 @@ router.get("/investors-list/:status", auth.required, (req: Request, res: Respons
 router.get("/borrowers-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let status = statusConvert(req.params.status);
     console.log(status);
-    User.find({ role: { $not: /admin/ }, typeset: "borrower", status: new RegExp(status, "i") }).then((t: UserModel[]) => {
-        if (Array.isArray(t)) {
-            logAction(`User ${req.payload.username} requested member user list`);
-            return res.json({
-                success: true,
-                count: t.length,
-                users: t.map((r: UserModel) => {
-                    if (!r.forename || r.forename == "") r.forename = "undefined";
+    User.find({
+        role: { $not: /admin/ },
+        typeset: "borrower",
+        status: new RegExp(status, "i")
+    })
+        .populate("company")
+        .then((t: any[]) => {
+            if (Array.isArray(t)) {
+                logAction(`User ${req.payload.username} requested member user list`);
 
-                    if (!r.surname || r.surname == "") r.surname = "undefined";
+                return res.json({
+                    success: true,
+                    count: t.length,
+                    users: t.map((r: UserModel) => {
 
-                    if (!r.typeset || r.typeset == "") r.typeset = "undefined";
+                        if (!r.forename || r.forename == "") r.forename = "undefined";
 
-                    r.hash = undefined;
-                    r.salt = undefined;
-                    r.__v = undefined;
-                    return r;
-                }),
-            });
-        }
-    }).catch(next);
+                        if (!r.surname || r.surname == "") r.surname = "undefined";
+
+                        if (!r.typeset || r.typeset == "") r.typeset = "undefined";
+
+                        r.hash = undefined;
+                        r.salt = undefined;
+                        r.__v = undefined;
+
+                        return r;
+                    }),
+                });
+            }
+        }).catch(next);
 });
 
 router.post("/new-power-user", auth.required, (req: Request, res: Response, next: NextFunction) => {

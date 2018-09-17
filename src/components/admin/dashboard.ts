@@ -11,6 +11,7 @@ import footer from "widgets/footer";
 import header from "widgets/header";
 import updateAccountInfo from "widgets/modal_admin_update_account_info";
 import updateStatus from "widgets/modal_admin_update_status";
+import avatar from "images/investor.png";
 
 
 const Store = {
@@ -71,6 +72,22 @@ export default {
             ]
         }, options);
 
+        new Chartist.Bar('#cryptocurrency-usage', {
+            labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10'],
+            series: [
+                [1, 2, 4, 8, 6, -2, -1, -4, -6, -2]
+            ]
+        }, {
+                high: 10,
+                low: -10,
+                axisX: {
+                    labelInterpolationFnc: function(value, index) {
+                        return index % 2 === 0 ? value : null;
+                    }
+                },
+            }
+        );
+
         $("#datatable").DataTable({
             ajax: {
                 url: AppSettings.API_BASE_URL + "/api/user/list",
@@ -83,11 +100,28 @@ export default {
                     Store.pendingInvestorsCount = json.pendingInvestorsCount;
                     Store.pendingBorrowersCount = json.pendingBorrowersCount;
                     Store.discardedCount = json.discardedCount;
+
+                    new Chartist.Pie('#user-distribution-profile', {
+                        labels: ['', '', ''],
+                        series: [30, 15, 5, 40]
+                    }, {
+                            labelInterpolationFnc: function(value) {
+                                return value[0]
+                            }
+                        }
+                    );
+
+
                     m.redraw();
 
                     json.users.map((v: any) => {
                         v._id = v._id.toUpperCase();
                         v.uid = v._id.slice(-6);
+                        v.username = `
+<a href="/#!/admin/view-m-account/${v._id}">
+<img src="${avatar}" width="32" alt="contact-img" class="rounded-circle">
+<span class="ml-2">${v.username}</span>
+</a>`;
                         v.status = statusConvert(v.status);
                         v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
                         v.button = `
@@ -186,6 +220,21 @@ export default {
                             m(".card-box", [
                                 m("h4.header-title", "SmartFunding Wallet Transaction (Cash In)"),
                                 m("div.ct-chart.ct-major-eleventh#wallet-transaction"),
+                            ])
+                        )
+                    ]),
+
+                    m(".row", [
+                        m(".col-lg-6",
+                            m(".card-box", [
+                                m("h4.header-title", "User Distribution Profile"),
+                                m("div.ct-chart.ct-golden-section#user-distribution-profile"),
+                            ])
+                        ),
+                        m(".col-lg-6",
+                            m(".card-box", [
+                                m("h4.header-title", "Cryptocurrency Usage"),
+                                m("div.ct-chart.ct-golden-section#cryptocurrency-usage"),
                             ])
                         )
                     ]),
