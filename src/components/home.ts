@@ -2,7 +2,7 @@ import m, { Vnode } from "mithril";
 import { AppSettings } from "configs";
 import QRCode from "qrcode";
 import jwtDecode from "jwt-decode";
-import Chartist from "chartist";
+import Chartist, { IChartistLineChart } from "chartist";
 import "chartist/dist/chartist.css";
 import Swal from "sweetalert2";
 
@@ -16,31 +16,58 @@ import modalStellar from "widgets/modal_user_get_stellar_address";
 
 
 const Store = {
+    chartist: {},
+    interval: {},
+
     load() {
         const token = localStorage.getItem("token")!;
     }
 };
+
+function getRandomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
     },
     oncreate(_vnode: Vnode) {
-        new Chartist.Line('.ct-chart', {
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+
+        Store.chartist = new Chartist.Line('.ct-chart', {
+            labels: [],
             series: [
-                [12, 9, 7, 8, 5, 4, 6, 2, 3, 3, 4, 6],
-                [4, 5, 3, 7, 3, 5, 5, 3, 4, 4, 5, 5],
-                [5, 3, 4, 5, 6, 3, 3, 4, 5, 6, 3, 4],
+                [],
+                [],
             ]
         }, {
                 axisX: {
                     labelInterpolationFnc: function(value) {
-                        return '09 ' + value;
+                        return value;
                     }
                 }
             }
         );
+
+        Store.interval = setInterval(() => {
+            const time: Date = new Date();
+            const formattedTime: string = [
+                time.getMinutes(),
+                time.getSeconds(),
+            ].join(":");
+
+            const btcRandom: number = getRandomInt(6300, 6600);
+            const ethRandom: number = getRandomInt(200, 250);
+            const xrpRandom: number = getRandomInt(0, 2);
+
+            (<any>Store.chartist).data.labels.push(formattedTime);
+            (<any>Store.chartist).data.series[0].push(btcRandom);
+            (<any>Store.chartist).data.series[1].push(ethRandom);
+
+            (<IChartistLineChart>Store.chartist).update((<any>Store.chartist).data);
+
+            console.log("updating chart");
+        }, 2500);
 
         const token = localStorage.getItem("token")!;
 

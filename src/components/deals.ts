@@ -23,6 +23,95 @@ const Store = {
     }
 };
 
+function createCardBox() {
+    return m(".col-xl-4",
+        m(".card-box.project-box",
+            [
+                m(".dropdown.pull-right",
+                    [
+                        m("a.dropdown-toggle.card-drop.arrow-none[aria-expanded='false'][data-toggle='dropdown'][href='#']",
+                            m("h3.m-0.text-muted",
+                                m("i.mdi.mdi-dots-horizontal")
+                            )
+                        ),
+                        m(".dropdown-menu.dropdown-menu-right[aria-labelledby='btnGroupDrop1']",
+                            [
+                                m("a.dropdown-item[href='#']",
+                                    "Invest"
+                                ),
+                                m("a.dropdown-item[href='#']",
+                                    "More Info"
+                                ),
+                            ]
+                        )
+                    ]
+                ),
+                m("p.text-muted.text-uppercase.mb-0.font-13",
+                    "Invoice Seller Name"
+                ),
+                m("h4.mt-0.mb-3",
+                    m("a.text-dark[href='']",
+                        "New Admin Design"
+                    )
+                ),
+                m("ul.list-inline",
+                    [
+                        m("li.list-inline-item",
+                            [
+                                m("h3.mb-0",
+                                    "0"
+                                ),
+                                m("p.text-muted",
+                                    "Term"
+                                )
+                            ]
+                        ),
+                        m("li.list-inline-item",
+                            [
+                                m("h3.mb-0",
+                                    "0"
+                                ),
+                                m("p.text-muted",
+                                    "Appreciation"
+                                )
+                            ]
+                        ),
+                        m("li.list-inline-item",
+                            [
+                                m("h3.mb-0",
+                                    "0"
+                                ),
+                                m("p.text-muted",
+                                    "Available"
+                                )
+                            ]
+                        )
+                    ]
+                ),
+                m(".project-members.mb-4",
+                    [
+                        m("label.mr-3",
+                            "Time Limit :"
+                        ),
+                    ]
+                ),
+                m("label[class='']",
+                    [
+                        "Funding completed: ",
+                        m("span.text-custom",
+                            "75000/100000"
+                        )
+                    ]
+                ),
+                m(".progress.mb-1", { style: { "height": "7px" } },
+                    m(".progress-bar[aria-valuemax='100'][aria-valuemin='0'][aria-valuenow='75'][role='progressbar']", { style: { "width": "75%" } },
+                    )
+                )
+            ]
+        )
+    );
+}
+
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
@@ -52,216 +141,14 @@ export default {
                     ),
 
                     m(".row", [
-                        m(".col-xl-4",
-                            m(".card-box.project-box",
-                                [
-                                    m(".dropdown.pull-right",
-                                        [
-                                            m("a.dropdown-toggle.card-drop.arrow-none[aria-expanded='false'][data-toggle='dropdown'][href='#']",
-                                                m("h3.m-0.text-muted",
-                                                    m("i.mdi.mdi-dots-horizontal")
-                                                )
-                                            ),
-                                            m(".dropdown-menu.dropdown-menu-right[aria-labelledby='btnGroupDrop1']",
-                                                [
-                                                    m("a.dropdown-item[href='#']",
-                                                        "Edit"
-                                                    ),
-                                                    m("a.dropdown-item[href='#']",
-                                                        "Delete"
-                                                    ),
-                                                    m("a.dropdown-item[href='#']",
-                                                        "Add Members"
-                                                    ),
-                                                    m("a.dropdown-item[href='#']",
-                                                        "Add Due Date"
-                                                    )
-                                                ]
-                                            )
-                                        ]
-                                    ),
-                                    m("p.text-muted.text-uppercase.mb-0.font-13",
-                                        "Orange Limited"
-                                    ),
-                                    m("h4.mt-0.mb-3",
-                                        m("a.text-dark[href='']",
-                                            "New Admin Design"
-                                        )
-                                    ),
-                                    m("ul.list-inline",
-                                        [
-                                            m("li.list-inline-item",
-                                                [
-                                                    m("h3.mb-0",
-                                                        "124"
-                                                    ),
-                                                    m("p.text-muted",
-                                                        "Attachments"
-                                                    )
-                                                ]
-                                            ),
-                                            m("li.list-inline-item",
-                                                [
-                                                    m("h3.mb-0",
-                                                        "452"
-                                                    ),
-                                                    m("p.text-muted",
-                                                        "Comments"
-                                                    )
-                                                ]
-                                            ),
-                                            m("li.list-inline-item",
-                                                [
-                                                    m("h3.mb-0",
-                                                        "85"
-                                                    ),
-                                                    m("p.text-muted",
-                                                        "Tasks"
-                                                    )
-                                                ]
-                                            )
-                                        ]
-                                    ),
-                                    m(".project-members.mb-4",
-                                        [
-                                            m("label.mr-3",
-                                                "Team :"
-                                            ),
-                                            m("a[data-original-title='Mat Helme'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-1.jpg']")
-                                            ),
-                                            m("a[data-original-title='Michael Zenaty'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-2.jpg']")
-                                            ),
-                                            m("a[data-original-title='James Anderson'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-3.jpg']")
-                                            ),
-                                            m("a[data-original-title='Mat Helme'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-4.jpg']")
-                                            ),
-                                            m("a[data-original-title='Username'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-5.jpg']")
-                                            )
-                                        ]
-                                    ),
-                                    m("label[class='']",
-                                        [
-                                            "Funding completed:",
-                                            m("span.text-custom",
-                                                "55/85"
-                                            )
-                                        ]
-                                    ),
-                                    m(".progress.mb-1", { style: { "height": "7px" } },
-                                        m(".progress-bar[aria-valuemax='100'][aria-valuemin='0'][aria-valuenow='80'][role='progressbar']", { style: { "width": "80%" } },
-                                        )
-                                    )
-                                ]
-                            )
-                        )
+                        [0, 0, 0].map(function() {
+                            return createCardBox();
+                        }),
                     ]),
                     m(".row", [
-                        m(".col-xl-4",
-                            m(".card-box.project-box",
-                                [
-                                    m(".dropdown.pull-right",
-                                        [
-                                            m("a.dropdown-toggle.card-drop.arrow-none[aria-expanded='false'][data-toggle='dropdown'][href='#']",
-                                                m("h3.m-0.text-muted",
-                                                    m("i.mdi.mdi-dots-horizontal")
-                                                )
-                                            ),
-                                            m(".dropdown-menu.dropdown-menu-right[aria-labelledby='btnGroupDrop1']",
-                                                [
-                                                    m("a.dropdown-item[href='#']",
-                                                        "Invest"
-                                                    ),
-                                                    m("a.dropdown-item[href='#']",
-                                                        "More Info"
-                                                    ),
-                                                ]
-                                            )
-                                        ]
-                                    ),
-                                    m("p.text-muted.text-uppercase.mb-0.font-13",
-                                        "Orange Limited"
-                                    ),
-                                    m("h4.mt-0.mb-3",
-                                        m("a.text-dark[href='']",
-                                            "New Admin Design"
-                                        )
-                                    ),
-                                    m("ul.list-inline",
-                                        [
-                                            m("li.list-inline-item",
-                                                [
-                                                    m("h3.mb-0",
-                                                        "124"
-                                                    ),
-                                                    m("p.text-muted",
-                                                        "Term"
-                                                    )
-                                                ]
-                                            ),
-                                            m("li.list-inline-item",
-                                                [
-                                                    m("h3.mb-0",
-                                                        "452"
-                                                    ),
-                                                    m("p.text-muted",
-                                                        "Appreciation"
-                                                    )
-                                                ]
-                                            ),
-                                            m("li.list-inline-item",
-                                                [
-                                                    m("h3.mb-0",
-                                                        "85"
-                                                    ),
-                                                    m("p.text-muted",
-                                                        "Available"
-                                                    )
-                                                ]
-                                            )
-                                        ]
-                                    ),
-                                    m(".project-members.mb-4",
-                                        [
-                                            m("label.mr-3",
-                                                "Team :"
-                                            ),
-                                            m("a[data-original-title='Mat Helme'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-1.jpg']")
-                                            ),
-                                            m("a[data-original-title='Michael Zenaty'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-2.jpg']")
-                                            ),
-                                            m("a[data-original-title='James Anderson'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-3.jpg']")
-                                            ),
-                                            m("a[data-original-title='Mat Helme'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-4.jpg']")
-                                            ),
-                                            m("a[data-original-title='Username'][data-placement='top'][data-toggle='tooltip'][href='#'][title='']",
-                                                m("img.rounded-circle.thumb-sm[alt='friend'][src='assets/images/users/avatar-5.jpg']")
-                                            )
-                                        ]
-                                    ),
-                                    m("label[class='']",
-                                        [
-                                            "Funding completed:",
-                                            m("span.text-custom",
-                                                "55/85"
-                                            )
-                                        ]
-                                    ),
-                                    m(".progress.mb-1", { style: { "height": "7px" } },
-                                        m(".progress-bar[aria-valuemax='100'][aria-valuemin='0'][aria-valuenow='80'][role='progressbar']", { style: { "width": "80%" } },
-                                        )
-                                    )
-                                ]
-                            )
-                        )
+                        [0, 0, 0].map(function() {
+                            return createCardBox();
+                        }),
                     ]),
                     m("div.row",
                         m(".col-lg-12",

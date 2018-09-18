@@ -46,41 +46,41 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.get("/uploader", (req: Request, res: Response, next: NextFunction) => {
-    // const prefix = "KYC_";
-    // const newFileName = prefix + uuidv4();
+    const prefix = "KYC_";
+    const newFileName = prefix + uuidv4();
 
-    // const bucketName = "bucket.smartfunding.io";
+    const bucketName = "bucket.smartfunding.io";
 
-    // AWS.config.loadFromPath("config.json");
-    // AWS.config.update({ region: "ap-southeast-1" });
+    AWS.config.loadFromPath("config.json");
+    AWS.config.update({ region: "ap-southeast-1" });
 
-    // const s3 = new AWS.S3({
-    //     apiVersion: "2006-03-01",
-    // });
-    // const s3Params = {
-    //     Bucket: bucketName,
-    //     Key: newFileName,
-    //     Expires: 1200,
-    //     ContentType: req.query.fileType,
-    //     ACL: "public-read",
-    // };
+    const s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+    });
+    const s3Params = {
+        Bucket: bucketName,
+        Key: newFileName,
+        Expires: 1200,
+        ContentType: req.query.fileType,
+        ACL: "public-read",
+    };
 
-    // s3.getSignedUrl("putObject", s3Params, function(err: Error, url: string) {
-    //     if (err) {
-    //         return res.status(400).json({
-    //             success: false,
-    //             message: "error happened while getting signed url",
-    //         });
-    //     } else {
-    //         const returnData = {
-    //             signedRequest: url,
-    //             uploadURL: `http://${bucketName}.s3.amazonaws.com/${newFileName}`,
-    //             downloadURL: `https://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
-    //         };
+    s3.getSignedUrl("putObject", s3Params, function(err: Error, url: string) {
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                message: "error happened while getting signed url",
+            });
+        } else {
+            const returnData = {
+                signedRequest: url,
+                uploadURL: `http://${bucketName}.s3.amazonaws.com/${newFileName}`,
+                downloadURL: `https://${bucketName}.s3-website-ap-southeast-1.amazonaws.com/${newFileName}`,
+            };
 
-    //         res.json(returnData);
-    //     }
-    // });
+            res.json(returnData);
+        }
+    });
 });
 
 router.post("/uploader", upload.array("documents"), (req: Request, res: Response, next: NextFunction) => {

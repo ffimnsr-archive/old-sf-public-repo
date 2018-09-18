@@ -165,7 +165,7 @@ router.put("/crypto-wallet", auth.required, (req: Request, res: Response, next: 
 router.put("/image", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
         if (typeof req.body.user.image !== "undefined") {
-            user.forename = req.body.user.image;
+            user.image = req.body.user.image;
         }
 
         user.save().then((t: UserModel) => {
@@ -181,7 +181,7 @@ router.put("/image", auth.required, (req: Request, res: Response, next: NextFunc
 router.put("/kyc-documents", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
         if (typeof req.body.user.image !== "undefined") {
-            user.forename = req.body.user.image;
+            user.image = req.body.user.image;
         }
 
         user.status = req.body.user.status;
