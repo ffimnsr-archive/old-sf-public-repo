@@ -1,3 +1,4 @@
+
 import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
 import Swal from "sweetalert2";

@@ -5,9 +5,12 @@ import ecc from "tiny-secp256k1";
 import bitcoin from "bitcoinjs-lib";
 import fs from "fs";
 import AWS from "aws-sdk";
+import path from "path";
+import multer from "multer";
 import { Router, Request, Response, NextFunction } from "express";
 import auth from "../auth";
 import { default as User, UserModel } from "../../models/user";
+import { default as Loan, LoanModel } from "../../models/loan";
 import { default as Address, AddressModel } from "../../models/address";
 import { default as Wallet, WalletModel } from "../../models/wallet";
 import { default as KycInvestorQuestion, KycInvestorQuestionModel } from "../../models/kyc_investor_question";
@@ -16,6 +19,16 @@ import { default as Log } from "../../models/log";
 import { baseUri, walletWIF } from "../../config";
 
 const router = Router();
+const storage = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, "/tmp/uploads/")
+    },
+    filename(req, file, cb) {
+        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.findById(req.payload.id)
@@ -38,9 +51,7 @@ router.get("/", auth.required, (req: Request, res: Response, next: NextFunction)
 });
 
 router.get("/get-user/:uid", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params);
     let uid = req.params.uid;
-    console.log(uid);
     User.findById(uid)
         .populate("wallet")
         .populate("address")
@@ -63,10 +74,13 @@ router.get("/get-user/:uid", auth.required, (req: Request, res: Response, next: 
 
 router.put("/change-status/:uid", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let uid = req.params.uid;
-
     User.findById(uid)
         .then((user: UserModel) => {
             user.status = req.body.user.status;
+            user.remarks = req.body.user.remarks;
+
+            console.log(user.status);
+
             if (!user) {
                 return res.status(401).json({
                     success: false,
@@ -87,7 +101,6 @@ router.put("/change-status/:uid", auth.required, (req: Request, res: Response, n
 
 router.put("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     findById(req.payload.id, res, (user: UserModel) => {
-
         if (typeof req.body.user.username !== "undefined") {
             user.username = req.body.user.username;
         }
@@ -405,7 +418,6 @@ function statusConvert(stat: string) {
 
 router.get("/investors-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let status = statusConvert(req.params.status);
-    console.log(status);
     User.find({ role: { $not: /admin/ }, typeset: "investor", status: new RegExp(status, "i") }).then((t: UserModel[]) => {
         if (Array.isArray(t)) {
             logAction(`User ${req.payload.username} requested member user list`);
@@ -431,7 +443,6 @@ router.get("/investors-list/:status", auth.required, (req: Request, res: Respons
 
 router.get("/borrowers-list/:status", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let status = statusConvert(req.params.status);
-    console.log(status);
     User.find({
         role: { $not: /admin/ },
         typeset: "borrower",
@@ -593,6 +604,29 @@ router.post("/new-account", auth.required, (req: Request, res: Response, next: N
     }).catch(next);
 });
 
+router.post("/new-sell-invoice", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    let d = new Loan();
+
+    d.borrower = req.payload._id;
+    d.amount = req.body.user.amount;
+    d.period = req.body.user.term;
+    d.eirPercent = req.body.user.eir;
+    d.aprPercent = req.body.user.apr;
+    d.processingFee = req.body.user.processingFee;
+    d.closingDate = req.body.user.closingDate;
+    d.debtor = req.body.user.debtor;
+    d.documentPrepared = req.body.user.documentPrepared;
+    d.contractSigned = req.body.user.contractSigned;
+    d.isNotified = req.body.user.notified;
+
+    d.loanDocument = req.body.user.invoiceDocument.name;
+    d.save().then((t: LoanModel) => {
+        return res.json({
+            success: true,
+            invoice: t,
+        });
+    }).catch(next);
+});
 
 router.get("/power-user-list", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.find({ role: { $not: /member/ } }).then((t: UserModel[]) => {

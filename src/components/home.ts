@@ -5,6 +5,9 @@ import jwtDecode from "jwt-decode";
 import Chartist, { IChartistLineChart } from "chartist";
 import "chartist/dist/chartist.css";
 import Swal from "sweetalert2";
+import { Auth } from "../auth";
+import moment from "moment";
+import "jquery-countdown";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
@@ -42,12 +45,10 @@ export default {
             ]
         }, {
                 axisX: {
-                    labelInterpolationFnc: function(value) {
-                        return value;
-                    }
+                    type: Chartist.FixedScaleAxis,
+                    divisor: 4,
                 }
-            }
-        );
+            });
 
         Store.interval = setInterval(() => {
             const time: Date = new Date();
@@ -73,14 +74,36 @@ export default {
 
         $("#datatable").DataTable({
             ajax: {
-                url: AppSettings.API_BASE_URL + "/api/log/list",
+                url: AppSettings.API_BASE_URL + "/api/invoice/list",
                 type: "GET",
                 beforeSend: function(request: any) {
                     request.setRequestHeader("Authorization", `Token ${token}`);
                 },
                 dataSrc: function(json: any) {
                     m.redraw();
-                    return [];
+                    json.data.map(function(v: any) {
+                        v.invoice = `
+<a href="/#!/view-invoice-document/${v._id}" class="dropdown-item"><i class="fa fa-file-pdf-o mr-2 font-18 vertical-middle"></i></a>`;
+
+                        v.button = `
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/view-invoice-details/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Details</a>
+<a href="/#!/view-invoice-invest/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Invest</a>
+</div>
+</div>`;
+                        v.funded = `
+<div class="progress">
+<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+</div>`;
+                        v.available = v.availableBidAmount ? v.availableBidAmount : v.amount;
+                        let date = moment(v.closingDate).format("YYYY/MM/DD");
+                        v.timeLeft = `
+<div data-countdown="${date}" class="label label-sm label-success"></div>
+`;
+                    });
+                    return json.data;
                 }
             },
             dom: "Bfrtip",
@@ -93,15 +116,22 @@ export default {
                 },
             ],
             columns: [
-                { data: "invoice", width: "20%" },
-                { data: "terms" },
+                { data: "invoice", width: "8%" },
+                { data: "period" },
                 { data: "amount" },
-                { data: "appreciation" },
                 { data: "funded" },
                 { data: "available" },
                 { data: "timeLeft" },
                 { data: "button" },
-            ]
+            ],
+            initComplete: (settings, json) => {
+                $("[data-countdown]").each(function() {
+                    var $this = $(this), finalDate = $(this).data("countdown");
+                    $this.countdown(finalDate, function(event) {
+                        $this.html(event.strftime('%D days %H:%M:%S'))
+                    })
+                });
+            }
         });
     },
     view(_vnode: Vnode) {
@@ -134,9 +164,12 @@ export default {
                         ),
                         m(".col-lg-4", [
                             m(".card-box", [
-                                m("a.btn.btn-block.btn-custom.btn-primary[href='/sell-invoice']", {
+                                Auth.checkIsTypesetBorrower() ? m("a.btn.btn-block.btn-custom.btn-primary[href='/sell-invoice']", {
                                     oncreate: m.route.link
-                                }, ["Add Sell Invoice"]),
+                                }, ["Create Sell Invoice"]) : null,
+                                m("a.btn.btn-block.btn-custom.btn-primary[href='/create-inquiry']", {
+                                    oncreate: m.route.link
+                                }, ["Create Inquiry"]),
                             ]),
                             m(panelShowWalletAddresses),
                         ]),
@@ -151,7 +184,6 @@ export default {
                                             m("th", "Invoice"),
                                             m("th", "Terms"),
                                             m("th", "Amount"),
-                                            m("th", "Appreciation"),
                                             m("th", "Funded"),
                                             m("th", "Available"),
                                             m("th", "Time Left"),
@@ -164,7 +196,6 @@ export default {
                                             m("th", "Invoice"),
                                             m("th", "Terms"),
                                             m("th", "Amount"),
-                                            m("th", "Appreciation"),
                                             m("th", "Funded"),
                                             m("th", "Available"),
                                             m("th", "Time Left"),

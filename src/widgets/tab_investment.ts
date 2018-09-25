@@ -1,3 +1,4 @@
+
 import { AppSettings } from "configs";
 import moment from "moment";
 import m, { Vnode } from "mithril";
@@ -37,7 +38,7 @@ export default {
                     },
                 ],
                 columns: [
-                    { data: "investment", width: "20%" },
+                    { data: "investment", width: "7%" },
                     { data: "application" },
                     { data: "amount" },
                     { data: "status" },

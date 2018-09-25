@@ -25,8 +25,6 @@ router.get("/list", auth.required, (req: Request, res: Response, next: NextFunct
 
 router.post("/", auth.required, (req: Request, res: Response, next: NextFunction) => {
     const d = new Wallet();
-
-    console.log(d);
     d.save().then((t: WalletModel) => {
         return res.json({
             success: true,

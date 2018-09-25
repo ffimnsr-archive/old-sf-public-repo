@@ -40,39 +40,25 @@ export default {
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Logs Overview")
+                                        m("li.breadcrumb-item.active", "Wallet Configurations")
                                     ])
                                 ),
-                                m("h4.page-title", "Logs Overview")
+                                m("h4.page-title", "Wallet Configurations")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Logs Overview"),
-                                m("p.text-muted.font-14.m-b-30", [
-                                    "Logs generated from different transactions."
+                                m("div.form-group", [
+                                    m("label", "Ethereum Address"),
+                                    m("input.form-control[type='text'][value='0x90155f691b50da9b3ac32dd4f43b80c22aad7999'][disabled]")
                                 ]),
-                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
-                                    m("thead",
-                                        m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
-                                            m("th", "User"),
-                                            m("th", "Record"),
-                                        ])
-                                    ),
-                                    m("tfoot", [
-                                        m("tr", [
-                                            m("th", "Date"),
-                                            m("th", "Message"),
-                                            m("th", "User"),
-                                            m("th", "Record"),
-                                        ]),
-                                    ])
+                                m("div.form-group", [
+                                    m("label", "Bitcoin Address"),
+                                    m("input.form-control[type='text'][value='1NRR2pmfPqiSAb2cz6oXRqrCDXwoyQEVWt'][disabled]")
                                 ])
-                            ])
+                            ]),
                         )
                     )
                 ])

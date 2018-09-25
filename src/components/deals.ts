@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 import Chartist from "chartist";
 import "chartist/dist/chartist.css";
 import Swal from "sweetalert2";
+import moment from "moment";
 
 import header from "widgets/header";
 import footer from "widgets/footer";
@@ -17,13 +18,23 @@ import modalStellar from "widgets/modal_user_get_stellar_address";
 
 const Store = {
     image: "",
+    invoices: [],
 
-    load: function() {
+    load() {
         const token = localStorage.getItem("token")!;
+    },
+    loadCards() {
+        if (this.invoices !== undefined) {
+            return this.invoices.map(function(el, index) {
+                if (index < 3) {
+                    return createCardBox(el);
+                }
+            });
+        }
     }
 };
 
-function createCardBox() {
+function createCardBox(invoice: any) {
     return m(".col-xl-4",
         m(".card-box.project-box",
             [
@@ -47,11 +58,11 @@ function createCardBox() {
                     ]
                 ),
                 m("p.text-muted.text-uppercase.mb-0.font-13",
-                    "Invoice Seller Name"
+                    invoice.borrower ? invoice.borrower : "None",
                 ),
                 m("h4.mt-0.mb-3",
                     m("a.text-dark[href='']",
-                        "New Admin Design"
+                        invoice.borrower ? invoice.borrower : "None",
                     )
                 ),
                 m("ul.list-inline",
@@ -59,7 +70,7 @@ function createCardBox() {
                         m("li.list-inline-item",
                             [
                                 m("h3.mb-0",
-                                    "0"
+                                    invoice.period
                                 ),
                                 m("p.text-muted",
                                     "Term"
@@ -69,7 +80,7 @@ function createCardBox() {
                         m("li.list-inline-item",
                             [
                                 m("h3.mb-0",
-                                    "0"
+                                    invoice.aprPercent
                                 ),
                                 m("p.text-muted",
                                     "Appreciation"
@@ -79,7 +90,7 @@ function createCardBox() {
                         m("li.list-inline-item",
                             [
                                 m("h3.mb-0",
-                                    "0"
+                                    invoice.available
                                 ),
                                 m("p.text-muted",
                                     "Available"
@@ -91,7 +102,8 @@ function createCardBox() {
                 m(".project-members.mb-4",
                     [
                         m("label.mr-3",
-                            "Time Limit :"
+                            "Time Limit :",
+                            m.trust(invoice.timeLeft),
                         ),
                     ]
                 ),
@@ -99,12 +111,12 @@ function createCardBox() {
                     [
                         "Funding completed: ",
                         m("span.text-custom",
-                            "75000/100000"
+                            "0" + "/" + invoice.amount
                         )
                     ]
                 ),
                 m(".progress.mb-1", { style: { "height": "7px" } },
-                    m(".progress-bar[aria-valuemax='100'][aria-valuemin='0'][aria-valuenow='75'][role='progressbar']", { style: { "width": "75%" } },
+                    m(".progress-bar[aria-valuemax='100'][aria-valuemin='0'][aria-valuenow='0'][role='progressbar']", { style: { "width": "0%" } },
                     )
                 )
             ]
@@ -117,7 +129,73 @@ export default {
         Store.load();
     },
     oncreate(_vnode: Vnode) {
+        const token = localStorage.getItem("token")!;
 
+        $("#datatable").DataTable({
+            ajax: {
+                url: AppSettings.API_BASE_URL + "/api/invoice/list",
+                type: "GET",
+                beforeSend: function(request: any) {
+                    request.setRequestHeader("Authorization", `Token ${token}`);
+                },
+                dataSrc: function(json: any) {
+                    m.redraw();
+                    json.data.map(function(v: any) {
+                        v.invoice = `
+<a href="/#!/view-invoice-document/${v._id}" class="dropdown-item"><i class="fa fa-file-pdf-o mr-2 font-18 vertical-middle"></i></a>`;
+
+                        v.button = `
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/view-invoice-details/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Details</a>
+<a href="/#!/view-invoice-invest/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+</div>
+</div>`;
+                        v.funded = `
+<div class="progress">
+<div class="progress-bar progress-bar-striped progress-bar-animated align-middle" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+</div>`;
+                        v.available = v.availableBidAmount ? v.availableBidAmount : v.amount;
+
+                        let date = moment(v.closingDate).format("YYYY/MM/DD");
+                        v.timeLeft = `
+<div data-countdown="${date}" class="label label-sm label-success"></div>
+`;
+                    });
+                    Store.invoices = json.data;
+                    m.redraw();
+                    return json.data;
+                }
+            },
+            dom: "Bfrtip",
+            buttons: [
+                {
+                    text: "Export to Excel",
+                    action: function(e: any, dt: any, node: any, config: any) {
+
+                    }
+                },
+            ],
+            columns: [
+                { data: "invoice", width: "8%" },
+                { data: "period" },
+                { data: "amount" },
+                { data: "aprPercent" },
+                { data: "funded" },
+                { data: "available" },
+                { data: "timeLeft" },
+                { data: "button" },
+            ],
+            initComplete: (settings, json) => {
+                $('[data-countdown]').each(function() {
+                    var $this = $(this), finalDate = $(this).data('countdown');
+                    $this.countdown(finalDate, function(event) {
+                        $this.html(event.strftime('%D days %H:%M:%S'));
+                    });
+                });
+            }
+        });
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [
@@ -141,14 +219,7 @@ export default {
                     ),
 
                     m(".row", [
-                        [0, 0, 0].map(function() {
-                            return createCardBox();
-                        }),
-                    ]),
-                    m(".row", [
-                        [0, 0, 0].map(function() {
-                            return createCardBox();
-                        }),
+                        Store.loadCards(),
                     ]),
                     m("div.row",
                         m(".col-lg-12",

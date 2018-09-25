@@ -60,15 +60,6 @@ export default {
                     m("i.mdi.mdi-currency-usd"),
                     "  Bank Transfer"
                 ]),
-            m("a.btn.btn-block.btn-custom[href='javascript:;']", {
-                onclick: () => {
-                    Swal({
-                        title: "Paypal Not Ready!",
-                        type: "info",
-                        text: "Paypal is not yet integrated properly.",
-                    });
-                }
-            }, "Paypal"),
         ]);
     }
 } as m.Component;

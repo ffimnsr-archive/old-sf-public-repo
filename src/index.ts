@@ -21,6 +21,7 @@ import portfolio from "components/portfolio";
 import settings from "components/settings";
 import deals from "components/deals";
 import sellInvoice from "components/add_sell_invoice";
+import addInquiry from "components/add_inquiry";
 import addProfileDetails from "components/add_profile_details";
 import addProfileType from "components/add_profile_type";
 import addProfilePicture from "components/add_profile_picture";
@@ -34,6 +35,7 @@ import editProfileDetails from "components/edit_profile_details";
 
 import adminDashboard from "components/admin/dashboard";
 import adminViewLog from "components/admin/view_log";
+import adminViewWalletConfiguration from "components/admin/view_wallet_configuration";
 import adminViewCountryList from "components/admin/view_country_list";
 import adminViewCompanyRevenueList from "components/admin/view_company_revenue_list";
 import adminViewCreditRateList from "components/admin/view_credit_rate_list";
@@ -49,6 +51,7 @@ import adminViewMemberStatus from "components/admin/view_m_status";
 import adminViewMemberPowerStatus from "components/admin/view_m_p_status";
 import adminViewMemberLog from "components/admin/view_m_log";
 import adminViewMemberWallet from "components/admin/view_m_log";
+import adminViewDebtorList from "components/admin/view_debtor_list";
 
 import adminInvestors from "components/admin/investors";
 import adminBorrowers from "components/admin/borrowers";
@@ -159,6 +162,12 @@ function SmartFundingRouter() {
                 else return sellInvoice;
             }
         },
+        "/create-inquiry": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else return addInquiry;
+            }
+        },
         "/profile/edit": {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
@@ -181,6 +190,15 @@ function SmartFundingRouter() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
                     if (Auth.checkIsRoleAdmin()) return adminViewInvestmentList;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/debtors": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminViewDebtorList;
                     else m.route.set("/");
                 }
             }
@@ -252,7 +270,7 @@ function SmartFundingRouter() {
             onmatch: function() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
-                    if (Auth.checkIsRoleAdmin()) return adminViewLog;
+                    if (Auth.checkIsRoleAdmin()) return adminViewWalletConfiguration;
                     else m.route.set("/");
                 }
             }

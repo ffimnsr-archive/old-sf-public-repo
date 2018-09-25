@@ -85,8 +85,8 @@ export default {
                                         Store.save();
                                     }
                                 }, [
+                                        m("label.col-form-label", "Are you a Politically Exposed Person ('PEP') or a close associate of a PEP?"),
                                         m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Are you a Politically Exposed Person ('PEP') or a close associate of a PEP?"),
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q0'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[0] = v }),
@@ -102,8 +102,8 @@ export default {
                                                 m("label.form-check-label", "No")
                                             ]),
                                         ]),
+                                        m("label.col-form-label", "Investor is aware of Singapore’s commitment to safeguarding its financial system from being used to harbor or launder tax evasion monies or proceeds from serious tax offences."),
                                         m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Investor is aware of Singapore’s commitment to safeguarding its financial system from being used to harbor or launder tax evasion monies or proceeds from serious tax offences."),
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q1'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[1] = v }),
@@ -119,8 +119,8 @@ export default {
                                                 m("label.form-check-label", "No")
                                             ]),
                                         ]),
+                                        m("label.col-form-label", "Investor shall be responsible for his/her/its own tax affairs and hereby declare that you have never been convicted of any serious tax crimes, whether in Singapore or elsewhere."),
                                         m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Investor shall be responsible for his/her/its own tax affairs and hereby declare that you have never been convicted of any serious tax crimes, whether in Singapore or elsewhere."),
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q2'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[2] = v }),
@@ -136,8 +136,8 @@ export default {
                                                 m("label.form-check-label", "No")
                                             ]),
                                         ]),
+                                        m("label.col-form-label", "Monies which Investor shall use in investing on our Platform are from legitimate sources and will not be considered as proceeds of serious tax crimes in Singapore or elsewhere."),
                                         m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Monies which Investor shall use in investing on our Platform are from legitimate sources and will not be considered as proceeds of serious tax crimes in Singapore or elsewhere."),
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q3'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[3] = v }),
@@ -153,8 +153,8 @@ export default {
                                                 m("label.form-check-label", "No")
                                             ]),
                                         ]),
+                                        m("label.col-form-label", "Investor shall be solely responsible for any tax reporting obligation imposed by the any relevant tax authority."),
                                         m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Investor shall be solely responsible for any tax reporting obligation imposed by the any relevant tax authority."),
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q4'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[4] = v }),
@@ -170,8 +170,8 @@ export default {
                                                 m("label.form-check-label", "No")
                                             ]),
                                         ]),
+                                        m("label.col-form-label", "Investor is not a U.S. person and does not intend to be one."),
                                         m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Investor is not a U.S. person and does not intend to be one."),
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q5'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[5] = v }),
@@ -182,6 +182,91 @@ export default {
                                             m("div.radio", [
                                                 m("input.form-check-input[name='q5'][type='radio']", {
                                                     onclick: m.withAttr("value", (v: string) => { Store.q[5] = v }),
+                                                    value: 0
+                                                }),
+                                                m("label.form-check-label", "No")
+                                            ]),
+                                        ]),
+                                        m("label.col-form-label", "Has the Investor at any time pleaded guilty or have been found guilty of a criminal offence, or is currently a subject of any criminal investigation or inquiry in Singapore or elsewhere, in connection with financial transactions or investments of any kind?"),
+                                        m("div.form-group.col-md-6", [
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q6'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[6] = v }),
+                                                    value: 1
+                                                }),
+                                                m("label.form-check-label", "Yes")
+                                            ]),
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q6'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[6] = v }),
+                                                    value: 0
+                                                }),
+                                                m("label.form-check-label", "No")
+                                            ]),
+                                        ]),
+                                        m("label.col-form-label", "Has the Investor ever been subject to any inquiry or investigation by any relevant authority in Singapore or elsewhere? (Excluding routine regulatory inquiry or audit)"),
+                                        m("div.form-group.col-md-6", [
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q7'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[7] = v }),
+                                                    value: 1
+                                                }),
+                                                m("label.form-check-label", "Yes")
+                                            ]),
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q7'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[7] = v }),
+                                                    value: 0
+                                                }),
+                                                m("label.form-check-label", "No")
+                                            ]),
+                                        ]),
+                                        m("label.col-form-label", "Has the Investor been made subject of a court order in Singapore or elsewhere?"),
+                                        m("div.form-group.col-md-6", [
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q8'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[8] = v }),
+                                                    value: 1
+                                                }),
+                                                m("label.form-check-label", "Yes")
+                                            ]),
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q8'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[8] = v }),
+                                                    value: 0
+                                                }),
+                                                m("label.form-check-label", "No")
+                                            ]),
+                                        ]),
+                                        m("label.col-form-label", "Has the Investor been subject to any bankruptcy order or has been served with a bankruptcy petition in Singapore or elsewhere?"),
+                                        m("div.form-group.col-md-6", [
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q9'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[9] = v }),
+                                                    value: 1
+                                                }),
+                                                m("label.form-check-label", "Yes")
+                                            ]),
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q9'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[9] = v }),
+                                                    value: 0
+                                                }),
+                                                m("label.form-check-label", "No")
+                                            ]),
+                                        ]),
+                                        m("label.col-form-label", "Is the Investor currently involved in any legal proceedings in Singapore or elsewhere which would affect the investment?"),
+                                        m("div.form-group.col-md-6", [
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q10'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[10] = v }),
+                                                    value: 1
+                                                }),
+                                                m("label.form-check-label", "Yes")
+                                            ]),
+                                            m("div.radio", [
+                                                m("input.form-check-input[name='q10'][type='radio']", {
+                                                    onclick: m.withAttr("value", (v: string) => { Store.q[10] = v }),
                                                     value: 0
                                                 }),
                                                 m("label.form-check-label", "No")
@@ -201,91 +286,6 @@ export default {
                                                     onclick: m.withAttr("value", (v: string) => { Store.qs[1] = v }),
                                                     value: Store.qs[1]
                                                 })
-                                            ]),
-                                        ]),
-                                        m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Has the Investor at any time pleaded guilty or have been found guilty of a criminal offence, or is currently a subject of any criminal investigation or inquiry in Singapore or elsewhere, in connection with financial transactions or investments of any kind?"),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q6'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[6] = v }),
-                                                    value: 1
-                                                }),
-                                                m("label.form-check-label", "Yes")
-                                            ]),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q6'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[6] = v }),
-                                                    value: 0
-                                                }),
-                                                m("label.form-check-label", "No")
-                                            ]),
-                                        ]),
-                                        m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Has the Investor ever been subject to any inquiry or investigation by any relevant authority in Singapore or elsewhere? (Excluding routine regulatory inquiry or audit)"),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q7'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[7] = v }),
-                                                    value: 1
-                                                }),
-                                                m("label.form-check-label", "Yes")
-                                            ]),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q7'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[7] = v }),
-                                                    value: 0
-                                                }),
-                                                m("label.form-check-label", "No")
-                                            ]),
-                                        ]),
-                                        m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Has the Investor been made subject of a court order in Singapore or elsewhere?"),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q8'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[8] = v }),
-                                                    value: 1
-                                                }),
-                                                m("label.form-check-label", "Yes")
-                                            ]),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q8'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[8] = v }),
-                                                    value: 0
-                                                }),
-                                                m("label.form-check-label", "No")
-                                            ]),
-                                        ]),
-                                        m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Has the Investor been subject to any bankruptcy order or has been served with a bankruptcy petition in Singapore or elsewhere?"),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q9'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[9] = v }),
-                                                    value: 1
-                                                }),
-                                                m("label.form-check-label", "Yes")
-                                            ]),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q9'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[9] = v }),
-                                                    value: 0
-                                                }),
-                                                m("label.form-check-label", "No")
-                                            ]),
-                                        ]),
-                                        m("div.form-group.col-md-6", [
-                                            m("label.col-form-label", "Is the Investor currently involved in any legal proceedings in Singapore or elsewhere which would affect the investment?"),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q10'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[10] = v }),
-                                                    value: 1
-                                                }),
-                                                m("label.form-check-label", "Yes")
-                                            ]),
-                                            m("div.radio", [
-                                                m("input.form-check-input[name='q10'][type='radio']", {
-                                                    onclick: m.withAttr("value", (v: string) => { Store.q[10] = v }),
-                                                    value: 0
-                                                }),
-                                                m("label.form-check-label", "No")
                                             ]),
                                         ]),
                                         m("div.form-group.col-md-6", [

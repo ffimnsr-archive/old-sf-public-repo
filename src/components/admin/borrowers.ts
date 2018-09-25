@@ -53,7 +53,7 @@ export default {
                         v._id = v._id.toUpperCase();
                         v.uid = v._id.slice(-6);
                         v.username = `
-<a href="/#!/admin/view-m-account/${v._id}">
+<a href="/#!/admin/view-m-b-account/${v._id}">
 <img src="${avatar}" width="32" alt="contact-img" class="rounded-circle">
 <span class="ml-2">${v.username}</span>
 </a>`;
@@ -86,6 +86,7 @@ export default {
             columns: [
                 { data: "uid", width: "8%" },
                 { data: "name" },
+                { data: "username" },
                 { data: "company_name" },
                 { data: "email" },
                 { data: "status", width: "6%" },
@@ -126,6 +127,7 @@ export default {
                                         m("tr", [
                                             m("th", "ID"),
                                             m("th", "Name"),
+                                            m("th", "Username"),
                                             m("th", "Company"),
                                             m("th", "Contact"),
                                             m("th", "Status"),
@@ -136,6 +138,7 @@ export default {
                                         m("tr", [
                                             m("th", "ID"),
                                             m("th", "Name"),
+                                            m("th", "Username"),
                                             m("th", "Company"),
                                             m("th", "Contact"),
                                             m("th", "Status"),

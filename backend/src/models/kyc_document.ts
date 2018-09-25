@@ -6,9 +6,12 @@ export type KycDocumentModel = mongoose.Document & {
     user: mongoose.Schema.Types.ObjectId,
     documentNo: number,
     description: string,
+    documentType: string,
+    file: string,
     expirationDate: Date,
     createdAt: Date,
     updatedAt: Date,
+    isDeleted: boolean
 };
 
 const KycDocumentSchema = new mongoose.Schema({
@@ -17,9 +20,12 @@ const KycDocumentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     documentNo: Number,
     description: String,
+    documentType: String,
+    file: String,
     expirationDate: Date,
     createdAt: Date,
     updatedAt: Date,
+    isDeleted: Boolean,
 }, { timestamps: true });
 
 const KycDocument: mongoose.Model<KycDocumentModel> = mongoose.model<KycDocumentModel>("KycDocument", KycDocumentSchema, "kyc_documents");

@@ -2,6 +2,7 @@ import mongoose, { Collection } from "mongoose";
 import { mongoUri, redisUri } from "../config";
 import { default as User, UserModel } from "../models/user";
 import { default as LoanPurpose, LoanPurposeModel } from "../models/loan_purpose";
+import { default as Debtor, DebtorModel } from "../models/debtor";
 import { default as Country, CountryModel } from "../models/country";
 import { default as CompanyRevenue, CompanyRevenueModel } from "../models/company_revenue";
 import { default as CreditRate, CreditRateModel } from "../models/credit_rate";
@@ -14,6 +15,8 @@ const users = [
         username: "support42",
         email: "support42@yopmail.net",
         password: "support42",
+        role: "admin",
+        status: "okay",
     },
     {
         username: "support43",
@@ -98,6 +101,15 @@ users.forEach(function(doc) {
     const d = new User();
 
     d.username = doc.username;
+
+    if (doc.role !== undefined) {
+        d.role = doc.role;
+    }
+
+    if (doc.status !== undefined) {
+        d.status = doc.status;
+    }
+
     d.email = doc.email;
     d.isDocumentsSubmitted = false;
     d.isMailVerified = true;
@@ -176,6 +188,32 @@ countries.forEach(function(doc) {
     d.status = doc.status;
     d.save();
     console.log("creating countries");
+});
+
+const debtors = [
+    { name: "Accenture Solutions Sdn. Bhd.", status: "active" },
+    { name: "Boilermaster Pte. Ltd.", status: "active" },
+    { name: "Caring Pharmacy Retail Management Sdn. Bhd.", status: "active" },
+    { name: "Eco Special Waste Management Pte. Ltd.", status: "active" },
+    { name: "Eu Yan Sang (Singapore) Pte. Ltd.", status: "active" },
+    { name: "ExxonMobil Asia Pacific Pte. Ltd.", status: "active" },
+    { name: "Goodrich Aerospace Pte. Ltd.", status: "active" },
+    { name: "Kiddy Palace Pte. Ltd.", status: "active" },
+    { name: "Marks & Spencer", status: "active" },
+    { name: "Mighty Engineering & Construction Pte. Ltd.", status: "active" },
+    { name: "Ministry of Education", status: "active" },
+    { name: "Mohamed Mustafa & Samsuddin Co. Pte. Ltd.", status: "active" },
+    { name: "OCBC PROPERTY SERVICES PTE. LTD.", status: "active" },
+
+];
+
+debtors.forEach(function(doc) {
+    const d = new Debtor();
+
+    d.name = doc.name;
+    d.status = doc.status;
+    d.save();
+    console.log("creating debtors");
 });
 
 

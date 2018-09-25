@@ -2,7 +2,7 @@ import m, { Vnode } from "mithril";
 import { AppSettings } from "configs";
 import { Utils } from "../utils";
 
-import bg from "images/bg-2.jpg";
+import bg from "images/bg-1.jpg";
 import logo from "images/sf-logo.png";
 
 const Store = {

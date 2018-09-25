@@ -172,6 +172,7 @@ export default {
                                     m("li", m("a[href='/admin/borrowers/active']", { oncreate: m.route.link }, "Active")),
                                     m("li", m("a[href='/admin/borrowers/locked']", { oncreate: m.route.link }, "Locked")),
                                     m("li", m("a[href='/admin/borrowers/rejected']", { oncreate: m.route.link }, "Rejected")),
+                                    m("li", m("a[href='/admin/debtors']", { oncreate: m.route.link }, "Debtor List")),
                                 ])
                             ]) : null,
 

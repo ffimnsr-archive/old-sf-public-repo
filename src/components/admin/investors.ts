@@ -60,7 +60,7 @@ export default {
 
                             v.name = v.forename && v.forename !== "undefined" ? v.forename + " " + v.surname : "None";
                             v.status = statusConvert(v.status);
-                            v.remarks = "None";
+                            v.remarks = v.remarks ? v.remarks : "None";
                             v.button = `
 <div class="btn-group dropdown">
 <a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>

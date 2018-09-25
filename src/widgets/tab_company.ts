@@ -7,6 +7,7 @@ const Store = {
     registrationNo: "None",
     paidUpCapital: "None",
     revenue: "None",
+
     load() {
 
     },
@@ -24,7 +25,7 @@ export default {
             [
                 m("dl.row", [
                     m("dt.col-sm-3", "Company Name"),
-                    m("dd.col-sm-9", "None"),
+                    m("dd.col-sm-9", Store.companyName),
                     m("dt.col-sm-3", "Registration No."),
                     m("dd.col-sm-9", Store.registrationNo),
                     m("dt.col-sm-3", "Paid Up Capital"),

@@ -11,6 +11,7 @@ import footer from "widgets/footer";
 import header from "widgets/header";
 import updateAccountInfo from "widgets/modal_admin_update_account_info";
 import updateStatus from "widgets/modal_admin_update_status";
+import avatar from "images/investor.png";
 
 
 const Store = {
@@ -49,6 +50,12 @@ export default {
                         json.users.map((v: any) => {
                             v._id = v._id.toUpperCase();
                             v.uid = v._id.slice(-6);
+                            v.username = `
+<a href="/#!/admin/view-m-p-account/${v._id}">
+<img src="${avatar}" width="32" alt="contact-img" class="rounded-circle">
+<span class="ml-2">${v.username}</span>
+</a>`;
+
                             v.status = statusConvert(v.status);
                             v.button = `
 <div class="btn-group dropdown">

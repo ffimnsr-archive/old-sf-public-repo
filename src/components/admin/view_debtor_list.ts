@@ -17,6 +17,17 @@ const Store = {
     },
 };
 
+function statusConvert(stat: string) {
+    switch (stat) {
+        case "active":
+            return `<span class="badge badge-success">Active</span>`;
+        case "inactive":
+            return `<span class="badge badge-warning">Inactive</span>`;
+        case "deleted":
+            return `<span class="badge badge-warning">Deleted</span>`;
+    }
+}
+
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
@@ -27,20 +38,21 @@ export default {
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/invoice/list",
+                    url: AppSettings.API_BASE_URL + "/api/debtor/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
                     },
                     dataSrc: function(json: any) {
                         m.redraw();
-                        json.data.map(function(v: any) {
+                        json.data.map(function(v) {
                             v._id = v._id.toUpperCase();
                             v.uid = v._id.slice(-6);
-                            v.info = `
-APR: ${v.aprPercent}<br>
-EIR: ${v.eirPercent}`;
+                            v.industry = "None";
+                            v.createdBy = "None";
                             v.button = "None";
+                            v.status = statusConvert(v.status);
+                            v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
                         });
                         return json.data;
                     }
@@ -48,19 +60,20 @@ EIR: ${v.eirPercent}`;
                 dom: "Bfrtip",
                 buttons: [
                     {
-                        text: "Export to Excel",
+                        text: "New Debtor",
                         action: function(e: any, dt: any, node: any, config: any) {
 
                         }
                     },
                 ],
                 columns: [
-                    { data: "uid", width: "8%" },
-                    { data: "period" },
-                    { data: "amount" },
-                    { data: "info" },
-                    { data: "createdAt" },
-                    { data: "closingDate" },
+                    { data: "uid", width: "7%" },
+                    { data: "name" },
+                    { data: "industry" },
+                    { data: "status" },
+                    { data: "createdBy" },
+                    { data: "date" },
+                    { data: "button" },
                 ]
             });
         });
@@ -81,39 +94,38 @@ EIR: ${v.eirPercent}`;
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Invoices")
+                                        m("li.breadcrumb-item.active", "Debtor List")
                                     ])
                                 ),
-                                m("h4.page-title", "Invoices")
+                                m("h4.page-title", "Debtor List")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Invoices"),
-                                m("p.text-muted.font-14.m-b-30", [
-                                    "List of all active and inactive invoices."
-                                ]),
+                                m("h4.m-t-0.header-title", "Debtor List"),
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
                                             m("th", "ID"),
-                                            m("th", "Period"),
-                                            m("th", "Amount"),
-                                            m("th", "Info"),
+                                            m("th", "Name"),
+                                            m("th", "Industry"),
+                                            m("th", "Status"),
+                                            m("th", "Created By"),
                                             m("th", "Created Date"),
-                                            m("th", "Closing Date"),
+                                            m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
                                             m("th", "ID"),
-                                            m("th", "Invoice Seller"),
-                                            m("th", "Amount"),
-                                            m("th", "Info"),
+                                            m("th", "Name"),
+                                            m("th", "Industry"),
+                                            m("th", "Status"),
+                                            m("th", "Created By"),
                                             m("th", "Created Date"),
-                                            m("th", "Closing Date"),
+                                            m("th", "Action"),
                                         ]),
                                     ])
                                 ])

@@ -15,6 +15,7 @@ import header from "widgets/header";
 const Store = {
     uid: "",
     status: "",
+    remarks: "",
 
     canSave() {
         return true;
@@ -26,6 +27,7 @@ const Store = {
         const data = {
             user: {
                 status: statusConvert(this.status),
+                remarks: this.remarks,
             }
         };
 
@@ -145,7 +147,13 @@ export default {
                                                 });
                                                 status.unshift(m("option[disabled][selected]", "Choose account status..."));
                                                 return status;
-                                            }())
+                                            }()),
+                                        ]),
+                                        m("div.form-group", [
+                                            m("label.col-form-label", "Remarks"),
+                                            m("textarea.form-control[rows='3']", {
+                                                onchange: m.withAttr("value", (v: string) => { Store.remarks = v })
+                                            }),
                                         ]),
                                         m(".clearfix.text-right.mt-3",
                                             m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {

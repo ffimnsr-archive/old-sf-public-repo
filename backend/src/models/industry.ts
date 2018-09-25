@@ -7,6 +7,7 @@ export type IndustryModel = mongoose.Document & {
     createdBy: mongoose.Schema.Types.ObjectId,
     createdAt: Date,
     updatedAt: Date,
+    isDeleted: boolean,
 };
 
 const IndustrySchema = new mongoose.Schema({
@@ -16,6 +17,7 @@ const IndustrySchema = new mongoose.Schema({
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     createdAt: Date,
     updatedAt: Date,
+    isDeleted: Boolean,
 }, { timestamps: true });
 
 const Industry: mongoose.Model<IndustryModel> = mongoose.model<IndustryModel>("Industry", IndustrySchema, "industries");

@@ -78,7 +78,7 @@ export default {
                     m(".row", [
                         m(".col-lg-12",
                             m(".card-box", [
-                                m("h4.header-title.mb-3", "Porfolio"),
+                                m("h4.header-title.mb-3", "Portfolio"),
                                 m("p.text-muted.font-14", "Check all your invoice deeds."),
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",

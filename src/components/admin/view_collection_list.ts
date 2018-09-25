@@ -23,6 +23,40 @@ export default {
     },
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
+
+        $(document).ready(function() {
+            $("#datatable").DataTable({
+                ajax: {
+                    url: AppSettings.API_BASE_URL + "/api/log/list",
+                    type: "GET",
+                    beforeSend: function(request: any) {
+                        request.setRequestHeader("Authorization", `Token ${token}`);
+                    },
+                    dataSrc: function(json: any) {
+                        m.redraw();
+                        return [];
+                    }
+                },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        text: "Export to Excel",
+                        action: function(e: any, dt: any, node: any, config: any) {
+
+                        }
+                    },
+                ],
+                columns: [
+                    { data: "uid", width: "8%" },
+                    { data: "releaseAmount" },
+                    { data: "releaseStatus" },
+                    { data: "releaseReference" },
+                    { data: "releaseBy" },
+                    { data: "releaseDate" },
+                    { data: "button" },
+                ]
+            });
+        });
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [
@@ -54,6 +88,31 @@ export default {
                                 m("p.text-muted.font-14.m-b-30", [
                                     "Search through all collections."
                                 ]),
+
+                                m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
+                                    m("thead",
+                                        m("tr", [
+                                            m("th", "ID"),
+                                            m("th", "Amount"),
+                                            m("th", "Status"),
+                                            m("th", "Reference"),
+                                            m("th", "Release By"),
+                                            m("th", "Release Date"),
+                                            m("th", "Action"),
+                                        ])
+                                    ),
+                                    m("tfoot", [
+                                        m("tr", [
+                                            m("th", "ID"),
+                                            m("th", "Amount"),
+                                            m("th", "Status"),
+                                            m("th", "Reference"),
+                                            m("th", "Release By"),
+                                            m("th", "Release Date"),
+                                            m("th", "Action"),
+                                        ]),
+                                    ])
+                                ])
                             ])
                         )
                     )

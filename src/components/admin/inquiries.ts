@@ -43,7 +43,7 @@ export default {
 <a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
 <div class="dropdown-menu dropdown-menu-right">
 <a href="/#!/admin/change-inquiry-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
-</div>
+2</div>
 </div>`;
                             return v;
                         });
@@ -101,7 +101,7 @@ export default {
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Full Name"),
+                                            m("th", "Name"),
                                             m("th", "Message"),
                                             m("th", "Submitted Date"),
                                             m("th", "Action"),
@@ -109,7 +109,7 @@ export default {
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Full Name"),
+                                            m("th", "Name"),
                                             m("th", "Message"),
                                             m("th", "Submitted Date"),
                                             m("th", "Action"),

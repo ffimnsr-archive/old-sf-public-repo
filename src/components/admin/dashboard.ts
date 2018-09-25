@@ -49,40 +49,34 @@ export default {
 
         let options: Chartist.ILineChartOptions = {
             axisX: {
-                labelInterpolationFnc: function(value) {
-                    return value;
-                }
+                type: Chartist.FixedScaleAxis,
+                divisor: 4,
             }
         };
 
         new Chartist.Line('#user-overview', {
-            labels: ['1', '2', '3', '4', '5', '6'],
+            labels: [],
             series: [
                 {
                     data: [
-                        1,
-                        2,
-                        3,
-                        5,
-                        8,
-                        12
+
                     ],
                 }
             ]
         }, options);
 
         new Chartist.Line('#wallet-transaction', {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            labels: [],
             series: [
-                [2, 1, 3.5, 7, 3],
-                [1, 3, 4, 5, 6],
+                [],
+                [],
             ]
         }, options);
 
         new Chartist.Bar('#cryptocurrency-usage', {
-            labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10'],
+            labels: [],
             series: [
-                [1, 2, 4, 8, 6, -2, -1, -4, -6, -2]
+                []
             ]
         }, {
                 high: 10,
@@ -124,14 +118,33 @@ export default {
                     json.users.map((v: any) => {
                         v._id = v._id.toUpperCase();
                         v.uid = v._id.slice(-6);
-                        v.username = `
+                        v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
+                        if (v.typeset === "Borrower") {
+                            v.username = `
+<a href="/#!/admin/view-m-b-account/${v._id}">
+<img src="${avatar}" width="32" alt="contact-img" class="rounded-circle">
+<span class="ml-2">${v.username}</span>
+</a>`;
+                        } else {
+                            v.username = `
 <a href="/#!/admin/view-m-account/${v._id}">
 <img src="${avatar}" width="32" alt="contact-img" class="rounded-circle">
 <span class="ml-2">${v.username}</span>
 </a>`;
+                        }
+
                         v.status = statusConvert(v.status);
-                        v.typeset = v.typeset.charAt(0).toUpperCase() + v.typeset.slice(1);
-                        v.button = `
+                        if (v.typeset === "Borrower") {
+                            v.button = `
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/admin/view-m-b-account/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Account</a>
+<a href="/#!/admin/view-m-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+</div>
+</div>`;
+                        } else {
+                            v.button = `
 <div class="btn-group dropdown">
 <a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
 <div class="dropdown-menu dropdown-menu-right">
@@ -139,6 +152,7 @@ export default {
 <a href="/#!/admin/view-m-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
 </div>
 </div>`;
+                        }
                         return v;
                     });
 

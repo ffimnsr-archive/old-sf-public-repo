@@ -36,8 +36,10 @@ export default {
 
                     json.logs.map((v: any) => {
                         v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-                        v.user = "Support";
-                        v.record = "Support User";
+                        v.menu = v.menu ? v.menu : "None";
+                        v.action = v.action ? v.action : "None";
+                        v.record = v.record ? v.record : "None";
+                        v.user = v.user ? v.user : "None";
                         return v;
                     });
 
@@ -54,9 +56,11 @@ export default {
             ],
             columns: [
                 { data: "date", width: "20%" },
+                { data: "menu" },
+                { data: "action" },
+                { data: "record" },
                 { data: "message" },
                 { data: "user" },
-                { data: "record" },
             ]
         });
     },
@@ -94,17 +98,21 @@ export default {
                                     m("thead",
                                         m("tr", [
                                             m("th", "Date"),
+                                            m("th", "Menu"),
+                                            m("th", "Action"),
+                                            m("th", "Record"),
                                             m("th", "Message"),
                                             m("th", "User"),
-                                            m("th", "Record"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
                                             m("th", "Date"),
+                                            m("th", "Menu"),
+                                            m("th", "Action"),
+                                            m("th", "Record"),
                                             m("th", "Message"),
                                             m("th", "User"),
-                                            m("th", "Record"),
                                         ]),
                                     ])
                                 ])

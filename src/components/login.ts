@@ -4,7 +4,7 @@ import { AppSettings } from "configs";
 import { Utils } from "../utils";
 
 import bg1 from "images/bg-1.jpg";
-import bg2 from "images/bg-2.jpg";
+import bg2 from "images/bg-1.jpg";
 
 import logo from "images/sf-logo.png";
 

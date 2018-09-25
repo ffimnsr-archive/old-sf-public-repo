@@ -1,5 +1,5 @@
 import { AppSettings } from "configs";
-import bg from "images/bg-2.jpg";
+import bg from "images/bg-1.jpg";
 import logo from "images/sf-logo.png";
 import m, { Vnode } from "mithril";
 import Swal from "sweetalert2";
