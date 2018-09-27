@@ -14,7 +14,7 @@ const Store = {
         const vm = this;
     },
     canSave() {
-        return true;
+        return this.todo !== "" && this.description !== "";
     },
     save() {
         const data = {

@@ -9,7 +9,11 @@ const Store = {
     ethAddress: "",
     btcAddress: "",
 
-    save: function() {
+    canSave() {
+        return this.ethAddress !== "" || this.btcAddrss !== "";
+    },
+
+    save() {
         const data = {
             user: {
                 ethAddress: this.ethAddress,

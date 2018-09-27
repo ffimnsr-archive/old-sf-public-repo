@@ -40,6 +40,10 @@ const Store = {
     canSave: function() {
         return this.forename !== "" &&
             this.surname !== "" &&
+            this.address1 !== "" &&
+            this.city !== "" &&
+            this.stateProvince !== "" &&
+            this.postalCode !== "" &&
             this.country !== "";
     },
     save: function() {

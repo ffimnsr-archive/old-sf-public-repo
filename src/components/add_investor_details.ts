@@ -16,7 +16,7 @@ const Store = {
         { name: "Others", code: 5 }
     ],
     canSave: function() {
-        return true;
+        return this.q.length !== 0 && this.qs.length !== 0;
     },
     save: function() {
         const data = {
