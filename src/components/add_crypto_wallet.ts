@@ -10,7 +10,7 @@ const Store = {
     btcAddress: "",
 
     canSave() {
-        return this.ethAddress !== "" || this.btcAddrss !== "";
+        return this.ethAddress !== "" || this.btcAddress !== "";
     },
 
     save() {
