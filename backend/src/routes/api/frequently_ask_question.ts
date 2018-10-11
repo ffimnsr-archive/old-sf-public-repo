@@ -7,6 +7,7 @@ const router = Router();
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
     FrequentlyAskQuestion.find({}).then((t: FrequentlyAskQuestionModel[]) => {
+        console.log(t);
         return res.json({
             success: true,
             faqs: t,
@@ -21,7 +22,6 @@ router.post("/", auth.required, (req: Request, res: Response, next: NextFunction
     d.answer = req.body.user.answer;
     d.status = req.body.user.status;
 
-    console.log(d);
     d.save().then((t: FrequentlyAskQuestionModel) => {
         return res.json({
             success: true,

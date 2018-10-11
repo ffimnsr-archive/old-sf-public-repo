@@ -35,7 +35,7 @@ export default {
                     dataSrc: function(json: any) {
                         m.redraw();
 
-                        json.logs.map((v: any) => {
+                        json.faqs.map((v: any) => {
                             v._id = v._id.toUpperCase();
                             v.date = moment(v.createdAt).format('MMMM Do YYYY, h:mm:ss a');
                             return v;

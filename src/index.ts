@@ -63,6 +63,7 @@ import adminNewMember from "components/admin/new_member";
 import adminNewPowerUser from "components/admin/new_power_user";
 import adminNewCompanyRevenue from "components/admin/new_company_revenue";
 import adminNewLoanPurpose from "components/admin/new_loan_purpose";
+import adminNewFrequentlyAskQuestion from "components/admin/new_frequently_ask_question";
 
 import siteMaintenance from "components/site_maintenance";
 import notFound from "components/not_found";
@@ -82,6 +83,7 @@ import "styles/icons";
 
 // TODO: need code splitting to minimize large chunk dependecy.
 function SmartFundingRouter() {
+
     document.body.id = "sf";
     m.route(document.body, "/", {
         "/": {
@@ -352,6 +354,15 @@ function SmartFundingRouter() {
                 if (Auth.checkTokenNone()) m.route.set("/login");
                 else {
                     if (Auth.checkIsRoleAdmin()) return adminViewCreditRateList;
+                    else m.route.set("/");
+                }
+            }
+        },
+        "/admin/new-frequently-ask-question": {
+            onmatch: function() {
+                if (Auth.checkTokenNone()) m.route.set("/login");
+                else {
+                    if (Auth.checkIsRoleAdmin()) return adminNewFrequentlyAskQuestion;
                     else m.route.set("/");
                 }
             }
