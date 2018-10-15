@@ -110,7 +110,7 @@ export default {
                                         m(".form-group.row.m-b-20",
                                             m(".col-12",
                                                 m(".checkbox.checkbox-custom", [
-                                                    m("input[checked][id='remember'][type='checkbox']"),
+                                                    m("input[checked][id='remember'][type='checkbox'][required]"),
                                                     m("label[for='remember']", [
                                                         "I accept ",
                                                         m("a.text-custom[href='/terms-and-conditions']", { oncreate: m.route.link }, "Terms and Conditions")

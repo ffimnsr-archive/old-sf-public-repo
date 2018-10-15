@@ -38,13 +38,7 @@ const Store = {
         });
     },
     canSave: function() {
-        return this.forename !== "" &&
-            this.surname !== "" &&
-            this.address1 !== "" &&
-            this.city !== "" &&
-            this.stateProvince !== "" &&
-            this.postalCode !== "" &&
-            this.country !== "";
+        return true;
     },
     save: function() {
         const data = {
@@ -123,14 +117,14 @@ export default {
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "First Name"),
-                                                m("input.form-control[type='text'][placeholder='First Name (e.g. Jose)']", {
+                                                m("input.form-control[type='text'][placeholder='First Name (e.g. John)'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.forename = v }),
                                                     value: Store.forename
                                                 })
                                             ]),
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "Last Name"),
-                                                m("input.form-control[type='text'][placeholder='Last Name (e.g. Rizal)']", {
+                                                m("input.form-control[type='text'][placeholder='Last Name (e.g. Doe)'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.surname = v }),
                                                     value: Store.surname
                                                 })
@@ -138,7 +132,7 @@ export default {
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Address 1"),
-                                            m("input.form-control[type='text'][placeholder='House/Lot No. and Street']", {
+                                            m("input.form-control[type='text'][placeholder='House/Lot No. and Street'][required]", {
                                                 oninput: m.withAttr("value", (v: string) => { Store.address1 = v }),
                                                 value: Store.address1
                                             })
@@ -153,21 +147,21 @@ export default {
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "City"),
-                                                m("input.form-control[type='text'][placeholder='City']", {
+                                                m("input.form-control[type='text'][placeholder='City'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.city = v }),
                                                     value: Store.city
                                                 })
                                             ]),
                                             m("div.form-group.col-md-4", [
                                                 m("label.col-form-label", "State / Province"),
-                                                m("input.form-control[type='text'][placeholder='State / Province']", {
+                                                m("input.form-control[type='text'][placeholder='State / Province'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.stateProvince = v }),
                                                     value: Store.stateProvince
                                                 })
                                             ]),
                                             m("div.form-group.col-md-2", [
                                                 m("label.col-form-label", "Zip Code"),
-                                                m("input.form-control[type='text'][placeholder='Postal Code']", {
+                                                m("input.form-control[type='text'][placeholder='Postal Code'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.postalCode = v }),
                                                     value: Store.postalCode
                                                 })
@@ -175,7 +169,7 @@ export default {
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Country"),
-                                            m("select.form-control", {
+                                            m("select.form-control[required]", {
                                                 onchange: m.withAttr("value", (v: string) => { Store.country = v }),
                                             }, function() {
                                                 let countries = Store.countries.map(function(v: any) {

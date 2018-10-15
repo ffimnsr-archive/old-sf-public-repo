@@ -106,9 +106,9 @@ function SmartFundingRouter() {
                             case "step4":
                                 return addKycDocuments;
                             case "step5":
-                                return addCryptoWallets;
-                            case "step6":
                                 return addMfa;
+                            case "crypto":
+                                return addCryptoWallets;
                             case "pending":
                                 return noticePending;
                             case "picture":

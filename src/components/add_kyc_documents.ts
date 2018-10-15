@@ -8,7 +8,6 @@ import header from "widgets/header";
 import "../../node_modules/dropzone/dist/dropzone.css";
 
 const Store = {
-
     load() {
 
     },

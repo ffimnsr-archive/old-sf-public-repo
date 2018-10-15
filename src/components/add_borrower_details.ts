@@ -15,6 +15,7 @@ const Store = {
     country: "",
 
     countries: [] as string[],
+    purposes: [] as string[],
 
     load: function() {
         const token = localStorage.getItem("token")!;
@@ -36,11 +37,26 @@ const Store = {
         }).catch(function(err) {
             Utils.showSnackbar(err);
         });
+
+        m.request(AppSettings.API_BASE_URL + "/api/loan-purpose/list", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": `Token ${token}`,
+            }
+        }).then(function(res: any) {
+            if (res.success) {
+                vm.purposes = res.purposes;
+            } else {
+                Utils.showSnackbar(res.message);
+            }
+        }).catch(function(err) {
+            Utils.showSnackbar(err);
+        });
     },
     canSave: function() {
-        return this.name !== "" &&
-            this.registrationNo !== "" &&
-            this.country !== "";
+        return true;
     },
     save: function() {
         const data = {
@@ -122,21 +138,21 @@ export default {
                                 }, [
                                         m("div.form-group", [
                                             m("label.col-form-label", "Company Name"),
-                                            m("input.form-control[type='text'][placeholder='Acme Inc.']", {
+                                            m("input.form-control[type='text'][placeholder='Acme Inc.'][required]", {
                                                 oninput: m.withAttr("value", (v: string) => { Store.name = v }),
                                                 value: Store.name
                                             })
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Company Registration No."),
-                                            m("input.form-control[type='text'][placeholder='SEC Registration No.']", {
+                                            m("input.form-control[type='text'][placeholder='SEC Registration No.'][required]", {
                                                 oninput: m.withAttr("value", (v: string) => { Store.registrationNo = v }),
                                                 value: Store.registrationNo
                                             })
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Company Address 1"),
-                                            m("input.form-control[type='text'][placeholder='House/Lot No. and Street']", {
+                                            m("input.form-control[type='text'][placeholder='House/Lot No. and Street'][required]", {
                                                 oninput: m.withAttr("value", (v: string) => { Store.address1 = v }),
                                                 value: Store.address1
                                             })
@@ -151,21 +167,21 @@ export default {
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "City"),
-                                                m("input.form-control[type='text'][placeholder='City']", {
+                                                m("input.form-control[type='text'][placeholder='City'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.city = v }),
                                                     value: Store.city
                                                 })
                                             ]),
                                             m("div.form-group.col-md-4", [
                                                 m("label.col-form-label", "State"),
-                                                m("input.form-control[type='text'][placeholder='State']", {
+                                                m("input.form-control[type='text'][placeholder='State'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.state = v }),
                                                     value: Store.state
                                                 })
                                             ]),
                                             m("div.form-group.col-md-2", [
                                                 m("label.col-form-label", "Zip Code"),
-                                                m("input.form-control[type='text'][placeholder='Zip Code']", {
+                                                m("input.form-control[type='text'][placeholder='Zip Code'][required]", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.zipCode = v }),
                                                     value: Store.zipCode
                                                 })
@@ -173,7 +189,7 @@ export default {
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Country"),
-                                            m("select.form-control", {
+                                            m("select.form-control[required]", {
                                                 onchange: m.withAttr("value", (v: string) => { Store.country = v }),
                                             }, function() {
                                                 let countries = Store.countries.map(function(v: any) {
@@ -182,10 +198,6 @@ export default {
                                                 countries.unshift(m("option[disabled][selected]", "Choose country of origin..."));
                                                 return countries;
                                             }()),
-                                        ]),
-                                        m("div.form-group", [
-                                            m("label.col-form-label", "Paid-up Capital"),
-                                            m("input.form-control[type='text'][placeholder='Paid-up Capital']")
                                         ]),
                                         m("div.form-group", [
                                             m("label.col-form-label", "Loan Purpose"),

@@ -12,6 +12,10 @@ const Store = {
     setTypeBorrower: function() {
         localStorage.setItem("status", "step3-2");
         m.route.set("/");
+    },
+    setTypeHybrid: function() {
+        localStorage.setItem("status", "step3-3");
+        m.route.set("/");
     }
 };
 
@@ -47,7 +51,8 @@ export default {
                             ]),
                             m(".mt-3",
                                 m(".row", [
-                                    m(".col-md-6",
+                                    m(".col-md-2"),
+                                    m(".col-md-4",
                                         m(".price_card.text-center", [
                                             m(".pricing-header.bg-light", [
                                                 m("img.img-fluid[alt='investor']", { src: investorAvatar }),
@@ -59,7 +64,7 @@ export default {
                                             }, "I'll be an Investor")
                                         ])
                                     ),
-                                    m(".col-md-6",
+                                    m(".col-md-4",
                                         m(".price_card.text-center", [
                                             m(".pricing-header.bg-custom", [
                                                 m("img.img-fluid[alt='borrower']", { src: borrowerAvatar }),
@@ -71,10 +76,17 @@ export default {
                                             }, "I'll be a Borrower")
                                         ])
                                     ),
+                                    m(".col-md-2"),
                                 ])
-                            )
+                            ),
+                            m(".text-center.mb-4", [
+                                m(".text-muted", [
+                                    "or do you want to become a an investor / borrower account ",
+                                    m("a[href='javascript:;']", { onclick: Store.setTypeHybrid }, "click here!")
+                                ]),
+                            ])
                         ])
-                    )
+                    ),
                 ])
             ),
             m(footer),
