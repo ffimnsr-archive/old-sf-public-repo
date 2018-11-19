@@ -52,7 +52,7 @@ export default {
                                 )
                             ),
                             m("li.dropdown.notification-list", [
-                                m("a.nav-link.dropdown-toggle.arrow-none.waves-effect[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
+                                m("a.nav-link.dropdown-toggle.arrow-none[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
                                     m("i.fi-bell.noti-icon"),
                                 ]),
                                 m(".dropdown-menu.dropdown-menu-right.dropdown-lg", [
@@ -74,7 +74,7 @@ export default {
                             ]),
 
                             m("li.dropdown.notification-list", [
-                                m("a.nav-link.dropdown-toggle.waves-effect.nav-user[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
+                                m("a.nav-link.dropdown-toggle.nav-user[aria-expanded='false'][aria-haspopup='false'][data-toggle='dropdown'][href='javascript:;'][role='button']", [
                                     m("img.rounded-circle[alt='user']", { src: avatar }),
                                     m("span.ml-1.pro-user-name", [
                                         "  ",
@@ -182,7 +182,7 @@ export default {
                                 ]),
                                 m("ul.submenu", [
                                     m("li", m("a[href='/admin/investments']", { oncreate: m.route.link }, "Investments")),
-                                    m("li", m("a[href='/admin/invoices']", { oncreate: m.route.link }, "Invoices")),
+                                    m("li", m("a[href='/admin/loans']", { oncreate: m.route.link }, "Loans")),
                                     m("li", m("a[href='/admin/collections']", { oncreate: m.route.link }, "Collections")),
                                 ])
                             ]) : null,
@@ -204,7 +204,6 @@ export default {
                                 m("ul.submenu", [
                                     m("li", m("a[href='/admin/power-users']", { oncreate: m.route.link }, "Power Users")),
                                     m("li", m("a[href='/admin/view-log']", { oncreate: m.route.link }, "View Log")),
-                                    // m("li", m("a[href='/admin/data-analytics']", { oncreate: m.route.link }, "Data Analytics")),
                                     m("li", m("a[href='/admin/wallet-configurations']", { oncreate: m.route.link }, "Wallet Configurations")),
                                     m("li", m("a[href='/admin/view-loan-purpose-list']", { oncreate: m.route.link }, "Loan Purpose List")),
                                     m("li", m("a[href='/admin/view-country-list']", { oncreate: m.route.link }, "Country List")),

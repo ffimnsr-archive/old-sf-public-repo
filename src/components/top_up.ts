@@ -1,24 +1,25 @@
 import m, { Vnode } from "mithril";
-import QRCode from "qrcode";
-import jwtDecode from "jwt-decode";
+// import QRCode from "qrcode";
+// import jwtDecode from "jwt-decode";
+import Swal from "sweetalert2";
 
-import header from "widgets/header";
-import footer from "widgets/footer";
+import header from "../widgets/header";
+import footer from "../widgets/footer";
 
-const Store = {
-    image: "",
+// const Store = {
+//     image: "",
 
-    load: function() {
-        const token = localStorage.getItem("token")!;
-        const data = jwtDecode<any>(token);
+//     // load: function() {
+//     //     const token = localStorage.getItem("token")!;
+//     //     const data = jwtDecode<any>(token);
 
-        const vm = this;
-    }
-};
+//     //     const vm = this;
+//     // }
+// };
 
 export default {
     oninit() {
-        Store.load();
+        // Store.load();
     },
     view(_vnode: Vnode) {
         return m(".sf-root", [
@@ -84,7 +85,15 @@ export default {
                                         ]),
                                         m("br"),
                                         m("div.form-group", [
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", "Submit Payment Proof"),
+                                            m("button.btn.btn-custom[type='submit']", {
+                                                onclick: () => {
+                                                    Swal(
+                                                        "Good job!",
+                                                        "You submitted your payment proof!",
+                                                        "success"
+                                                    );
+                                                }
+                                            }, "Submit Payment Proof"),
                                         ]),
                                     ]),
                                     m("h5", "Step 3: We Match Your Transaction"),

@@ -1,29 +1,31 @@
-import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
-import { Utils } from "../utils";
 import Swal from "sweetalert2";
+import Web3 from "web3";
+import { AppSettings } from "../configs";
+import { Utils } from "../utils";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 
 const Store = {
-    invoiceDocument: {},
+    loanDocument: "",
+    walletBalance: "",
     amount: "",
     term: "",
     eir: "",
     apr: "",
     processingFee: "",
     closingDate: "",
-    debtor: "",
+    loanPurpose: "",
     documentPrepared: false,
     contractSigned: false,
     notified: false,
 
-    debtors: [],
+    loanPurposes: [],
 
     load() {
         const token = localStorage.getItem("token")!;
         const vm = this;
-        m.request(AppSettings.API_BASE_URL + "/api/debtor/list", {
+        m.request(AppSettings.API_BASE_URL + "/api/loan-purpose/list", {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -32,7 +34,7 @@ const Store = {
             }
         }).then(function(res: any) {
             if (res.success) {
-                vm.debtors = res.data;
+                vm.loanPurposes = res.loanPurposes;
             } else {
                 Utils.showSnackbar(res.message);
             }
@@ -42,7 +44,7 @@ const Store = {
     },
     upload(e: any) {
         var target = e.target;
-        Store.invoiceDocument = target.files[0];
+        Store.loanDocument = target.files[0];
     },
     canSave() {
         return true;
@@ -50,14 +52,14 @@ const Store = {
     save() {
         const data = {
             user: {
-                invoiceDocument: this.invoiceDocument,
+                loanDocument: this.loanDocument,
                 amount: this.amount,
                 term: this.term,
                 eir: this.eir,
                 apr: this.apr,
                 processingFee: this.processingFee,
                 closingDate: this.closingDate,
-                debtor: this.debtor,
+                loanPurpose: this.loanPurpose,
                 documentPrepared: this.documentPrepared,
                 contractSigned: this.contractSigned,
                 notified: this.notified,
@@ -66,7 +68,7 @@ const Store = {
 
         const token = localStorage.getItem("token")!;
 
-        m.request(AppSettings.API_BASE_URL + "/api/user/new-sell-invoice", {
+        m.request(AppSettings.API_BASE_URL + "/api/user/new-loan", {
             method: "POST",
             data: data,
             headers: {
@@ -78,14 +80,14 @@ const Store = {
             if (res.success) {
                 Swal({
                     title: "Success!",
-                    text: "You have successfully created a sell invoice!",
+                    text: "You have successfully applied for a loan!",
                     type: "success",
                     confirmButtonClass: "btn btn-confirm mt-2"
                 });
             } else {
                 Swal({
                     title: "Failed!",
-                    text: res.message,
+                    text: res.message.errors.message,
                     type: "error",
                     confirmButtonClass: "btn btn-confirm mt-2"
                 });
@@ -98,12 +100,28 @@ const Store = {
                 confirmButtonClass: "btn btn-confirm mt-2"
             });
         });
+    },
+    async getEthBalance() {
+        let ethereum = window["ethereum"];
+        return await ethereum.enable();
     }
 };
 
 export default {
     oninit(_vnode: Vnode) {
         Store.load();
+        Store.getEthBalance().then(function(data) {
+            Store.loanDocument = data[0];
+            let ethereum = window["ethereum"];
+            let web3 = new Web3(ethereum);
+            web3.eth.getBalance(data[0]).then(function(balance) {
+                let ether = web3.utils.fromWei(balance, "ether");
+                Store.walletBalance = ether.toString();
+                m.redraw();
+            });
+
+            m.redraw();
+        });
     },
     oncreate(_vnode: Vnode) {
         $('#datepicker-auto').datepicker({
@@ -129,40 +147,51 @@ export default {
                                             m("a[href='/']", { oncreate: m.route.link }, "SmartFunding")
                                         ),
                                         m("li.breadcrumb-item", m("a[href='/']", { oncreate: m.route.link }, "Account Setup")),
-                                        m("li.breadcrumb-item.active", "Sell Invoice")
+                                        m("li.breadcrumb-item.active", "Apply for Loan")
                                     ])
                                 ),
-                                m("h4.page-title", "Sell Invoice")
+                                m("h4.page-title", "Apply for Loan")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box", [
-                                m("h4.header-title.m-t-0", "Sell Invoice"),
-                                m("p.text-muted", "Sell your invoice to get loans."),
+                                m("h4.header-title.m-t-0", "Apply for Loan"),
+                                m("p.text-muted", "."),
                                 m("form[role='form']", {
                                     onsubmit: (e: Event) => {
                                         e.preventDefault();
                                         Store.save();
                                     }
                                 }, [
-                                        m("div.form-group", [
-                                            m("input.default[type='file'][accept='application/pdf']", {
-                                                onchange: Store.upload,
-                                            })
+                                        m("div.form-row", [
+                                            m("div.form-group.col-md-9", [
+                                                m("label.col-form-label", "Staked Crypto Wallet (ETH)"),
+                                                m("input.form-control[type='text'][placeholder=''][required='']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.loanDocument = v }),
+                                                    value: Store.loanDocument,
+                                                })
+                                            ]),
+                                            m("div.form-group.col-md-3", [
+                                                m("label.col-form-label", "Wallet Balance (Ether)"),
+                                                m("input.form-control[type='text'][placeholder=''][readonly=''][required='']", {
+                                                    oninput: m.withAttr("value", (v: string) => { Store.walletBalance = v }),
+                                                    value: Store.walletBalance,
+                                                })
+                                            ]),
                                         ]),
                                         m("div.form-row", [
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "Amount"),
-                                                m("input.form-control[type='text'][placeholder='']", {
+                                                m("input.form-control[type='number'][placeholder=''][required='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.amount = v }),
                                                     value: Store.amount
                                                 })
                                             ]),
                                             m("div.form-group.col-md-6", [
                                                 m("label.col-form-label", "Term (Days)"),
-                                                m("input.form-control[type='text'][placeholder='']", {
+                                                m("input.form-control[type='number'][placeholder=''][required='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.term = v }),
                                                     value: Store.term
                                                 })
@@ -171,21 +200,21 @@ export default {
                                         m("div.form-row", [
                                             m("div.form-group.col-md-4", [
                                                 m("label.col-form-label", "Monthly Interest Rates (EIR)"),
-                                                m("input.form-control[type='text'][placeholder='']", {
+                                                m("input.form-control[type='number'][placeholder=''][required='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.eir = v }),
                                                     value: Store.eir
                                                 })
                                             ]),
                                             m("div.form-group.col-md-4", [
                                                 m("label.col-form-label", "Annual Percentage Rate (APR)"),
-                                                m("input.form-control[type='text'][placeholder='']", {
+                                                m("input.form-control[type='number'][placeholder=''][required='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.apr = v }),
                                                     value: Store.apr
                                                 })
                                             ]),
                                             m("div.form-group.col-md-4", [
                                                 m("label.col-form-label", "Processing Fee"),
-                                                m("input.form-control[type='text'][placeholder='']", {
+                                                m("input.form-control[type='number'][placeholder=''][required='']", {
                                                     oninput: m.withAttr("value", (v: string) => { Store.processingFee = v }),
                                                     value: Store.processingFee
                                                 })
@@ -196,7 +225,7 @@ export default {
                                                 m("label.col-form-label", "Closing Date"),
                                                 m("div",
                                                     m("div.input-group", [
-                                                        m("input.form-control#datepicker-auto[type='text'][placeholder='mm/dd/yyyy']"),
+                                                        m("input.form-control#datepicker-auto[type='text'][placeholder='mm/dd/yyyy'][required='']"),
                                                         m("div.input-group-append",
                                                             m("span.input-group-text",
                                                                 m("i.mdi.mdi-calendar")
@@ -206,15 +235,15 @@ export default {
                                                 )
                                             ]),
                                             m("div.form-group.col-md-6", [
-                                                m("label.col-form-label", "Debtor"),
-                                                m("select.form-control", {
-                                                    onchange: m.withAttr("value", (v: string) => { Store.debtor = v }),
+                                                m("label.col-form-label", "Loan Purpose"),
+                                                m("select.form-control[required='']", {
+                                                    onchange: m.withAttr("value", (v: string) => { Store.loanPurpose = v }),
                                                 }, function() {
-                                                    let debtors = Store.debtors.map(function(v: any) {
+                                                    let loanPurposes = Store.loanPurposes.map(function(v: any) {
                                                         return m("option", { value: v.name }, v.name)
                                                     });
-                                                    debtors.unshift(m("option[disabled][selected]", "Choose debtor..."));
-                                                    return debtors;
+                                                    loanPurposes.unshift(m("option[disabled][selected]", "Choose loan purpose..."));
+                                                    return loanPurposes;
                                                 }()),
                                             ]),
                                         ]),
@@ -239,7 +268,7 @@ export default {
                                             ])
                                         ]),
                                         m(".clearfix.text-right.mt-3",
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                                            m("button.btn.btn-custom[type='submit']", {
                                                 disabled: !Store.canSave()
                                             }, "Submit")
                                         )

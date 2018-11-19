@@ -1,9 +1,9 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
 import { Utils } from "../utils";
 
-import header from "widgets/header";
-import footer from "widgets/footer";
+import header from "../widgets/header";
+import footer from "../widgets/footer";
 
 const Store = {
     countries: [] as string[],
@@ -65,9 +65,9 @@ export default {
                                     m("br"),
                                     "you can contact us by any means using the links below:"
                                 ]),
-                                m("a.btn.btn-success.waves-effect.waves-light.m-t-10[href='mailto:hi@smartfunding.sg']", "Email us your question"),
+                                m("a.btn.btn-success.m-t-10[href='mailto:hi@smartfunding.sg']", "Email us your question"),
                                 " ",
-                                m("a.btn.btn-primary.waves-effect.waves-light.m-t-10[href='https://twitter.com/smartfunding_sg']", "Send us a tweet")
+                                m("a.btn.btn-primary.m-t-10[href='https://twitter.com/smartfunding_sg']", "Send us a tweet")
                             ])
                         )
                     ),

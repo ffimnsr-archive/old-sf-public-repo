@@ -1,16 +1,15 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../../configs";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 import Chartist from "chartist";
 import "chartist/dist/chartist.css";
 
-
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
-import updateAccountInfo from "widgets/modal_admin_update_account_info";
-import updateStatus from "widgets/modal_admin_update_status";
+import footer from "../../widgets/footer";
+import header from "../../widgets/header";
+// import updateAccountInfo from "../../widgets/modal_admin_update_account_info";
+// import updateStatus from "../../widgets/modal_admin_update_status";
 import avatar from "images/investor.png";
 
 
@@ -55,37 +54,31 @@ export default {
         };
 
         new Chartist.Line('#user-overview', {
-            labels: [],
+            labels: ["11/12", "11/13", "11/14", "11/15"],
             series: [
-                {
-                    data: [
-
-                    ],
-                }
+                [4, 1, 3, 5],
             ]
-        }, options);
+        }, {});
 
         new Chartist.Line('#wallet-transaction', {
-            labels: [],
+            labels: ["11/12", "11/13", "11/14", "11/15"],
             series: [
-                [],
-                [],
+                [1, 2, 4, 5],
+                [0, 3, 0, 0],
+                [1, 3, 1, 4],
             ]
-        }, options);
+        }, {});
 
         new Chartist.Bar('#cryptocurrency-usage', {
-            labels: [],
+            labels: ["11/12", "11/13", "11/14", "11/15"],
             series: [
-                []
+                [1.0, 2.0, 4.0, 5.0],
+                [1.0, 3.0, 1.0, 4.0],
             ]
         }, {
-                high: 10,
-                low: -10,
-                axisX: {
-                    labelInterpolationFnc: function(value, index) {
-                        return index % 2 === 0 ? value : null;
-                    }
-                },
+                stackBars: false,
+                horizontalBars: false,
+                seriesBarDistance: 15,
             }
         );
 
@@ -103,12 +96,16 @@ export default {
                     Store.discardedCount = json.discardedCount;
 
                     new Chartist.Pie('#user-distribution-profile', {
-                        labels: ['', '', ''],
-                        series: [30, 15, 5, 40]
+                        labels: ['Investors', 'Borrowers', 'Hybrid', 'None Type'],
+                        series: [
+                            Store.pendingInvestorsCount,
+                            Store.pendingBorrowersCount, 0,
+                            Store.discardedCount,
+                        ]
                     }, {
-                            labelInterpolationFnc: function(value) {
-                                return value[0]
-                            }
+
+                            labelPosition: "outside",
+                            labelOffset: 60,
                         }
                     );
 

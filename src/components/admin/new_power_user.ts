@@ -1,7 +1,7 @@
-import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import { AppSettings } from "../../configs";
+import footer from "../../widgets/footer";
+import header from "../../widgets/header";
 import { Utils } from "../../utils";
 
 const Store = {
@@ -123,7 +123,7 @@ export default {
 
                                         m("label.col-form-label", "* Temporary passwords will be sent to the email account."),
                                         m(".clearfix.text-right.mt-3",
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                                            m("button.btn.btn-custom[type='submit']", {
                                                 disabled: !Store.canSave()
                                             }, "Submit")
                                         )

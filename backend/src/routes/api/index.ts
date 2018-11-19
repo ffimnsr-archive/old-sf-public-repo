@@ -1,45 +1,62 @@
 import AWS from "aws-sdk";
 import { NextFunction, Request, Response, Router } from "express";
+import fs from "fs";
+import crypto from "crypto";
 import path from "path";
-import redis from "redis";
 import request from "request";
 import uuidv4 from "uuid/v4";
 import winston from "winston";
 import multer from "multer";
-import { redisUri } from "../../config";
-import { default as address } from "./address";
-import { default as comment } from "./comment";
-import { default as company } from "./company";
-import { default as companyRevenue } from "./company_revenue";
-import { default as country } from "./country";
-import { default as creditRate } from "./credit_rate";
-import { default as debtor } from "./debtor";
-import { default as frequentlyAskQuestion } from "./frequently_ask_question";
-import { default as loanPurpose } from "./loan_purpose";
-import { default as inquiry } from "./inquiry";
-import { default as invoice } from "./invoice";
-import { default as investorPortfolio } from "./investor_portfolio";
-import { default as kycDocument } from "./kyc_document";
-import { default as kycDocumentType } from "./kyc_document_type";
-import { default as kycInvestorQuestion } from "./kyc_investor_question";
-import { default as kycStatus } from "./kyc_status";
-import { default as log } from "./log";
-import { default as session } from "./session";
-import { default as user } from "./user";
-import { default as wallet } from "./wallet";
+import address from "./address";
+import comment from "./comment";
+import company from "./company";
+import companyRevenue from "./company_revenue";
+import country from "./country";
+import creditRate from "./credit_rate";
+import debtor from "./debtor";
+import frequentlyAskQuestion from "./frequently_ask_question";
+import loanPurpose from "./loan_purpose";
+import inquiry from "./inquiry";
+import loan from "./loan";
+import investorPortfolio from "./investor_portfolio";
+import kycDocument from "./kyc_document";
+import kycDocumentType from "./kyc_document_type";
+import kycInvestorQuestion from "./kyc_investor_question";
+import kycStatus from "./kyc_status";
+import log from "./log";
+import session from "./session";
+import user from "./user";
+import wallet from "./wallet";
 
 const router = Router();
-const client = redis.createClient(redisUri);
 const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, "/tmp/uploads/")
+    destination: function(_req, _file, cb) {
+        let id = crypto.randomBytes(16).toString("hex");
+        let directory = `uploads/${id}`;
+
+        try {
+            fs.existsSync(directory) || fs.mkdirSync(directory);
+        }
+        catch (err) { }
+
+        cb(null, directory);
     },
-    filename(req, file, cb) {
-        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
+    filename: function(_req, file, cb) {
+        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    fileFilter: function(_req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+            cb(new Error("Only image files are allowed!"), false);
+            return;
+        }
+
+        cb(null, true);
+    }
+});
 
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
     return res.json({
@@ -114,7 +131,7 @@ router.use("/debtor", debtor);
 router.use("/frequently-ask-question", frequentlyAskQuestion);
 router.use("/loan-purpose", loanPurpose);
 router.use("/inquiry", inquiry);
-router.use("/invoice", invoice);
+router.use("/loan", loan);
 router.use("/investor-portfolio", investorPortfolio);
 router.use("/kyc-document-type", kycDocumentType);
 router.use("/kyc-investor-question", kycInvestorQuestion);

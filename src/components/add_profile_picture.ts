@@ -1,7 +1,7 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 
 const Store = {
     image: "",
@@ -85,7 +85,7 @@ export default {
                                         ]),
                                     ]),
                                     m(".clearfix.text-right.mt-3",
-                                        m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                                        m("button.btn.btn-custom[type='submit']", {
                                             onclick: () => {
                                                 localStorage.setItem("status", "step5");
                                                 m.route.set("/");

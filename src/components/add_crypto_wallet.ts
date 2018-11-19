@@ -1,7 +1,7 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import { Utils } from "../utils";
 import Web3 from "web3";
 
@@ -107,7 +107,7 @@ export default {
                                             })
                                         ]),
                                         m(".clearfix.text-right.mt-3",
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", "Submit")
+                                            m("button.btn.btn-custom[type='submit']", "Submit")
                                         ),
                                     ]),
                             ])

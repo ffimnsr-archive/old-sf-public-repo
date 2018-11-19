@@ -1,9 +1,8 @@
-
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
 import Swal from "sweetalert2";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import { Utils } from "../utils";
 
 const Store = {
@@ -121,11 +120,11 @@ export default {
                                             ]),
                                         ]),
                                         m(".clearfix.text-right.mt-3", [
-                                            m("a.btn.btn-light.waves-effect.waves-light.mr-2[href='/']", {
+                                            m("a.btn.btn-light.mr-2[href='/']", {
                                                 oncreate: m.route.link,
                                             }, "Go Back"),
 
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                                            m("button.btn.btn-custom[type='submit']", {
                                                 disabled: !Store.canSave()
                                             }, "Change Password")
                                         ])

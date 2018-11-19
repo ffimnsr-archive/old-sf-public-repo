@@ -49,4 +49,15 @@ router.post("/", auth.required, (req: Request, res: Response, next: NextFunction
     }).catch(next);
 });
 
+router.get("/:uid", auth.required, (req: Request, res: Response, next: NextFunction) => {
+    let uid = req.params.uid;
+    Loan.findOne({ _id: uid })
+        .then((t: LoanModel) => {
+            return res.json({
+                success: true,
+                data: t,
+            });
+        }).catch(next);
+});
+
 export default router;

@@ -1,5 +1,4 @@
-import { AppSettings } from "configs";
-import moment from "moment";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
 
 const Store = {

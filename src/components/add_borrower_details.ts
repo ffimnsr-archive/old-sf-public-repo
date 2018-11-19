@@ -1,7 +1,7 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import { Utils } from "../utils";
 
 const Store = {
@@ -199,18 +199,14 @@ export default {
                                                 return countries;
                                             }()),
                                         ]),
-                                        m("div.form-group", [
-                                            m("label.col-form-label", "Loan Purpose"),
-                                            m("textarea.form-control[placeholder='Loan Purpose']")
-                                        ]),
                                         m(".clearfix.text-right.mt-3",
-                                            m("button.btn.btn-custom.waves-effect.waves-light.mr-3[type='button']", {
+                                            m("button.btn.btn-custom.mr-3[type='button']", {
                                                 onclick: () => {
                                                     localStorage.setItem("status", "step2");
                                                     m.route.set("/");
                                                 },
                                             }, "Go Back"),
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                                            m("button.btn.btn-custom[type='submit']", {
                                                 disabled: !Store.canSave()
                                             }, "Submit")
                                         )

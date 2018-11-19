@@ -1,5 +1,4 @@
-import { AppSettings } from "configs";
-import moment from "moment";
+import { AppSettings } from "../../configs";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";

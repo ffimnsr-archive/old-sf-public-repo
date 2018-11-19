@@ -8,7 +8,6 @@ const router = Router();
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
     Log.find({})
         .then((logs: LogModel[]) => {
-            console.log(logs);
             if (!logs) {
                 return res.status(401).json({
                     success: false,

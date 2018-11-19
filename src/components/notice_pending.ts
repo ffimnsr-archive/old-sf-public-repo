@@ -1,7 +1,7 @@
-import { AppSettings } from "configs";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import { AppSettings } from "../configs";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import { Utils } from "../utils";
 
 const Store = {
@@ -73,7 +73,7 @@ export default {
                                     "We will be sending you an email notification, once your account has been validated. Kindly, comeback again once its done. ",
                                     m("b", "You'll automatically be logout after 10 seconds.")
                                 ]),
-                                m("a.btn.btn-md.btn-custom.waves-effect.waves-light.mt-3[href='/']", { oncreate: m.route.link }, "Return Home")
+                                m("a.btn.btn-md.btn-custom.mt-3[href='/']", { oncreate: m.route.link }, "Return Home")
                             ])
                         )
                     )

@@ -1,5 +1,5 @@
 import m, { Vnode } from "mithril";
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import { Utils } from "../utils";
 
 import bg from "images/bg-1.jpg";
@@ -81,7 +81,7 @@ export default {
                                         ),
                                         m(".form-group.row.text-center.m-t-10",
                                             m(".col-12",
-                                                m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
+                                                m("button.btn.btn-block.btn-custom[type='submit']", {
                                                     disabled: !Store.canSave()
                                                 }, "Reset Password")
                                             )

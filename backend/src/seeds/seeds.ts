@@ -1,20 +1,20 @@
-import mongoose, { Collection } from "mongoose";
-import { mongoUri, redisUri } from "../config";
-import { default as User, UserModel } from "../models/user";
-import { default as LoanPurpose, LoanPurposeModel } from "../models/loan_purpose";
-import { default as Debtor, DebtorModel } from "../models/debtor";
-import { default as Country, CountryModel } from "../models/country";
-import { default as CompanyRevenue, CompanyRevenueModel } from "../models/company_revenue";
-import { default as CreditRate, CreditRateModel } from "../models/credit_rate";
-import { default as Industry, IndustryModel } from "../models/industry";
+import mongoose from "mongoose";
+import { mongoUri } from "../config";
+import User from "../models/user";
+import LoanPurpose from "../models/loan_purpose";
+import Debtor from "../models/debtor";
+import Country from "../models/country";
+import CompanyRevenue from "../models/company_revenue";
+import CreditRate from "../models/credit_rate";
+import Industry from "../models/industry";
 
 mongoose.connect(mongoUri);
 
 const users = [
     {
-        username: "support42",
-        email: "support42@yopmail.net",
-        password: "support42",
+        username: "admin",
+        email: "admin@smartfunding.io",
+        password: "admin42",
         role: "admin",
         status: "okay",
     },
@@ -97,44 +97,12 @@ const users = [
     }
 ];
 
-users.forEach(function(doc) {
-    const d = new User();
-
-    d.username = doc.username;
-
-    if (doc.role !== undefined) {
-        d.role = doc.role;
-    }
-
-    if (doc.status !== undefined) {
-        d.status = doc.status;
-    }
-
-    d.email = doc.email;
-    d.isDocumentsSubmitted = false;
-    d.isMailVerified = true;
-    d.typeset = doc.typeset;
-    d.setPassword(doc.password);
-
-    d.save();
-    console.log("creating users");
-});
-
 const loan_purposes = [
     { name: "Business Startup", status: "active" },
     { name: "Expansion", status: "active" },
     { name: "House Buying", status: "active" },
     { name: "Office Expansion", status: "active" },
 ];
-
-loan_purposes.forEach(function(doc) {
-    const d = new LoanPurpose();
-
-    d.name = doc.name;
-    d.status = doc.status;
-    d.save();
-    console.log("creating loan purposes");
-});
 
 const company_revenues = [
     { name: "0 - 100,000", status: "active" },
@@ -144,15 +112,6 @@ const company_revenues = [
     { name: "5,000,001 - 100,000,000", status: "active" },
 ];
 
-company_revenues.forEach(function(doc) {
-    const d = new CompanyRevenue();
-
-    d.revenue = doc.name;
-    d.status = doc.status;
-    d.save();
-    console.log("creating company revenues");
-});
-
 const credit_rates = [
     { name: "A+", status: "active" },
     { name: "A-", status: "active" },
@@ -160,15 +119,6 @@ const credit_rates = [
     { name: "B-", status: "active" },
     { name: "C+", status: "active" },
 ];
-
-credit_rates.forEach(function(doc) {
-    const d = new CreditRate();
-
-    d.rate = doc.name;
-    d.status = doc.status;
-    d.save();
-    console.log("creating credit rates");
-});
 
 const countries = [
     { code: "SG", name: "Singapore", status: "active" },
@@ -179,16 +129,6 @@ const countries = [
     { code: "CN", name: "China", status: "active" },
     { code: "VN", name: "Vietnam", status: "active" },
 ];
-
-countries.forEach(function(doc) {
-    const d = new Country();
-
-    d.code = doc.code;
-    d.name = doc.name;
-    d.status = doc.status;
-    d.save();
-    console.log("creating countries");
-});
 
 const debtors = [
     { name: "Accenture Solutions Sdn. Bhd.", status: "active" },
@@ -207,14 +147,108 @@ const debtors = [
 
 ];
 
-debtors.forEach(function(doc) {
-    const d = new Debtor();
+function createUsers() {
+    return new Promise(function(resolve, _reject) {
+        users.forEach(function(doc) {
+            const d = new User();
 
-    d.name = doc.name;
-    d.status = doc.status;
-    d.save();
-    console.log("creating debtors");
+            d.username = doc.username;
+
+            if (doc.role !== undefined) {
+                d.role = doc.role;
+            }
+
+            if (doc.status !== undefined) {
+                d.status = doc.status;
+            }
+
+            d.email = doc.email;
+            d.isDocumentsSubmitted = false;
+            d.isMailVerified = true;
+            d.typeset = doc.typeset;
+            d.setPassword(doc.password);
+
+            d.save();
+        });
+        resolve("creating users");
+    });
+}
+
+function createLoanPurposes() {
+    return new Promise(function(resolve, _reject) {
+        loan_purposes.forEach(function(doc) {
+            const d = new LoanPurpose();
+
+            d.name = doc.name;
+            d.status = doc.status;
+            d.save();
+        });
+        resolve("creating loan purposes");
+    });
+}
+
+function createCompanyRevenues() {
+    return new Promise(function(resolve, _reject) {
+        company_revenues.forEach(function(doc) {
+            const d = new CompanyRevenue();
+
+            d.revenue = doc.name;
+            d.status = doc.status;
+            d.save();
+        });
+        resolve("creating company revenues");
+    });
+}
+
+function createCreditRates() {
+    return new Promise(function(resolve, _reject) {
+        credit_rates.forEach(function(doc) {
+            const d = new CreditRate();
+
+            d.rate = doc.name;
+            d.status = doc.status;
+            d.save();
+        });
+        resolve("creating credit rates");
+    });
+}
+
+function createCountries() {
+    return new Promise(function(resolve, _reject) {
+        countries.forEach(function(doc) {
+            const d = new Country();
+
+            d.code = doc.code;
+            d.name = doc.name;
+            d.status = doc.status;
+            d.save();
+        });
+        resolve("creating countries");
+    });
+}
+
+function createDebtors() {
+    return new Promise(function(resolve, _reject) {
+        debtors.forEach(function(doc) {
+            const d = new Debtor();
+
+            d.name = doc.name;
+            d.status = doc.status;
+            d.save();
+        });
+        resolve("creating debtors");
+    });
+}
+
+Promise.all([
+    createUsers(),
+    createLoanPurposes(),
+    createCompanyRevenues(),
+    createCreditRates(),
+    createCountries(),
+    createDebtors(),
+]).then(function(msg) {
+    msg.forEach(function(t) {
+        console.log(t);
+    });
 });
-
-
-

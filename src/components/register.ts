@@ -1,9 +1,9 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import bg from "images/bg-1.jpg";
 import logo from "images/sf-logo.png";
 import m, { Vnode } from "mithril";
 import Swal from "sweetalert2";
-import { Utils } from "../utils";
+// import { Utils } from "../utils";
 
 
 const Store = {
@@ -120,7 +120,7 @@ export default {
                                         ),
                                         m(".form-group.row.text-center.m-t-10",
                                             m(".col-12",
-                                                m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
+                                                m("button.btn.btn-block.btn-custom[type='submit']", {
                                                     disabled: !Store.canSave()
                                                 }, "Sign Up Free")
                                             )

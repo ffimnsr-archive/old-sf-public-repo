@@ -1,5 +1,5 @@
 import m, { Vnode } from "mithril";
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 
 const Store = {
     prices: [],

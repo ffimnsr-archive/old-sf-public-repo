@@ -142,7 +142,7 @@ export default {
                                             }())
                                         ]),
                                         m(".clearfix.text-right.mt-3",
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='submit']", {
+                                            m("button.btn.btn-custom[type='submit']", {
                                                 disabled: !Store.canSave()
                                             }, "Submit")
                                         )

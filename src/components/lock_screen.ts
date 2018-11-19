@@ -76,7 +76,7 @@ export default {
                                         ),
                                         m(".form-group.row.text-center",
                                             m(".col-12",
-                                                m("button.btn.btn-block.btn-custom.waves-effect.waves-light[type='submit']", {
+                                                m("button.btn.btn-block.btn-custom[type='submit']", {
                                                     disabled: !Store.canSave()
                                                 }, "Log In")
                                             )

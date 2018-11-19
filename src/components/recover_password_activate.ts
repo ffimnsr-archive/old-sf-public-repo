@@ -1,5 +1,5 @@
 import m, { Vnode } from "mithril";
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 
 import bg from "images/bg-2.jpg";
 import logo from "images/sf-logo.png";
@@ -78,7 +78,7 @@ export default {
                                     m("p.text-muted.font-14.mt-2", [
                                         "Your new temporary password has been sent to your email.",
                                     ]),
-                                    m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3[href='/']",
+                                    m("a.btn.btn-md.btn-block.btn-custom.mt-3[href='/']",
                                         { oncreate: m.route.link }, "Back to Home")
                                 ])
                             ])

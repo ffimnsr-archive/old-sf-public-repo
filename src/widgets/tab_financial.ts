@@ -1,4 +1,4 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import moment from "moment";
 import m, { Vnode } from "mithril";
 

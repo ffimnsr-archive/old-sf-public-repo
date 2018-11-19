@@ -1,4 +1,4 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../../configs";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
@@ -7,10 +7,8 @@ import "datatables.net-buttons-bs4";
 import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
 
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
-import updateAccountInfo from "widgets/modal_admin_update_account_info";
-import updateStatus from "widgets/modal_admin_update_status";
+import footer from "../../widgets/footer";
+import header from "../../widgets/header";
 import avatar from "images/investor.png";
 
 

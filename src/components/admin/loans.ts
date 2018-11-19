@@ -1,5 +1,5 @@
-import { AppSettings } from "configs";
-import moment from "moment";
+import m, { Vnode } from "mithril";
+import { AppSettings } from "../../configs";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
@@ -7,9 +7,8 @@ import "datatables.net-buttons";
 import "datatables.net-buttons-bs4";
 import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
 
-import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../../widgets/footer";
+import header from "../../widgets/header";
 
 const Store = {
     load() {
@@ -27,7 +26,7 @@ export default {
         $(document).ready(function() {
             $("#datatable").DataTable({
                 ajax: {
-                    url: AppSettings.API_BASE_URL + "/api/invoice/list",
+                    url: AppSettings.API_BASE_URL + "/api/loan/list",
                     type: "GET",
                     beforeSend: function(request: any) {
                         request.setRequestHeader("Authorization", `Token ${token}`);
@@ -40,7 +39,13 @@ export default {
                             v.info = `
 APR: ${v.aprPercent}<br>
 EIR: ${v.eirPercent}`;
-                            v.button = "None";
+                            v.button = `
+<div class="btn-group dropdown">
+<a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="/#!/admin/view-m-p-status/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+</div>
+</div>`;
                         });
                         return json.data;
                     }
@@ -61,6 +66,7 @@ EIR: ${v.eirPercent}`;
                     { data: "info" },
                     { data: "createdAt" },
                     { data: "closingDate" },
+                    { data: "button" },
                 ]
             });
         });
@@ -81,17 +87,17 @@ EIR: ${v.eirPercent}`;
                                         m("li.breadcrumb-item",
                                             m("a[href='/']", { oncreate: m.route.link }, "Control Panel")
                                         ),
-                                        m("li.breadcrumb-item.active", "Invoices")
+                                        m("li.breadcrumb-item.active", "Loans")
                                     ])
                                 ),
-                                m("h4.page-title", "Invoices")
+                                m("h4.page-title", "Loans")
                             ])
                         )
                     ),
                     m(".row",
                         m(".col-12",
                             m(".card-box.table-responsive", [
-                                m("h4.m-t-0.header-title", "Invoices"),
+                                m("h4.m-t-0.header-title", "Loans"),
                                 m("p.text-muted.font-14.m-b-30", [
                                     "List of all active and inactive invoices."
                                 ]),
@@ -104,6 +110,7 @@ EIR: ${v.eirPercent}`;
                                             m("th", "Info"),
                                             m("th", "Created Date"),
                                             m("th", "Closing Date"),
+                                            m("th", "Action"),
                                         ])
                                     ),
                                     m("tfoot", [
@@ -114,6 +121,7 @@ EIR: ${v.eirPercent}`;
                                             m("th", "Info"),
                                             m("th", "Created Date"),
                                             m("th", "Closing Date"),
+                                            m("th", "Action"),
                                         ]),
                                     ])
                                 ])

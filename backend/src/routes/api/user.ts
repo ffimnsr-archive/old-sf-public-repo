@@ -376,18 +376,26 @@ router.put("/validate-mfa", auth.required, (req: Request, res: Response, next: N
 
 router.get("/list", auth.required, (req: Request, res: Response, next: NextFunction) => {
     User.find({ role: { $not: /admin/ } }).then((t: UserModel[]) => {
-        const investorsCount = t.filter((r: UserModel) => r.typeset === "investor" && r.status !== "okay").length;
-        const borrowersCount = t.filter((r: UserModel) => r.typeset === "borrower" && r.status !== "okay").length;
-        const noTypeCount = t.filter((r: UserModel) => !r.typeset || r.typeset == "").length;
+        const pendingInvestorsCount = t.filter((r: UserModel) => {
+            return r.typeset === "investor" && r.status !== "okay"
+        }).length;
+        const pendingBorrowersCount = t.filter((r: UserModel) => {
+            return r.typeset === "borrower" && r.status !== "okay"
+        }).length;
+        const noTypeCount = t.filter((r: UserModel) => {
+            return !r.typeset || r.typeset == ""
+        }).length;
+
         if (Array.isArray(t)) {
             logAction(`User ${req.payload.username} requested member user list`);
             return res.json({
                 success: true,
                 count: t.length,
-                pendingInvestorsCount: investorsCount,
-                pendingBorrowersCount: borrowersCount,
+                pendingInvestorsCount: pendingInvestorsCount,
+                pendingBorrowersCount: pendingBorrowersCount,
                 discardedCount: noTypeCount,
                 users: t.map((r: UserModel) => {
+
                     if (!r.forename || r.forename == "") r.forename = "undefined";
 
                     if (!r.surname || r.surname == "") r.surname = "undefined";
@@ -604,7 +612,7 @@ router.post("/new-account", auth.required, (req: Request, res: Response, next: N
     }).catch(next);
 });
 
-router.post("/new-sell-invoice", auth.required, (req: Request, res: Response, next: NextFunction) => {
+router.post("/new-loan", auth.required, (req: Request, res: Response, next: NextFunction) => {
     let d = new Loan();
 
     d.borrower = req.payload._id;
@@ -614,16 +622,17 @@ router.post("/new-sell-invoice", auth.required, (req: Request, res: Response, ne
     d.aprPercent = req.body.user.apr;
     d.processingFee = req.body.user.processingFee;
     d.closingDate = req.body.user.closingDate;
-    d.debtor = req.body.user.debtor;
+    d.loanPurpose = req.body.user.loanPurpose;
     d.documentPrepared = req.body.user.documentPrepared;
     d.contractSigned = req.body.user.contractSigned;
     d.isNotified = req.body.user.notified;
+    d.status = "pending";
 
-    d.loanDocument = req.body.user.invoiceDocument.name;
+    d.loanDocument = req.body.user.loanDocument.name;
     d.save().then((t: LoanModel) => {
         return res.json({
             success: true,
-            invoice: t,
+            loan: t,
         });
     }).catch(next);
 });
@@ -651,53 +660,6 @@ router.get("/power-user-list", auth.required, (req: Request, res: Response, next
         }
     }).catch(next);
 });
-
-router.get("/get-eth-address", auth.required, (req: Request, res: Response, next: NextFunction) => {
-
-});
-
-router.get("/get-btc-address", auth.required, (req: Request, res: Response, next: NextFunction) => {
-    // XXX: https://en.bitcoin.it/wiki/Wallet_import_format
-    // Implementation derived from:
-    //   https://github.com/bitcoinjs/bitcoinjs-lib
-    const recipient = bitcoin.ECPair.fromWIF("");
-    const nonce = bitcoin.ECPair.makeRandom();
-
-    // const forSender = btcStealthSend(nonce.privateKey, recipient.publicKey);
-    // return res.status(200).json({
-    //   success: true,
-    //   address: getAddress(forSender),
-    // });
-});
-
-// function getAddress(node: any, network: any) {
-//   return bitcoin.payments.p2pkh({ pubkey: node.publicKey, network }).address
-// }
-
-// function bitcoinStealthReceive(d: any, eG: any) {
-//     const eQ = ecc.pointMultiply(eG, d);
-//     const c = bitcoin.crypto.sha256(eQ);
-//     const dc = ecc.privateAdd(d, c);
-
-//     const v = bitcoin.ECPair.fromPrivateKey(dc);
-//     return v
-// }
-
-// function btcGenerateP2SHMultiSig() {
-//   // Generate P2SH from multi-sig
-//   //   https://github.com/bitcoinjs/bitcoinjs-lib/blob/d8b66641b3ae3f3f5ad6f0c04a41877da20b34ef/test/integration/addresses.js#L48-L55
-//   // TODO: implement
-
-//   const pubkeys = [
-//     '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
-//     '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
-//     '03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9'
-//   ].map((hex) => Buffer.from(hex, 'hex'))
-
-//   const { address } = bitcoin.payments.p2sh({
-//     redeem: bitcoin.payments.p2ms({ m: 2, pubkeys })
-//   })
-// }
 
 function logAction(message: string) {
     const log = new Log();

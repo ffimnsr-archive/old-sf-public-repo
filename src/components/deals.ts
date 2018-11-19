@@ -1,31 +1,31 @@
 import m, { Vnode } from "mithril";
-import { AppSettings } from "configs";
-import QRCode from "qrcode";
-import jwtDecode from "jwt-decode";
-import Chartist from "chartist";
+import { AppSettings } from "../configs";
+// import QRCode from "qrcode";
+// import jwtDecode from "jwt-decode";
+// import Chartist from "chartist";
 import "chartist/dist/chartist.css";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import moment from "moment";
 
-import header from "widgets/header";
-import footer from "widgets/footer";
-import panelExchangePrices from "widgets/panel_exchange_prices";
-import panelShowWalletAddresses from "widgets/panel_show_wallet_addresses";
-import modalBitcoin from "widgets/modal_user_get_bitcoin_address";
-import modalEthereum from "widgets/modal_user_get_ethereum_address";
-import modalStellar from "widgets/modal_user_get_stellar_address";
+import header from "../widgets/header";
+import footer from "../widgets/footer";
+// import panelExchangePrices from "widgets/panel_exchange_prices";
+// import panelShowWalletAddresses from "widgets/panel_show_wallet_addresses";
+// import modalBitcoin from "widgets/modal_user_get_bitcoin_address";
+// import modalEthereum from "widgets/modal_user_get_ethereum_address";
+// import modalStellar from "widgets/modal_user_get_stellar_address";
 
 
 const Store = {
     image: "",
-    invoices: [],
+    loans: [],
 
     load() {
         const token = localStorage.getItem("token")!;
     },
     loadCards() {
-        if (this.invoices !== undefined) {
-            return this.invoices.map(function(el, index) {
+        if (this.loans !== undefined) {
+            return this.loans.map(function(el, index) {
                 if (index < 3) {
                     return createCardBox(el);
                 }
@@ -34,7 +34,7 @@ const Store = {
     }
 };
 
-function createCardBox(invoice: any) {
+function createCardBox(loan: any) {
     return m(".col-xl-4",
         m(".card-box.project-box",
             [
@@ -47,22 +47,22 @@ function createCardBox(invoice: any) {
                         ),
                         m(".dropdown-menu.dropdown-menu-right[aria-labelledby='btnGroupDrop1']",
                             [
-                                m("a.dropdown-item[href='#']",
-                                    "Invest"
+                                m(`a.dropdown-item[href='/#!/loan-details/${loan._id}']`,
+                                    "Details"
                                 ),
-                                m("a.dropdown-item[href='#']",
-                                    "More Info"
+                                m(`a.dropdown-item[href='/#!/loan-details/${loan._id}']`,
+                                    "Invest"
                                 ),
                             ]
                         )
                     ]
                 ),
                 m("p.text-muted.text-uppercase.mb-0.font-13",
-                    invoice.borrower ? invoice.borrower : "None",
+                    `LOAN#${loan.uid}`,
                 ),
                 m("h4.mt-0.mb-3",
                     m("a.text-dark[href='']",
-                        invoice.borrower ? invoice.borrower : "None",
+                        loan.loanPurpose || "Others",
                     )
                 ),
                 m("ul.list-inline",
@@ -70,7 +70,7 @@ function createCardBox(invoice: any) {
                         m("li.list-inline-item",
                             [
                                 m("h3.mb-0",
-                                    invoice.period
+                                    loan.period
                                 ),
                                 m("p.text-muted",
                                     "Term"
@@ -80,7 +80,7 @@ function createCardBox(invoice: any) {
                         m("li.list-inline-item",
                             [
                                 m("h3.mb-0",
-                                    invoice.aprPercent
+                                    loan.aprPercent
                                 ),
                                 m("p.text-muted",
                                     "Appreciation"
@@ -90,7 +90,7 @@ function createCardBox(invoice: any) {
                         m("li.list-inline-item",
                             [
                                 m("h3.mb-0",
-                                    invoice.available
+                                    loan.available
                                 ),
                                 m("p.text-muted",
                                     "Available"
@@ -103,7 +103,7 @@ function createCardBox(invoice: any) {
                     [
                         m("label.mr-3",
                             "Time Limit :",
-                            m.trust(invoice.timeLeft),
+                            m.trust(loan.timeLeft),
                         ),
                     ]
                 ),
@@ -111,7 +111,7 @@ function createCardBox(invoice: any) {
                     [
                         "Funding completed: ",
                         m("span.text-custom",
-                            "0" + "/" + invoice.amount
+                            "0" + "/" + loan.amount
                         )
                     ]
                 ),
@@ -133,7 +133,7 @@ export default {
 
         $("#datatable").DataTable({
             ajax: {
-                url: AppSettings.API_BASE_URL + "/api/invoice/list",
+                url: AppSettings.API_BASE_URL + "/api/loan/list",
                 type: "GET",
                 beforeSend: function(request: any) {
                     request.setRequestHeader("Authorization", `Token ${token}`);
@@ -141,15 +141,17 @@ export default {
                 dataSrc: function(json: any) {
                     m.redraw();
                     json.data.map(function(v: any) {
-                        v.invoice = `
-<a href="/#!/view-invoice-document/${v._id}" class="dropdown-item"><i class="fa fa-file-pdf-o mr-2 font-18 vertical-middle"></i></a>`;
+                        v._id = v._id.toUpperCase();
+                        v.uid = v._id.slice(-6);
+                        v.loan = `
+<a href="/#!/loan-details/${v._id}" class="dropdown-item"><i class="fa fa-file-pdf-o mr-2 font-18 vertical-middle"></i></a>`;
 
                         v.button = `
 <div class="btn-group dropdown">
 <a href="javascript:;" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
 <div class="dropdown-menu dropdown-menu-right">
-<a href="/#!/view-invoice-details/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Details</a>
-<a href="/#!/view-invoice-invest/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
+<a href="/#!/loan-details/${v._id}" class="dropdown-item"><i class="fa fa-eye mr-2 font-18 vertical-middle"></i>Details</a>
+<a href="/#!/loan-invest/${v._id}" class="dropdown-item"><i class="fa fa-edit mr-2 font-18 vertical-middle"></i>Status</a>
 </div>
 </div>`;
                         v.funded = `
@@ -163,7 +165,7 @@ export default {
 <div data-countdown="${date}" class="label label-sm label-success"></div>
 `;
                     });
-                    Store.invoices = json.data;
+                    Store.loans = json.data;
                     m.redraw();
                     return json.data;
                 }
@@ -178,7 +180,7 @@ export default {
                 },
             ],
             columns: [
-                { data: "invoice", width: "8%" },
+                { data: "uid" },
                 { data: "period" },
                 { data: "amount" },
                 { data: "aprPercent" },
@@ -187,7 +189,7 @@ export default {
                 { data: "timeLeft" },
                 { data: "button" },
             ],
-            initComplete: (settings, json) => {
+            initComplete: (_settings, _json) => {
                 $('[data-countdown]').each(function() {
                     var $this = $(this), finalDate = $(this).data('countdown');
                     $this.countdown(finalDate, function(event) {
@@ -224,11 +226,11 @@ export default {
                     m("div.row",
                         m(".col-lg-12",
                             m(".card-box", [
-                                m("h4.header-title.mb-3", "Investment Options"),
+                                m("h4.header-title.mb-3", "Loan Deals"),
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead", [
                                         m("tr", [
-                                            m("th", "Invoice"),
+                                            m("th", "ID"),
                                             m("th", "Terms"),
                                             m("th", "Amount"),
                                             m("th", "Appreciation"),
@@ -241,7 +243,7 @@ export default {
 
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Invoice"),
+                                            m("th", "ID"),
                                             m("th", "Terms"),
                                             m("th", "Amount"),
                                             m("th", "Appreciation"),

@@ -91,40 +91,40 @@ const converter = new showdown.Converter();
 const page = converter.makeHtml(privacyPolicy);
 
 export default {
-  view(_vnode: Vnode) {
-    return m(".sf-root", [
-      m(".accountbg", {
-        style: {
-          "background": `url(${bg})`,
-          "background-size": "cover"
-        }
-      }),
-      m(".wrapper-page.account-page-full", {
-        style: {
-          "overflow-y": "hidden"
-        }
-      }, [
-        m(".card",
-          m(".card-block",
-            m(".account-box",
-              m(".card-box.p-5", {
+    view(_vnode: Vnode) {
+        return m(".sf-root", [
+            m(".accountbg", {
                 style: {
-                  "overflow-y": "scroll",
-                  "height": "100vh"
+                    "background": `url(${bg})`,
+                    "background-size": "cover"
                 }
-              }, [
-                m("h2.text-uppercase.text-center.pb-4",
-                  m("a.text-success[href='/']", { oncreate: m.route.link },
-                    m("span", m("img[alt=''][height='26']", { src: logo }))
-                  )
-                ),
-                m.trust(page),
-                m("a.btn.btn-md.btn-block.btn-custom.waves-effect.waves-light.mt-3.mb-3[href='/']", { oncreate: m.route.link }, "Return Home")
-              ])
-            )
-          )
-        ),
-      ])
-    ]);
-  }
+            }),
+            m(".wrapper-page.account-page-full", {
+                style: {
+                    "overflow-y": "hidden"
+                }
+            }, [
+                    m(".card",
+                        m(".card-block",
+                            m(".account-box",
+                                m(".card-box.p-5", {
+                                    style: {
+                                        "overflow-y": "scroll",
+                                        "height": "100vh"
+                                    }
+                                }, [
+                                        m("h2.text-uppercase.text-center.pb-4",
+                                            m("a.text-success[href='/']", { oncreate: m.route.link },
+                                                m("span", m("img[alt=''][height='26']", { src: logo }))
+                                            )
+                                        ),
+                                        m.trust(page),
+                                        m("a.btn.btn-md.btn-block.btn-custom.mt-3.mb-3[href='/']", { oncreate: m.route.link }, "Return Home")
+                                    ])
+                            )
+                        )
+                    ),
+                ])
+        ]);
+    }
 } as m.Component;

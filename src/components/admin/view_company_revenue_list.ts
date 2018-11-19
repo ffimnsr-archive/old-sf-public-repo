@@ -7,6 +7,17 @@ import m, { Vnode } from "mithril";
 import footer from "widgets/footer";
 import header from "widgets/header";
 
+function statusConvert(stat: string) {
+    switch (stat) {
+        case "active":
+            return `<span class="badge badge-success">Active</span>`;
+        case "inactive":
+            return `<span class="badge badge-warning">Inactive</span>`;
+        case "deleted":
+            return `<span class="badge badge-warning">Deleted</span>`;
+    }
+}
+
 export default {
     oncreate(_vnode: Vnode) {
         const token = localStorage.getItem("token")!;
@@ -23,6 +34,8 @@ export default {
                         m.redraw();
                         json.companyRevenues.map(function(v) {
                             v._id = v._id.toUpperCase();
+                            v.uid = v._id.slice(-6);
+                            v.status = statusConvert(v.status);
                         });
                         return json.companyRevenues;
                     }
@@ -37,7 +50,7 @@ export default {
                     },
                 ],
                 columns: [
-                    { data: "_id", width: "20%" },
+                    { data: "uid", width: "5%" },
                     { data: "revenue" },
                     { data: "status", width: "7%" },
                 ]
@@ -75,14 +88,14 @@ export default {
                                 m("table.table.table-hover.table-actions-bar.no-wrap.m-0[id='datatable']", [
                                     m("thead",
                                         m("tr", [
-                                            m("th", "Identifier"),
+                                            m("th", "ID"),
                                             m("th", "Revenue"),
                                             m("th", "Status"),
                                         ])
                                     ),
                                     m("tfoot", [
                                         m("tr", [
-                                            m("th", "Identifier"),
+                                            m("th", "ID"),
                                             m("th", "Revenue"),
                                             m("th", "Status"),
                                         ]),

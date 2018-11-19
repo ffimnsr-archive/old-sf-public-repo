@@ -1,11 +1,11 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import m, { Vnode } from "mithril";
 import QRCode from "qrcode";
 import Swal from "sweetalert2";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import { Utils } from "../utils";
-import qrph from "images/click_button_below.png";
+// import qrph from "images/click_button_below.png";
 
 const Store = {
     secretKey: "hello",
@@ -82,7 +82,7 @@ const Store = {
         return this.secretKey !== "";
     },
     cold() {
-        console.log("hello");
+
     },
     skip() {
         const data = {
@@ -202,7 +202,7 @@ export default {
                                     ]),
                                     m("div.col-12", [
                                         m(".clearfix.mt-3", [
-                                            m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                                            m("button.btn.btn-custom[type='button']", {
                                                 onclick: (e: Event) => {
                                                     Store.reload();
                                                     e.preventDefault();
@@ -212,10 +212,10 @@ export default {
                                     ]),
                                 ]),
                                 m(".col-md-12.clearfix.text-right.mt-3", [
-                                    m("button.btn.waves-effect.waves-light.mr-2[type='button']", {
+                                    m("button.btn.mr-2[type='button']", {
                                         onclick: Store.skip,
                                     }, "Skip"),
-                                    m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                                    m("button.btn.btn-custom[type='button']", {
                                         onclick: Store.save,
                                     }, "Submit")
                                 ])

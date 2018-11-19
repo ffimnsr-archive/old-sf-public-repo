@@ -1,5 +1,5 @@
-import { AppSettings } from "configs";
-import moment from "moment";
+import { AppSettings } from "../configs";
+// import moment from "moment";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
@@ -8,11 +8,11 @@ import "datatables.net-buttons-bs4";
 import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
 
 import m, { Vnode } from "mithril";
-import QRCode from "qrcode";
-import jwtDecode from "jwt-decode";
+// import QRCode from "qrcode";
+// import jwtDecode from "jwt-decode";
 
-import header from "widgets/header";
-import footer from "widgets/footer";
+import header from "../widgets/header";
+import footer from "../widgets/footer";
 
 export default {
     oncreate(_vnode: Vnode) {
@@ -25,7 +25,7 @@ export default {
                 beforeSend: function(request: any) {
                     request.setRequestHeader("Authorization", `Token ${token}`);
                 },
-                dataSrc: function(json: any) {
+                dataSrc: function(_json: any) {
                     m.redraw();
                     return [];
                 }
@@ -34,7 +34,7 @@ export default {
             buttons: [
                 {
                     text: "Export to Excel",
-                    action: function(e: any, dt: any, node: any, config: any) {
+                    action: function(_e: any, _dt: any, _node: any, _config: any) {
                     }
                 },
             ],

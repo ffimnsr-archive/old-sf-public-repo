@@ -1,8 +1,8 @@
-import { AppSettings } from "configs";
-import avatar from "images/users/avatar-1.png";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import { AppSettings } from "../configs";
+import avatar from "images/users/avatar-1.png";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import { Utils } from "../utils";
 
 const Store = {
@@ -86,7 +86,7 @@ export default {
                                     ]),
                                     m(".col-sm-6",
                                         m(".text-right",
-                                            m("a.btn.btn-light.waves-effect[type='button'][href='/profile/edit']", { oncreate: m.route.link }, [
+                                            m("a.btn.btn-light[type='button'][href='/profile/edit']", { oncreate: m.route.link }, [
                                                 m("i.mdi.mdi-account-settings-variant.mr-1"),
                                                 "Edit Profile"
                                             ])

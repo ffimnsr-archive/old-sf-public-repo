@@ -1,13 +1,14 @@
-import { AppSettings } from "configs";
+import { AppSettings } from "../configs";
 import Dropzone from "dropzone";
-import $ from "jquery";
-import "jquery-slimscroll";
 import m, { Vnode } from "mithril";
-import footer from "widgets/footer";
-import header from "widgets/header";
+import footer from "../widgets/footer";
+import header from "../widgets/header";
 import "../../node_modules/dropzone/dist/dropzone.css";
+import "jquery-slimscroll";
 
 const Store = {
+    dropzone: {},
+
     load() {
 
     },
@@ -50,14 +51,15 @@ export default {
         Dropzone.autoDiscover = false;
     },
     oncreate(_vnode: Vnode) {
-        const dropzone = new Dropzone("form#dropzone", {
+        Store.dropzone = new Dropzone("form#dropzone", {
             url: AppSettings.API_BASE_URL + "/api/uploader",
-            dictDefaultMessage: "Drag n drop or tap here",
             method: "POST",
+            dictDefaultMessage: "Drag n drop or tap here",
             parallelUploads: 4,
             addRemoveLinks: true,
             paramName: "documents",
-            maxFiles: 16,
+            acceptedFiles: "image/*,application/pdf",
+            maxFiles: 12,
             autoProcessQueue: true,
         });
     },
@@ -122,7 +124,7 @@ export default {
                                     ", you signify that all the documents you have submitted are valid."
                                 ]),
                                 m(".clearfix.text-right.mt-3",
-                                    m("button.btn.btn-custom.waves-effect.waves-light[type='button']", {
+                                    m("button.btn.btn-custom[type='button']", {
                                         onclick: Store.continue,
                                     }, "Submit")
                                 )
