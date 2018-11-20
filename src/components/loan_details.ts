@@ -1,5 +1,6 @@
-import { AppSettings } from "../configs";
-// import moment from "moment";
+import m, { Vnode } from "mithril";
+import Web3 from "web3";
+import Swal from "sweetalert2";
 import "datatables.net";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
@@ -7,17 +8,14 @@ import "datatables.net-buttons";
 import "datatables.net-buttons-bs4";
 import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
 
-import m, { Vnode } from "mithril";
-// import QRCode from "qrcode";
-// import jwtDecode from "jwt-decode";
-
+import { AppSettings } from "../configs";
 import header from "../widgets/header";
 import footer from "../widgets/footer";
-
 
 const Store = {
     uid: "",
     data: {},
+    amount: 0,
 
     load(id: string) {
         this.uid = id;
@@ -45,6 +43,27 @@ const Store = {
             console.error("error", err);
         });
     },
+    async enableEthereum() {
+        let ethereum = window["ethereum"];
+        return await ethereum.enable();
+    },
+    payEth() {
+        Store.enableEthereum().then(function(data) {
+            let ethereum = window["ethereum"];
+            let web3 = new Web3(ethereum);
+
+            let user_address = data[0];
+            web3.eth.sendTransaction({
+                to: "0x90155f691b50da9b3ac32dd4f43b80c22aad7999",
+                from: user_address,
+                value: web3.utils.toWei(Store.amount.toString(), "ether"),
+            }, function(err, _transactionHash) {
+                if (err) return Swal("Failed", "Oops, an error occured.", "error");
+
+                Swal("Success", "Successfully invested in a loan!", "success");
+            });
+        });
+    }
 };
 
 export default {
@@ -138,11 +157,26 @@ export default {
                                                     ]
                                                 )
                                             )
-                                        ]
+                                        ],
                                     ),
-                                    m(`a.btn.btn-info[href='/#!/loan-invest/${data._id}']`,
-                                        "Invest"
-                                    )
+                                    m("div.form-group", [
+                                        m("label.col-form-label", "Amount to Invest (Ether)"),
+                                        m("input.form-control[type='number']", {
+                                            oninput: m.withAttr("value", (v: number) => { Store.amount = v }),
+                                            value: Store.amount
+                                        }),
+                                    ]),
+                                    m("div.form-group", [
+                                        m(`a[href='javascript:;']`, {
+                                            onclick: () => {
+                                                Store.payEth();
+                                            }
+                                        },
+                                            m("img[src='https://raw.githubusercontent.com/MetaMask/TipButton/master/images/3_pay_mm_over.png'][width='200']")),
+                                        m("a[href='https://sandbox.coingate.com/pay/sfid']",
+                                            m("img[src='https://static.coingate.com/images/buttons/1.png'][width='80']")),
+
+                                    ]),
                                 ]
                             )
                         )
